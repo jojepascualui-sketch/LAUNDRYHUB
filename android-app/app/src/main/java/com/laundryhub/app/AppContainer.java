@@ -1,0 +1,51 @@
+package com.laundryhub.app;
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import com.laundryhub.app.data.api.ApiClient;
+import com.laundryhub.app.data.auth.AuthRepository;
+import com.laundryhub.app.data.auth.RemoteAuthRepository;
+import com.laundryhub.app.data.session.SessionStore;
+import com.laundryhub.app.data.session.SessionManager;
+import com.laundryhub.app.ui.auth.CredentialManagerGoogleSignIn;
+import com.laundryhub.app.ui.auth.GoogleSignInClient;
+
+/** Creates the app's shared objects once (manual dependency injection). */
+public final class AppContainer {
+
+    // OOP: Encapsulation — singletons are created here and exposed read-only.
+    private final SessionManager sessions;
+    private final AuthRepository authRepository;
+    private final GoogleSignInClient googleSignIn;
+
+    /**
+     * @param context      application context
+     * @param sessionStore where a remembered session is kept
+     */
+    public AppContainer(@NonNull Context context, @NonNull SessionStore sessionStore) {
+        sessions = new SessionManager(sessionStore, System::currentTimeMillis);
+        ApiClient api = new ApiClient(BuildConfig.API_BASE_URL, sessions);
+        authRepository = new RemoteAuthRepository(api.auth(), sessions);
+        googleSignIn = new CredentialManagerGoogleSignIn(BuildConfig.GOOGLE_WEB_CLIENT_ID);
+    }
+
+    /** @return the session holder */
+    @NonNull
+    public SessionManager sessions() {
+        return sessions;
+    }
+
+    /** @return sign-in and sign-up */
+    @NonNull
+    public AuthRepository authRepository() {
+        return authRepository;
+    }
+
+    /** @return "Continue with Google" */
+    @NonNull
+    public GoogleSignInClient googleSignIn() {
+        return googleSignIn;
+    }
+}

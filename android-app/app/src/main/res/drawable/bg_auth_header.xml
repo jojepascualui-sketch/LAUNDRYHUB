@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Blue auth header background: accent fill plus the decorative rings (220 dp, right -60, top -50,
+    white 16 %) from source/Auth.dc.html. As a background the art never changes the header's height,
+    like position:absolute in the design.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/accent" />
+    <item
+        android:width="@dimen/header_ring_size"
+        android:height="@dimen/header_ring_size"
+        android:drawable="@drawable/art_header_rings"
+        android:end="@dimen/header_ring_offset_end"
+        android:gravity="top|end"
+        android:top="@dimen/header_ring_offset_top" />
+</layer-list>

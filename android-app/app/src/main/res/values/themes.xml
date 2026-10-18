@@ -1,0 +1,64 @@
+<resources>
+    <!-- App theme: design tokens only (docs/design/DESIGN_SPEC.md section 1). -->
+    <style name="Theme.LaundryHub" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorOnPrimary">@color/surface</item>
+        <item name="colorPrimaryContainer">@color/accent_tint</item>
+        <item name="colorOnPrimaryContainer">@color/ink</item>
+        <item name="colorSecondary">@color/ink</item>
+        <item name="colorOnSecondary">@color/surface</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="colorOnSurfaceVariant">@color/muted</item>
+        <item name="colorOutline">@color/input_border</item>
+        <item name="colorOutlineVariant">@color/divider</item>
+        <item name="colorError">@color/warn_text</item>
+        <item name="android:colorBackground">@color/bg</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <!-- Text defaults go through textAppearance, NOT android:textColor / android:fontFamily:
+             theme-level values of those would override every TextView's textAppearance
+             (the hero heading lost Bricolage Grotesque and muted texts turned ink). -->
+        <item name="android:textColorPrimary">@color/ink</item>
+        <item name="android:textColorSecondary">@color/muted</item>
+        <item name="android:textColorHint">@color/subtle</item>
+        <item name="android:textAppearance">@style/TextAppearance.LaundryHub.Body</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.LaundryHub.Body</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.LaundryHub.BodySmall</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.LaundryHub.Caption</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.LaundryHub.Label</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.LaundryHub.ScreenTitle</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.LaundryHub.ScreenTitle</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- Components default to the design-system styles. -->
+        <item name="materialButtonStyle">@style/Widget.LaundryHub.Button.PrimaryPill</item>
+        <item name="materialCardViewStyle">@style/Widget.LaundryHub.Card</item>
+        <item name="checkboxStyle">@style/Widget.LaundryHub.CheckBox</item>
+        <item name="editTextStyle">@style/Widget.LaundryHub.TextInput</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.LaundryHub.Dialog</item>
+    </style>
+
+    <!-- Dialogs (no design): surface, card radius, accent buttons. -->
+    <style name="ThemeOverlay.LaundryHub.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearanceCornerExtraLarge">@style/ShapeAppearance.LaundryHub.Dialog</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorPrimary">@color/accent</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.LaundryHub.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.LaundryHub.Body</item>
+    </style>
+
+    <style name="ShapeAppearance.LaundryHub.Dialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_card_large</item>
+    </style>
+
+    <style name="MaterialAlertDialog.LaundryHub.Title" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.LaundryHub.ScreenTitle</item>
+    </style>
+
+    <style name="MaterialAlertDialog.LaundryHub.Body" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textAppearance">@style/TextAppearance.LaundryHub.BodySmall</item>
+    </style>
+</resources>

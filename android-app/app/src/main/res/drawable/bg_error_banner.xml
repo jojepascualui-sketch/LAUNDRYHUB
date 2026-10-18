@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Error message box (no design for errors): warn colors, input radius. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/warn_bg" />
+    <corners android:radius="@dimen/radius_input" />
+</shape>

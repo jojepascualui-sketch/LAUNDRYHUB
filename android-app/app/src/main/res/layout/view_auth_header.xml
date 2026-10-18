@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Blue header of 00a / 00b / 00c (source/Auth.dc.html): accent background, decorative rings
+    (drawable/bg_auth_header), white 52 dp logo tile with the washer icon,
+    hero heading and subheading. Padding 46 / 26 / 34, gap 14.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_auth_header">
+
+    <LinearLayout
+        android:id="@+id/auth_header_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/auth_side_padding"
+        android:paddingTop="@dimen/auth_header_padding_top"
+        android:paddingEnd="@dimen/auth_side_padding"
+        android:paddingBottom="@dimen/auth_header_padding_bottom">
+
+        <FrameLayout
+            android:layout_width="@dimen/logo_tile"
+            android:layout_height="@dimen/logo_tile"
+            android:background="@drawable/bg_logo_tile">
+
+            <ImageView
+                android:layout_width="@dimen/logo_icon"
+                android:layout_height="@dimen/logo_icon"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_logo_washer" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/auth_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_heading_gap"
+            android:accessibilityHeading="true"
+            android:textAppearance="@style/TextAppearance.LaundryHub.Hero"
+            android:textColor="@color/surface" />
+
+        <TextView
+            android:id="@+id/auth_subheading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_heading_gap"
+            android:alpha="0.92"
+            android:textAppearance="@style/TextAppearance.LaundryHub.Body"
+            android:textColor="@color/surface" />
+    </LinearLayout>
+</FrameLayout>

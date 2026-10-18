@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 16 dp vertical gap between form blocks (LinearLayout showDividers="middle"). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <size android:height="@dimen/form_gap" />
+    <solid android:color="@android:color/transparent" />
+</shape>

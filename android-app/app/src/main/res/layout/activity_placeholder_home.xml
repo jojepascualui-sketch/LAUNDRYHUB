@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Temporary landing screen after sign-in until 01 Home / R1 Rider bookings are built. Design-system styles only. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:divider="@drawable/space_form_gap"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="@dimen/screen_padding"
+    android:showDividers="middle">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.LaundryHub.Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:textAppearance="@style/TextAppearance.LaundryHub.ScreenTitle" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/label_gap"
+                android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sign_out"
+        style="@style/Widget.LaundryHub.Button.DarkPill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_out" />
+</LinearLayout>

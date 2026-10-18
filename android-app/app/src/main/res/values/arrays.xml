@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 00a segmented control, in design order. Must match ui.auth.SignInTab. -->
+    <string-array name="sign_in_tabs">
+        <item>@string/tab_customer</item>
+        <item>@string/tab_rider</item>
+        <item>@string/tab_admin</item>
+    </string-array>
+</resources>

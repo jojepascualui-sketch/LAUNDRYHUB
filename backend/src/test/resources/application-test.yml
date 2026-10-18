@@ -1,0 +1,21 @@
+# Integration tests: in-memory H2 in MySQL mode, schema from the real Flyway migrations
+# (sample data is skipped). No secrets: the JWT key below is a test-only value.
+spring:
+  datasource:
+    url: jdbc:h2:mem:laundryhub;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;LOCK_TIMEOUT=10000
+    username: sa
+    password: ""
+  flyway:
+    locations: classpath:db/migration
+
+laundryhub:
+  security:
+    jwt-secret: test-only-jwt-secret-not-used-anywhere-else-0001
+    google-client-id: test-google-client-id
+  geocoding:
+    api-key: ""
+  shop:
+    lat: 14.600000
+    lng: 121.000000
+  admin:
+    default-password: ""

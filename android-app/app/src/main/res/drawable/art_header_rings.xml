@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Decorative rings in the blue header (220 px, white at 16 %), from source/Auth.dc.html. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="220dp"
+    android:height="220dp"
+    android:viewportWidth="160"
+    android:viewportHeight="160">
+    <path
+        android:pathData="M10,80a70,70 0,1 0,140 0a70,70 0,1 0,-140 0"
+        android:strokeWidth="14"
+        android:strokeColor="@color/header_ring" />
+    <path
+        android:pathData="M46,80a34,34 0,1 0,68 0a34,34 0,1 0,-68 0"
+        android:strokeWidth="8"
+        android:strokeColor="@color/header_ring" />
+</vector>

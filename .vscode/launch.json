@@ -1,0 +1,42 @@
+{
+    // Requires the "Extension Pack for Java" (vscjava.vscode-java-pack).
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Backend: Spring Boot (launch + debug)",
+            "request": "launch",
+            "mainClass": "com.laundryhub.backend.LaundryHubApplication",
+            "projectName": "laundryhub-backend",
+            "cwd": "${workspaceFolder}/backend",
+            // A manifest-jar classpath is URL-encoded, so it survives the non-ASCII repo path.
+            "shortenCommandLine": "jarmanifest",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "Admin: JavaFX (mvnw javafx:run + attach)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005,
+            "preLaunchTask": "admin: javafx:run (debug, waits on 5005)"
+        },
+        {
+            "type": "java",
+            "name": "Attach to JVM on 5005",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Backend + Admin",
+            "configurations": [
+                "Backend: Spring Boot (launch + debug)",
+                "Admin: JavaFX (mvnw javafx:run + attach)"
+            ],
+            "stopAll": true
+        }
+    ]
+}

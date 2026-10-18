@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    00a-sign-in / 00c-admin-sign-in. Order and wording from docs/design/source/Auth.dc.html:
+    header · Customer/Rider/Admin · email · password · Remember me + Forgot password? · Sign in ·
+    "or" · Continue with Google (customers only) · "New to Laundry HUB? Sign up".
+    Body padding 22 / 26 / 26, 16 dp between blocks.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_auth_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/space_form_gap"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/auth_side_padding"
+            android:paddingTop="@dimen/auth_body_padding_top"
+            android:paddingEnd="@dimen/auth_side_padding"
+            android:paddingBottom="@dimen/auth_body_padding_bottom"
+            android:showDividers="middle">
+
+            <com.laundryhub.app.ui.widget.SegmentedControl
+                android:id="@+id/role_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:segments="@array/sign_in_tabs" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:hint="@string/hint_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                app:label="@string/label_email" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:hint="@string/hint_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                app:label="@string/label_password" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/checkbox_row_overlap_top"
+                android:layout_marginBottom="@dimen/checkbox_row_overlap_bottom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/remember_me"
+                    style="@style/Widget.LaundryHub.CheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/remember_me" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/forgot_password"
+                    style="@style/Widget.LaundryHub.Button.TextLink.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forgot_password" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/error_banner"
+                style="@style/Widget.LaundryHub.ErrorBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_in"
+                style="@style/Widget.LaundryHub.Button.PrimaryPill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in" />
+
+            <include
+                android:id="@+id/or_divider"
+                layout="@layout/view_or_divider" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google"
+                style="@style/Widget.LaundryHub.Button.OutlinePill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/continue_with_google"
+                app:icon="@drawable/ic_google" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/link_row_overlap"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_to_laundry_hub"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_sign_up"
+                    style="@style/Widget.LaundryHub.Button.TextLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_up" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

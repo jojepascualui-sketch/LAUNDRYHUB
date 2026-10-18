@@ -1,0 +1,55 @@
+# Secrets and connection details come from environment variables only.
+# For local development you may put them in backend/.env (git-ignored, see .env.example).
+spring:
+  application:
+    name: laundryhub-backend
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Flyway owns the schema; Hibernate only checks that the entities match it.
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    # db/sample-data loads the orders and customers shown in the admin design (A1/A2).
+    # Set FLYWAY_LOCATIONS=classpath:db/migration to start with an empty shop.
+    locations: ${FLYWAY_LOCATIONS:classpath:db/migration,classpath:db/sample-data}
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+  api-docs:
+    path: /v3/api-docs
+
+laundryhub:
+  security:
+    # HS256 key, at least 32 characters. Blank = a random key per start (tokens die on restart).
+    jwt-secret: ${LAUNDRYHUB_JWT_SECRET:}
+    token-hours: ${LAUNDRYHUB_TOKEN_HOURS:12}
+    # OAuth client id the Android app uses for "Continue with Google". Blank = Google sign-in off.
+    google-client-id: ${GOOGLE_OAUTH_CLIENT_ID:}
+  geocoding:
+    # Server-side Google key (Geocoding API). Blank = addresses are not filled in from the pin.
+    api-key: ${GOOGLE_SERVER_KEY:}
+  shop:
+    # Shop position for the delivery radius. Blank = use the position saved in shop_settings.
+    lat: ${SHOP_LAT:}
+    lng: ${SHOP_LNG:}
+  admin:
+    # First admin account, created on startup when no admin exists yet.
+    email: ${ADMIN_DEFAULT_EMAIL:admin@laundryhub.ph}
+    default-password: ${ADMIN_DEFAULT_PASSWORD:}

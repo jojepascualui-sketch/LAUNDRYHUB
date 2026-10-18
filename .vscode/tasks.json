@@ -1,0 +1,85 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] }
+    },
+    "tasks": [
+        {
+            "label": "admin: javafx:run (debug, waits on 5005)",
+            "type": "shell",
+            "command": "mvnw.cmd -q javafx:run@debug",
+            "options": { "cwd": "${workspaceFolder}/admin-desktop" },
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "java",
+                "pattern": { "regexp": "^__never_matches__$" },
+                "background": {
+                    "activelyMatches": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Listening for transport dt_socket"
+                }
+            }
+        },
+        {
+            "label": "admin: javafx:run",
+            "type": "shell",
+            "command": "mvnw.cmd javafx:run",
+            "options": { "cwd": "${workspaceFolder}/admin-desktop" },
+            "problemMatcher": []
+        },
+        {
+            "label": "admin: test",
+            "type": "shell",
+            "command": "mvnw.cmd test",
+            "options": { "cwd": "${workspaceFolder}/admin-desktop" },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "backend: spring-boot:run",
+            "type": "shell",
+            "command": "mvnw.cmd spring-boot:run",
+            "options": { "cwd": "${workspaceFolder}/backend" },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "backend: test",
+            "type": "shell",
+            "command": "mvnw.cmd test",
+            "options": { "cwd": "${workspaceFolder}/backend" },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "android: assembleDebug",
+            "type": "shell",
+            "command": "gradlew.bat assembleDebug",
+            "options": { "cwd": "${workspaceFolder}/android-app" },
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": []
+        },
+        {
+            "label": "android: installDebug + launch",
+            "type": "shell",
+            "command": "gradlew.bat installDebug && adb shell am start -n com.laundryhub.app/.MainActivity",
+            "options": { "cwd": "${workspaceFolder}/android-app" },
+            "problemMatcher": []
+        },
+        {
+            "label": "android: unit tests",
+            "type": "shell",
+            "command": "gradlew.bat testDebugUnitTest",
+            "options": { "cwd": "${workspaceFolder}/android-app" },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "android: start emulator (Pixel_4)",
+            "type": "shell",
+            "command": "\"%ANDROID_HOME%\\emulator\\emulator.exe\" -avd Pixel_4",
+            "isBackground": true,
+            "problemMatcher": []
+        }
+    ]
+}

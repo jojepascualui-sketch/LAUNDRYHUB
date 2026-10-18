@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sizes from docs/design/DESIGN_SPEC.md section 1 (1 design px = 1 dp). -->
+<resources>
+    <!-- Spacing -->
+    <dimen name="screen_padding">22dp</dimen>
+    <!-- The sign-in / sign-up screens use 26 px sides (source/Auth.dc.html). -->
+    <dimen name="auth_side_padding">26dp</dimen>
+    <dimen name="auth_header_padding_top">46dp</dimen>
+    <dimen name="auth_header_padding_bottom">34dp</dimen>
+    <dimen name="auth_body_padding_top">22dp</dimen>
+    <dimen name="auth_body_padding_bottom">26dp</dimen>
+    <dimen name="auth_header_gap">14dp</dimen>
+    <!-- 14 dp gap minus 5.2 dp: CSS draws the 32 px heading in a 33.6 px line box (line-height 1.05),
+         Android in a ~44 dp box (Bricolage ascent + descent). This keeps glyphs where the design has them. -->
+    <dimen name="auth_heading_gap">9dp</dimen>
+    <dimen name="form_gap">16dp</dimen>
+    <dimen name="label_gap">6dp</dimen>
+    <dimen name="card_gap">12dp</dimen>
+    <dimen name="section_gap">20dp</dimen>
+    <dimen name="inline_gap">10dp</dimen>
+    <dimen name="checkbox_gap">8dp</dimen>
+    <dimen name="or_gap">12dp</dimen>
+    <dimen name="input_padding_horizontal">14dp</dimen>
+    <dimen name="card_padding">18dp</dimen>
+
+    <!-- Corner radii -->
+    <dimen name="radius_card">18dp</dimen>
+    <dimen name="radius_card_large">20dp</dimen>
+    <dimen name="radius_hero">24dp</dimen>
+    <dimen name="radius_input">14dp</dimen>
+    <dimen name="radius_chip">14dp</dimen>
+    <dimen name="radius_logo_tile">16dp</dimen>
+    <dimen name="radius_segmented_track">16dp</dimen>
+    <dimen name="radius_segment">12dp</dimen>
+    <dimen name="radius_badge">10dp</dimen>
+    <dimen name="radius_pill">999dp</dimen>
+
+    <!-- Heights and touch targets -->
+    <dimen name="touch_target">44dp</dimen>
+    <dimen name="button_height_primary">54dp</dimen>
+    <dimen name="button_height_secondary">52dp</dimen>
+    <!-- CSS min-height 50 px; the design PNGs render inputs 51 px tall with the border. -->
+    <dimen name="input_height">51dp</dimen>
+    <dimen name="segment_height">44dp</dimen>
+
+    <!-- Strokes -->
+    <dimen name="stroke_input">1.5dp</dimen>
+    <dimen name="stroke_selected">2dp</dimen>
+    <dimen name="hairline">1dp</dimen>
+
+    <!-- Segmented control -->
+    <dimen name="segmented_padding">5dp</dimen>
+    <dimen name="segmented_gap">6dp</dimen>
+
+    <!-- Header art -->
+    <dimen name="logo_tile">52dp</dimen>
+    <dimen name="logo_icon">28dp</dimen>
+    <dimen name="header_ring_size">220dp</dimen>
+    <dimen name="header_ring_offset_end">-60dp</dimen>
+    <dimen name="header_ring_offset_top">-50dp</dimen>
+    <dimen name="google_icon">18dp</dimen>
+    <dimen name="checkbox_size">20dp</dimen>
+    <dimen name="checkbox_inset_correction">-7dp</dimen>
+    <!-- Rows whose content is shorter than the 44 dp touch target overlap the gaps around them
+         by this much, so the visible spacing matches the design. -->
+    <dimen name="checkbox_row_overlap_top">-12dp</dimen>
+    <dimen name="checkbox_row_overlap_bottom">-13dp</dimen>
+    <dimen name="link_row_overlap">-5dp</dimen>
+    <dimen name="terms_text_gap">5dp</dimen>
+
+    <!-- Status badge -->
+    <dimen name="badge_padding_horizontal">10dp</dimen>
+    <dimen name="badge_padding_vertical">5dp</dimen>
+
+    <!-- Type scale (sp) -->
+    <dimen name="text_hero">32sp</dimen>
+    <dimen name="text_screen_title">21sp</dimen>
+    <dimen name="text_section_title">17sp</dimen>
+    <dimen name="text_button">16sp</dimen>
+    <dimen name="text_body">15sp</dimen>
+    <dimen name="text_body_small">14sp</dimen>
+    <dimen name="text_caption">13sp</dimen>
+    <dimen name="text_badge">12sp</dimen>
+</resources>

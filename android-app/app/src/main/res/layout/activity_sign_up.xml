@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    00b-sign-up. Order and wording from docs/design/source/Auth.dc.html (mode "signup"):
+    header · Full name · Mobile number · Email · Password · Confirm password · terms checkbox ·
+    Create account · "or" · Continue with Google · "Already have an account? Sign in".
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_auth_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/space_form_gap"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/auth_side_padding"
+            android:paddingTop="@dimen/auth_body_padding_top"
+            android:paddingEnd="@dimen/auth_side_padding"
+            android:paddingBottom="@dimen/auth_body_padding_bottom"
+            android:showDividers="middle">
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="personName"
+                android:hint="@string/hint_full_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                app:label="@string/label_full_name" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="phoneNumber"
+                android:hint="@string/hint_mobile"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                app:label="@string/label_mobile" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:hint="@string/hint_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                app:label="@string/label_email" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="newPassword"
+                android:hint="@string/hint_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                app:label="@string/label_password" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="newPassword"
+                android:hint="@string/hint_confirm_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                app:label="@string/label_confirm_password" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/accept_terms"
+                    style="@style/Widget.LaundryHub.CheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:lineSpacingMultiplier="1.08"
+                    android:paddingStart="@dimen/terms_text_gap"
+                    android:text="@string/terms_agreement" />
+
+                <TextView
+                    android:id="@+id/terms_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.FieldError"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/error_banner"
+                style="@style/Widget.LaundryHub.ErrorBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/create_account"
+                style="@style/Widget.LaundryHub.Button.PrimaryPill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create_account" />
+
+            <include
+                android:id="@+id/or_divider"
+                layout="@layout/view_or_divider" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google"
+                style="@style/Widget.LaundryHub.Button.OutlinePill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/continue_with_google"
+                app:icon="@drawable/ic_google" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/link_row_overlap"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/already_have_account"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/go_to_sign_in"
+                    style="@style/Widget.LaundryHub.Button.TextLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_in" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

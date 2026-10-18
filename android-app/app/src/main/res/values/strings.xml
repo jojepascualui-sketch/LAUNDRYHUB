@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Laundry HUB</string>
+
+    <!-- 00a / 00c Sign in: wording copied from docs/design/source/Auth.dc.html -->
+    <string name="tab_customer">Customer</string>
+    <string name="tab_rider">Rider</string>
+    <string name="tab_admin">Admin</string>
+    <string name="sign_in_heading_customer">Welcome back</string>
+    <string name="sign_in_heading_rider">Rider sign in</string>
+    <string name="sign_in_heading_admin">Admin sign in</string>
+    <string name="sign_in_sub_customer">Sign in to book your next laundry.</string>
+    <string name="sign_in_sub_rider">Accept bookings and deliver laundry.</string>
+    <string name="sign_in_sub_admin">Manage orders, pricing and riders.</string>
+    <string name="label_email">Email</string>
+    <string name="label_rider_email">Rider email or mobile</string>
+    <string name="label_staff_email">Staff email</string>
+    <string name="hint_email">you@email.com</string>
+    <string name="hint_staff_email">admin@laundryhub.ph</string>
+    <string name="label_password">Password</string>
+    <string name="hint_password">At least 8 characters</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="or">or</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="new_to_laundry_hub">New to Laundry HUB?</string>
+    <string name="sign_up">Sign up</string>
+
+    <!-- 00b Create account -->
+    <string name="sign_up_heading">Create your account</string>
+    <string name="sign_up_sub">Book laundry in a few taps.</string>
+    <string name="label_full_name">Full name</string>
+    <string name="hint_full_name">Juan Dela Cruz</string>
+    <string name="label_mobile">Mobile number</string>
+    <string name="hint_mobile">09XX XXX XXXX</string>
+    <string name="label_confirm_password">Confirm password</string>
+    <string name="hint_confirm_password">Re-enter password</string>
+    <string name="terms_agreement">I agree to the Terms of Service and Privacy Policy, including use of my location for pickup and delivery.</string>
+    <string name="create_account">Create account</string>
+    <string name="already_have_account">Already have an account?</string>
+
+    <!-- Loading, error and routing states (not in the mockups; same style, existing tokens) -->
+    <string name="signing_in">Signing in…</string>
+    <string name="creating_account">Creating account…</string>
+    <string name="error_required">Required</string>
+    <string name="error_email">Enter a valid email</string>
+    <string name="error_email_or_mobile">Enter your email or 09XXXXXXXXX</string>
+    <string name="error_mobile">Must look like 09XXXXXXXXX</string>
+    <string name="error_password_length">At least 8 characters</string>
+    <string name="error_password_match">Passwords do not match</string>
+    <string name="error_terms">Please accept the terms to continue</string>
+    <string name="error_network">Cannot reach the server. Check your connection and try again.</string>
+    <string name="error_unexpected">Something went wrong. Please try again.</string>
+    <string name="google_not_configured">Google sign-in is not set up in this build.</string>
+    <string name="google_cancelled">Google sign-in was cancelled.</string>
+    <string name="forgot_password_unavailable">Password reset is not available yet. Please contact the shop.</string>
+    <string name="admin_console_title">Use the admin console</string>
+    <string name="admin_console_message">Admin and staff accounts manage Laundry HUB from the desktop admin console. Sign in there with the same email and password.</string>
+    <string name="ok">OK</string>
+
+    <!-- Status badge text (DESIGN_SPEC.md section 1) -->
+    <string name="status_pending">Pending</string>
+    <string name="status_washing">Washing</string>
+    <string name="status_ready">Ready</string>
+    <string name="status_out_for_delivery">Out for delivery</string>
+    <string name="status_completed">Completed</string>
+
+    <!-- Temporary destinations until screens 01 (Home) and R1 (Rider bookings) are built -->
+    <string name="home_placeholder_title">Signed in as %1$s</string>
+    <string name="customer_home_placeholder">Customer home (screen 01) is built in the next phase.</string>
+    <string name="rider_home_placeholder">Rider bookings (screen R1) are built in the next phase.</string>
+    <string name="sign_out">Sign out</string>
+</resources>
