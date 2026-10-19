@@ -166,8 +166,91 @@
     <string name="orders_unavailable">The Orders tab is not designed yet.</string>
     <string name="profile_title">%1$s</string>
 
-    <!-- Temporary destinations until screens 01 (Home) and R1 (Rider bookings) are built -->
-    <string name="home_placeholder_title">Signed in as %1$s</string>
-    <string name="rider_home_placeholder">Rider bookings (screen R1) are built in the next phase.</string>
     <string name="sign_out">Sign out</string>
+
+    <!-- R1–R5 Rider app (source/Rider.dc.html; steps and button labels come from the server) -->
+    <string name="rider_brand">Laundry HUB Rider</string>
+    <string name="rider_greeting">Hi, %1$s</string>
+    <string name="on_duty">On duty</string>
+    <string name="off_duty">Off duty</string>
+    <string name="counter_available">Available</string>
+    <string name="counter_accepted">Accepted</string>
+    <string name="counter_done_today">Done today</string>
+    <string name="tab_available">Available (%1$d)</string>
+    <string name="tab_my_jobs">My jobs (%1$d)</string>
+    <string name="off_duty_title">You’re off duty</string>
+    <string name="off_duty_message">Go on duty to receive new pickup and delivery bookings.</string>
+    <string name="empty_available">No new bookings right now. New ones will appear here.</string>
+    <string name="empty_my_jobs">You haven’t accepted any bookings yet.</string>
+    <string name="job_pickup">Pickup</string>
+    <string name="job_return_delivery">Return delivery</string>
+    <string name="booking_meta">%1$s · %2$s</string>
+    <string name="distance_km">%1$s km</string>
+    <string name="booking_slot">%1$s · %2$s kg</string>
+    <string name="pay_note_cash_on_return">Cash on return · order total</string>
+    <string name="pay_note_gcash_total">GCash · order total</string>
+    <string name="pay_note_collect_cash">Collect cash</string>
+    <string name="pay_note_paid_gcash">Paid via GCash</string>
+    <string name="done_note_dropped_at_shop">Laundry dropped at shop</string>
+    <string name="done_note_cash_collected">Cash collected</string>
+    <string name="decline">Decline</string>
+    <string name="accept_booking">Accept booking</string>
+    <string name="start_job">Start job</string>
+    <string name="continue_job">Continue job</string>
+    <string name="navigate_in_maps">Navigate in Google Maps</string>
+    <string name="back_to_bookings">Back to bookings</string>
+    <string name="call_customer">Call customer</string>
+    <string name="job_completed">Job completed</string>
+    <string name="job_done_sub">%1$s · %2$s for %3$s</string>
+    <string name="step_done">%1$s, done</string>
+    <string name="step_current">%1$s, current step</string>
+    <!-- No design (CLAUDE.md §1: same style, existing tokens) -->
+    <string name="booking_taken">Another rider accepted this booking first. Try another one.</string>
+    <string name="no_customer_phone">The customer’s number is not available.</string>
+    <string name="no_navigation_app">No app on this phone can open the route.</string>
+    <string name="duty_location_needed">Allow location access so the shop can follow your trips while you’re on duty.</string>
+    <string name="location_channel">On-duty location</string>
+    <string name="location_notification_title">You’re on duty</string>
+    <string name="location_notification_text">Laundry HUB shares your location every 10 seconds until you go off duty.</string>
+
+
+    <!-- 07 Track order (source/Tracking.dc.html) -->
+    <string name="order_number">Order #%1$s</string>
+    <string name="track_title">Track your laundry</string>
+    <string name="live_gps">Rider is on the way · live GPS</string>
+    <string name="your_rider">Your rider · %1$s</string>
+    <string name="call_rider">Call rider</string>
+    <string name="order_status">Order status</string>
+    <string name="track_placed">Order placed</string>
+    <string name="track_placed_note">We received your order</string>
+    <string name="track_picked_up">Picked up</string>
+    <string name="track_picked_up_note">Rider collected your laundry</string>
+    <string name="track_washing">Washing &amp; drying</string>
+    <string name="track_washing_note">Your clothes are being cleaned</string>
+    <string name="track_out">Out for delivery</string>
+    <string name="track_out_note">Rider is heading to your pin</string>
+    <string name="track_delivered">Delivered</string>
+    <string name="track_delivered_note">Enjoy your fresh laundry</string>
+    <string name="track_map_description">Map with the shop, your rider and your pin</string>
+    <string name="state_done">done</string>
+    <!-- No design (same style, existing tokens) -->
+    <string name="order_cancelled">This order was cancelled.</string>
+    <string name="no_rider_phone">The rider’s number is not available.</string>
+    <string name="no_orders_yet">You have no orders yet. Start one from Home.</string>
+
+    <!-- Feedback chat and ratings (no design, CLAUDE.md §7: existing tokens only) -->
+    <string name="chat_title">Feedback chat</string>
+    <string name="chat_subtitle">Laundry HUB shop</string>
+    <string name="chat_empty">Questions, feedback or a problem with an order? Write to the shop here. We usually reply within the day.</string>
+    <string name="chat_hint">Write a message</string>
+    <string name="send">Send</string>
+    <string name="chat_you">You</string>
+    <string name="chat_shop_sender">Laundry HUB · %1$s</string>
+    <string name="rate_title">Rate your laundry</string>
+    <string name="rate_hint">Add a comment (optional)</string>
+    <string name="rate_send">Send rating</string>
+    <string name="rate_update">Update rating</string>
+    <string name="rate_thanks">Thanks! You rated this order %1$d of 5.</string>
+    <string name="rate_star">%1$d of 5 stars</string>
+    <string name="message_shop">Message the shop</string>
 </resources>

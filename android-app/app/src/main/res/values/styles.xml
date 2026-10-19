@@ -8,6 +8,9 @@
     SelectableCard (+ Service, Soap, Payment) with RadioDot, TextInput, StatusBadge,
     SegmentedControl (view: ui.widget.SegmentedControl), CheckBox, ErrorBanner, WarnNote,
     BottomNavItem.
+    Rider: Card.Booking / State / Job / Checklist, PrimaryPill.Small, OutlinePill.Small,
+    DarkPill.Small / Large, MapAction, IconCircleButton.OnMap / Accent, PayStrip, PayBox,
+    CounterTile; views ui.widget.DutySwitch and ui.widget.StepChecklist.
 -->
 <resources>
 
@@ -562,5 +565,167 @@
         <item name="android:textColor">@color/warn_text</item>
         <item name="android:textSize">@dimen/text_caption</item>
         <item name="android:fontFamily">@font/dm_sans</item>
+    </style>
+
+    <!-- ===== Rider app (source/Rider.dc.html) ===== -->
+    <!-- "Hi, [RIDER NAME]": Bricolage Grotesque 800, 24 sp, white. -->
+    <style name="TextAppearance.LaundryHub.Greeting" parent="TextAppearance.LaundryHub.Hero">
+        <item name="android:textSize">@dimen/text_greeting</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="android:textColor">@color/surface</item>
+    </style>
+
+    <!-- 13 sp on the dark header ("Laundry HUB Rider"). -->
+    <style name="TextAppearance.LaundryHub.OnDarkCaption" parent="TextAppearance.LaundryHub.Caption">
+        <item name="android:textColor">@color/on_dark_muted</item>
+    </style>
+
+    <!-- Counter label: 11 sp #B8C3CC. -->
+    <style name="TextAppearance.LaundryHub.CounterLabel" parent="TextAppearance.LaundryHub.OnDarkCaption">
+        <item name="android:textSize">@dimen/text_counter_label</item>
+    </style>
+
+    <!-- Counter number: Bricolage Grotesque 800, 22 sp, white. -->
+    <style name="TextAppearance.LaundryHub.CounterNumber" parent="TextAppearance.LaundryHub.Total">
+        <item name="android:textColor">@color/surface</item>
+    </style>
+
+    <!-- Duty switch label: 13 sp bold white. -->
+    <style name="TextAppearance.LaundryHub.DutyLabel" parent="TextAppearance.LaundryHub.Label">
+        <item name="android:textColor">@color/surface</item>
+    </style>
+
+    <!-- Customer initials: 16 sp bold accent. -->
+    <style name="TextAppearance.LaundryHub.Initials" parent="TextAppearance.LaundryHub.Subtitle">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <!-- Checklist step: DM Sans 500, 14 sp (StepChecklist sets weight and color per state). -->
+    <style name="TextAppearance.LaundryHub.StepLabel" parent="TextAppearance.LaundryHub.BodyCompact">
+        <item name="android:fontFamily">@font/dm_sans_medium</item>
+        <item name="fontFamily">@font/dm_sans_medium</item>
+    </style>
+
+    <!-- Current checklist step: DM Sans 700. -->
+    <style name="TextAppearance.LaundryHub.StepLabel.Current">
+        <item name="android:fontFamily">@font/dm_sans_bold</item>
+        <item name="fontFamily">@font/dm_sans_bold</item>
+    </style>
+
+    <!-- Job payment amount: Bricolage Grotesque 800, 20 sp (color per job). -->
+    <style name="TextAppearance.LaundryHub.PayAmount" parent="TextAppearance.LaundryHub.Total">
+        <item name="android:textSize">@dimen/text_pay_amount</item>
+    </style>
+
+    <!-- Card.Booking: 20 dp radius, 16 dp padding (R1 booking cards). -->
+    <style name="Widget.LaundryHub.Card.Booking">
+        <item name="cardCornerRadius">@dimen/radius_card_large</item>
+        <item name="contentPadding">@dimen/booking_padding</item>
+    </style>
+
+    <!-- Card.State: 20 dp radius, 26 / 20 dp padding (R5 off duty, empty lists). -->
+    <style name="Widget.LaundryHub.Card.State">
+        <item name="cardCornerRadius">@dimen/radius_card_large</item>
+        <item name="contentPaddingTop">@dimen/state_card_padding_v</item>
+        <item name="contentPaddingBottom">@dimen/state_card_padding_v</item>
+        <item name="contentPaddingLeft">@dimen/state_card_padding_h</item>
+        <item name="contentPaddingRight">@dimen/state_card_padding_h</item>
+    </style>
+
+    <!-- Card.Job: 18 dp radius, 14 dp padding (active job customer card). -->
+    <style name="Widget.LaundryHub.Card.Job">
+        <item name="contentPadding">@dimen/row_card_padding</item>
+    </style>
+
+    <!-- Card.Checklist: 18 dp radius, 16 dp padding (active job steps, job completed row). -->
+    <style name="Widget.LaundryHub.Card.Checklist">
+        <item name="contentPadding">@dimen/booking_padding</item>
+    </style>
+
+    <!-- Small pills on booking cards: 48 dp, 14 sp bold. -->
+    <style name="Widget.LaundryHub.Button.PrimaryPill.Small">
+        <item name="android:minHeight">@dimen/button_height_small</item>
+        <item name="android:textSize">@dimen/text_body_small</item>
+        <item name="android:paddingStart">@dimen/inline_gap</item>
+        <item name="android:paddingEnd">@dimen/inline_gap</item>
+    </style>
+
+    <!-- "Decline": white, 1.5 dp #C8D0CA border, 48 dp, 14 sp bold. -->
+    <style name="Widget.LaundryHub.Button.OutlinePill.Small">
+        <item name="android:minHeight">@dimen/button_height_small</item>
+        <item name="android:textSize">@dimen/text_body_small</item>
+    </style>
+
+    <!-- "Start job" / "Continue job": ink, 48 dp, 14 sp bold. -->
+    <style name="Widget.LaundryHub.Button.DarkPill.Small" parent="Widget.LaundryHub.Button.PrimaryPill.Small">
+        <item name="backgroundTint">@color/dark_button_bg</item>
+    </style>
+
+    <!-- "Back to bookings": ink, 54 dp, 16 sp bold. -->
+    <style name="Widget.LaundryHub.Button.DarkPill.Large" parent="Widget.LaundryHub.Button.PrimaryPill">
+        <item name="backgroundTint">@color/dark_button_bg</item>
+    </style>
+
+    <!-- "Navigate in Google Maps": ink, 44 dp, 13 sp bold, 16 dp arrow 8 dp before the text. -->
+    <style name="Widget.LaundryHub.Button.MapAction" parent="Widget.LaundryHub.Button.PrimaryPill">
+        <item name="android:minHeight">@dimen/touch_target</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:paddingStart">@dimen/navigate_padding_h</item>
+        <item name="android:paddingEnd">@dimen/navigate_padding_h</item>
+        <item name="backgroundTint">@color/dark_button_bg</item>
+        <item name="icon">@drawable/ic_navigation</item>
+        <item name="iconTint">@color/surface</item>
+        <item name="iconSize">@dimen/navigate_icon</item>
+        <item name="iconPadding">@dimen/navigate_gap</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <!-- Round button on a map (Back): 44 dp white circle without a border. -->
+    <style name="Widget.LaundryHub.IconCircleButton.OnMap">
+        <item name="android:background">@drawable/bg_map_button</item>
+    </style>
+
+    <!-- Call button: 44 dp accent circle with a white 18 dp phone. -->
+    <style name="Widget.LaundryHub.IconCircleButton.Accent">
+        <item name="android:background">@drawable/bg_call_button</item>
+        <item name="tint">@color/surface</item>
+    </style>
+
+    <!-- Payment strip on booking cards: #F3F5F2, 12 dp radius, 10 / 12 dp padding, 13 sp. -->
+    <style name="Widget.LaundryHub.PayStrip" parent="">
+        <item name="android:background">@drawable/bg_pay_strip</item>
+        <item name="android:paddingStart">@dimen/pay_strip_padding_h</item>
+        <item name="android:paddingEnd">@dimen/pay_strip_padding_h</item>
+        <item name="android:paddingTop">@dimen/pay_strip_padding_v</item>
+        <item name="android:paddingBottom">@dimen/pay_strip_padding_v</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- Payment box on the active job: 14 dp radius, 12 / 14 dp padding, colored per job. -->
+    <style name="Widget.LaundryHub.PayBox" parent="">
+        <item name="android:background">@drawable/bg_pay_box</item>
+        <item name="android:paddingStart">@dimen/pay_box_padding_h</item>
+        <item name="android:paddingEnd">@dimen/pay_box_padding_h</item>
+        <item name="android:paddingTop">@dimen/pay_box_padding_v</item>
+        <item name="android:paddingBottom">@dimen/pay_box_padding_v</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- Rider header counter tile: #24333F, 14 dp radius, 10 / 12 dp padding. -->
+    <style name="Widget.LaundryHub.CounterTile" parent="">
+        <item name="android:background">@drawable/bg_counter_tile</item>
+        <item name="android:paddingStart">@dimen/counter_padding_h</item>
+        <item name="android:paddingEnd">@dimen/counter_padding_h</item>
+        <item name="android:paddingTop">@dimen/counter_padding_v</item>
+        <item name="android:paddingBottom">@dimen/counter_padding_bottom</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- 07 "Track your laundry": Bricolage Grotesque 700, 21 sp (no letter spacing in Tracking.dc.html). -->
+    <style name="TextAppearance.LaundryHub.TrackTitle" parent="TextAppearance.LaundryHub.StepTitle">
+        <item name="android:letterSpacing">0</item>
     </style>
 </resources>

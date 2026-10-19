@@ -11,9 +11,11 @@ import com.laundryhub.app.data.session.Session;
 import com.laundryhub.app.data.session.SessionManager;
 import com.laundryhub.app.data.session.SessionStore;
 import com.laundryhub.app.model.Role;
+import com.laundryhub.app.testing.FakeFeedbackRepository;
 import com.laundryhub.app.testing.FakeOrderRepository;
+import com.laundryhub.app.testing.FakeRiderRepository;
 
-/** The app with a signed-in customer and the fake backend (no network, no Keystore). */
+/** The app with a signed-in user and the fake backends (no network, no Keystore). */
 public class ScreenshotApp extends LaundryHubApp {
 
     @NonNull
@@ -52,6 +54,7 @@ public class ScreenshotApp extends LaundryHubApp {
             public void signOut() {
             }
         };
-        return new AppContainer(sessions, noAuth, (activity, callback) -> { }, new FakeOrderRepository());
+        return new AppContainer(sessions, noAuth, (activity, callback) -> { }, new FakeOrderRepository(),
+                new FakeRiderRepository(), new FakeFeedbackRepository());
     }
 }

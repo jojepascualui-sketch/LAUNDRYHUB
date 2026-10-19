@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Active job payment box, 14 px radius. Fill per job with backgroundTint (warn for cash
+     deliveries, success otherwise; see JobType.collectsCash). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/surface" />
+    <corners android:radius="@dimen/pay_box_radius" />
+</shape>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A2-admin-orders. -->
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.laundryhub.admin.ui.OrdersController" spacing="16">
+    <FlowPane fx:id="filters" hgap="8" vgap="8"/>
+    <HBox spacing="16" alignment="TOP_LEFT">
+        <VBox fx:id="list" spacing="10" minWidth="280" prefWidth="280" maxWidth="280"/>
+        <VBox fx:id="detail" styleClass="card, card-22" spacing="18" HBox.hgrow="ALWAYS">
+            <HBox alignment="TOP_LEFT" spacing="10">
+                <VBox>
+                    <Label fx:id="detailId" styleClass="figure-24"/>
+                    <Label fx:id="detailCustomer" styleClass="muted"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <StackPane fx:id="detailBadge" alignment="TOP_RIGHT"/>
+            </HBox>
+
+            <GridPane fx:id="tiles" hgap="12">
+                <VBox styleClass="info-tile" GridPane.columnIndex="0" maxWidth="Infinity">
+                    <Label text="Service" styleClass="small"/>
+                    <Label fx:id="serviceValue" styleClass="body-16, strong"/>
+                </VBox>
+                <VBox styleClass="info-tile" GridPane.columnIndex="1" maxWidth="Infinity">
+                    <Label text="Weight" styleClass="small"/>
+                    <Label fx:id="weightValue" styleClass="body-16, strong"/>
+                </VBox>
+                <VBox styleClass="info-tile" GridPane.columnIndex="2" maxWidth="Infinity">
+                    <Label text="Fabric soap" styleClass="small"/>
+                    <Label fx:id="soapValue" styleClass="body-16, strong"/>
+                </VBox>
+                <VBox styleClass="info-tile" GridPane.columnIndex="3" maxWidth="Infinity">
+                    <Label text="Schedule" styleClass="small"/>
+                    <Label fx:id="scheduleValue" styleClass="body-16, strong"/>
+                </VBox>
+            </GridPane>
+
+            <VBox fx:id="locationBox" spacing="8">
+                <Label text="Pinned location" styleClass="subsection-title"/>
+                <StackPane fx:id="mapFrame" styleClass="map-frame"/>
+                <HBox alignment="CENTER_LEFT">
+                    <Label fx:id="addressLine" styleClass="caption"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Hyperlink fx:id="openMaps" text="Open in Google Maps" styleClass="maps-link"/>
+                </HBox>
+            </VBox>
+            <Label fx:id="walkInNote" styleClass="note-box" maxWidth="Infinity" wrapText="true"/>
+
+            <VBox spacing="8">
+                <Label text="Update status" styleClass="subsection-title"/>
+                <FlowPane fx:id="statusButtons" hgap="8" vgap="8"/>
+            </VBox>
+
+            <VBox fx:id="riderBox" spacing="6">
+                <Label text="Assign rider" styleClass="subsection-title" labelFor="$rider"/>
+                <ComboBox fx:id="rider" styleClass="select"/>
+            </VBox>
+
+            <VBox styleClass="breakdown">
+                <HBox>
+                    <Label fx:id="laundryLabel" styleClass="muted"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="laundryValue"/>
+                </HBox>
+                <HBox>
+                    <Label fx:id="soapLabel" styleClass="muted"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="soapCost"/>
+                </HBox>
+                <HBox>
+                    <Label text="Delivery fee" styleClass="muted"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="feeValue"/>
+                </HBox>
+                <HBox alignment="BASELINE_LEFT">
+                    <Label fx:id="totalLabel" styleClass="strong"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="totalValue" styleClass="total-amount"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox>

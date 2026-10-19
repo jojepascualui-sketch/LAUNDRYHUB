@@ -60,6 +60,12 @@ public class CashPayment extends PaymentMethod {
         markPaid(receiptNo);
     }
 
+    /** Cash: the console records cash paid at the counter; the receipt number is optional. */
+    @Override
+    public void confirmFromConsole(String referenceNo) {
+        recordPaidAtCounter(referenceNo);
+    }
+
     @Override
     public PaymentChoice getMethod() {
         return PaymentChoice.CASH;

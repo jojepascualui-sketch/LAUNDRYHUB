@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A5-admin-reports. -->
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.laundryhub.admin.ui.ReportsController" spacing="16">
+    <GridPane hgap="14">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="33.333"/>
+            <ColumnConstraints percentWidth="33.333"/>
+            <ColumnConstraints percentWidth="33.334"/>
+        </columnConstraints>
+        <VBox styleClass="report-card" GridPane.columnIndex="0">
+            <Label text="Cash sales" styleClass="kpi-label"/>
+            <Label fx:id="cashSales" styleClass="figure-28"/>
+        </VBox>
+        <VBox styleClass="report-card" GridPane.columnIndex="1">
+            <Label text="GCash sales" styleClass="kpi-label"/>
+            <Label fx:id="gcashSales" styleClass="figure-28"/>
+        </VBox>
+        <VBox styleClass="report-card" GridPane.columnIndex="2">
+            <Label text="Delivery vs walk-in" styleClass="kpi-label"/>
+            <Label fx:id="split" styleClass="figure-28"/>
+        </VBox>
+    </GridPane>
+    <VBox fx:id="bars" styleClass="card, card-22" spacing="14">
+        <Label text="Sales by fabric soap" styleClass="section-title"/>
+    </VBox>
+    <Button fx:id="export" text="Export CSV" onAction="#exportCsv" styleClass="outline-button, export-button"/>
+</VBox>

@@ -1,0 +1,579 @@
+/*
+ * Laundry HUB admin console — the only stylesheet.
+ * Colors are the design tokens of docs/design/DESIGN_SPEC.md §1 as looked-up colors; sizes come from
+ * docs/design/source/AdminDashboard.dc.html (A1–A5) and Auth.dc.html (sign in). Never hard-code a hex
+ * value anywhere else.
+ *
+ * Fonts (loaded by AdminApp.loadFonts) register under their instance names:
+ *   "DM Sans 9pt" (regular + bold), "DM Sans 9pt Medium",
+ *   "Bricolage Grotesque 96pt ExtraBold ExtraBold" (800), "Bricolage Grotesque 96pt ExtraBold" (700).
+ */
+.root {
+    -lh-bg: #F3F5F2;
+    -lh-surface: #FFFFFF;
+    -lh-ink: #14212B;
+    -lh-muted: #4A5863;
+    -lh-subtle: #6B7780;
+    -lh-accent: #1E63A8;
+    -lh-accent-hover: #123F6E;
+    -lh-accent-tint: #E4EEF8;
+    -lh-border: #DCE2DD;
+    -lh-input-border: #C8D0CA;
+    -lh-divider: #E1E6E2;
+    -lh-row-divider: #EEF1EE;
+    -lh-track: #EEF1EE;
+    -lh-icon-border: #D5DBD6;
+    -lh-map-bg: #E3EAE2;
+    -lh-pin: #E0662A;
+    -lh-warn-bg: #FFF1E8;
+    -lh-warn-text: #8A3A12;
+    -lh-success-bg: #E6F2EA;
+    -lh-success-text: #1D5E36;
+    -lh-disabled: #9AA5AD;
+    /* Admin sidebar */
+    -lh-sidebar: #14212B;
+    -lh-nav-active: #24333F;
+    -lh-nav-text: #C9D2D9;
+    -lh-nav-dot: #3A4A57;
+    -lh-sidebar-line: #2C3B47;
+    -lh-on-dark-muted: #B8C3CC;
+    /* Status badges */
+    -lh-pending-bg: #EEF1EE;
+    -lh-pending-text: #3A4651;
+    -lh-washing-bg: #E4EEF8;
+    -lh-washing-text: #174B80;
+    -lh-ready-bg: #DFF3F0;
+    -lh-ready-text: #0B5B54;
+    -lh-out-bg: #FFF1E8;
+    -lh-out-text: #8A3A12;
+    -lh-completed-bg: #E6F2EA;
+    -lh-completed-text: #1D5E36;
+    /* Sign-in header rings: white at 16 % */
+    -lh-header-ring: rgba(255, 255, 255, 0.16);
+
+    -fx-font-family: "DM Sans 9pt";
+    -fx-font-size: 14px;
+    -fx-text-fill: -lh-ink;
+    -fx-background-color: -lh-bg;
+    -fx-focus-color: -lh-accent;
+    -fx-faint-focus-color: transparent;
+    -fx-accent: -lh-accent;
+}
+
+.label {
+    -fx-text-fill: -lh-ink;
+}
+
+/* Lay out at fractional positions like the browser: JavaFX otherwise rounds every label and box up to
+   whole pixels (DM Sans 14 px = 18.23 px line → 19), and the design drifts a few pixels per card. */
+* {
+    -fx-snap-to-pixel: false;
+}
+
+/* ===== Type ===== */
+.page-kicker { -fx-font-size: 14px; -fx-text-fill: -lh-muted; }
+.page-title {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 30px;
+}
+.section-title { -fx-font-size: 17px; -fx-font-weight: bold; }
+.subsection-title { -fx-font-size: 15px; -fx-font-weight: bold; }
+.field-label { -fx-font-size: 13px; -fx-font-weight: bold; }
+.hint { -fx-font-size: 12px; -fx-text-fill: -lh-muted; }
+.muted { -fx-text-fill: -lh-muted; }
+.caption { -fx-font-size: 13px; -fx-text-fill: -lh-muted; }
+.small { -fx-font-size: 12px; -fx-text-fill: -lh-muted; }
+.strong { -fx-font-weight: bold; }
+.body-16 { -fx-font-size: 16px; }
+.figure {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 32px;
+}
+.figure-28 {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 28px;
+}
+.figure-24 {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 24px;
+}
+.total-amount {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 24px;
+    -fx-text-fill: -lh-accent;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    -fx-background-color: -lh-sidebar;
+    -fx-padding: 24 16 24 16;
+    -fx-spacing: 6;
+}
+.brand-row { -fx-padding: 0 8 22 8; -fx-spacing: 10; }
+.brand-tile {
+    -fx-background-color: -lh-accent;
+    -fx-background-radius: 11;
+    -fx-min-width: 38; -fx-min-height: 38; -fx-max-width: 38; -fx-max-height: 38;
+}
+.brand-name {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 19px;
+    -fx-text-fill: -lh-surface;
+}
+.brand-sub { -fx-font-size: 12px; -fx-text-fill: -lh-on-dark-muted; }
+.logo-icon { -fx-stroke: -lh-surface; -fx-stroke-width: 2; -fx-fill: transparent; -fx-stroke-line-cap: round; -fx-stroke-line-join: round; }
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+    -fx-min-height: 46;
+    -fx-pref-height: 46;
+    -fx-padding: 0 14 0 14;
+    -fx-graphic-text-gap: 12;
+    -fx-alignment: center-left;
+    -fx-text-fill: -lh-nav-text;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.nav-item:hover { -fx-background-color: rgba(255, 255, 255, 0.04); }
+.nav-item:selected { -fx-background-color: -lh-nav-active; -fx-text-fill: -lh-surface; }
+.nav-dot { -fx-fill: -lh-nav-dot; }
+.nav-item:selected .nav-dot { -fx-fill: -lh-accent; }
+.profile-row {
+    -fx-border-color: -lh-sidebar-line transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 16 8 0 8;
+    -fx-spacing: 10;
+}
+.avatar {
+    -fx-background-color: -lh-sidebar-line;
+    -fx-background-radius: 18;
+    -fx-min-width: 36; -fx-min-height: 36; -fx-max-width: 36; -fx-max-height: 36;
+    -fx-alignment: center;
+    -fx-text-fill: -lh-surface;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+.profile-name { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -lh-surface; }
+.profile-role { -fx-font-size: 12px; -fx-text-fill: -lh-on-dark-muted; }
+.logout-link {
+    -fx-text-fill: -lh-on-dark-muted;
+    -fx-font-size: 13px;
+    -fx-padding: 10 4 10 4;
+    -fx-underline: true;
+    -fx-border-width: 0;
+}
+.logout-link:hover { -fx-text-fill: -lh-surface; }
+
+/* ===== Main area ===== */
+.main { -fx-padding: 28 32 40 32; -fx-spacing: 22; }
+.page-scroll, .page-scroll > .viewport { -fx-background-color: transparent; -fx-background: -lh-bg; }
+.page-scroll { -fx-padding: 0; -fx-background-insets: 0; }
+/* Thin scroll bar that stays out of the design's 32 px margin. */
+.page-scroll .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 10; -fx-padding: 2; }
+.page-scroll .scroll-bar:vertical .track { -fx-background-color: transparent; -fx-border-color: transparent; }
+.page-scroll .scroll-bar:vertical .thumb { -fx-background-color: -lh-input-border; -fx-background-radius: 4; }
+.page-scroll .scroll-bar .increment-button, .page-scroll .scroll-bar .decrement-button {
+    -fx-pref-height: 0; -fx-padding: 0;
+}
+.page-scroll .scroll-bar .increment-arrow, .page-scroll .scroll-bar .decrement-arrow { -fx-shape: ""; -fx-padding: 0; }
+.search-field {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 22;
+    -fx-border-color: -lh-input-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 22;
+    -fx-pref-width: 295;
+    -fx-min-height: 47;
+    -fx-pref-height: 47;
+    -fx-padding: 0 16 0 16;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: -lh-muted;
+}
+.search-field:focused { -fx-border-color: -lh-accent; }
+.icon-button {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 22;
+    -fx-border-color: -lh-input-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 22;
+    -fx-min-width: 44; -fx-min-height: 44; -fx-max-width: 44; -fx-max-height: 44;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.icon-stroke { -fx-stroke: -lh-ink; -fx-stroke-width: 2; -fx-fill: transparent; -fx-stroke-line-cap: round; -fx-stroke-line-join: round; }
+
+/* ===== Cards ===== */
+.card {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 20;
+    -fx-padding: 20;
+}
+.card-22 { -fx-padding: 22; }
+.kpi-card {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 18;
+    -fx-padding: 18;
+    -fx-spacing: 6;
+}
+.kpi-card.accent { -fx-background-color: -lh-accent; }
+.kpi-card.accent .label { -fx-text-fill: -lh-surface; }
+.kpi-label { -fx-font-size: 13px; -fx-text-fill: -lh-muted; }
+/* A5 cards: like the KPI cards but the label sits right on the figure. */
+.report-card {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 18;
+    -fx-padding: 18;
+}
+.pipeline-tile { -fx-background-radius: 14; -fx-padding: 14; -fx-spacing: 4; }
+.pipeline-label { -fx-font-size: 13px; -fx-font-weight: bold; }
+.info-tile {
+    -fx-background-color: -lh-bg;
+    -fx-background-radius: 14;
+    -fx-padding: 12;
+}
+.note-box {
+    -fx-background-color: -lh-bg;
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-font-size: 14px;
+    -fx-text-fill: -lh-muted;
+}
+.empty-box {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-font-size: 14px;
+    -fx-text-fill: -lh-muted;
+}
+
+/* ===== Status badges (always with text) ===== */
+.badge {
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+.badge.small { -fx-padding: 4 9 4 9; -fx-background-radius: 9; -fx-font-size: 11px; }
+.badge.large { -fx-padding: 7 12 7 12; -fx-background-radius: 11; -fx-font-size: 13px; }
+.status-pending { -fx-background-color: -lh-pending-bg; -fx-text-fill: -lh-pending-text; }
+.status-washing { -fx-background-color: -lh-washing-bg; -fx-text-fill: -lh-washing-text; }
+.status-ready { -fx-background-color: -lh-ready-bg; -fx-text-fill: -lh-ready-text; }
+.status-out-for-delivery { -fx-background-color: -lh-out-bg; -fx-text-fill: -lh-out-text; }
+.status-completed { -fx-background-color: -lh-completed-bg; -fx-text-fill: -lh-completed-text; }
+.pipeline-tile.status-pending .label { -fx-text-fill: -lh-pending-text; }
+.pipeline-tile.status-washing .label { -fx-text-fill: -lh-washing-text; }
+.pipeline-tile.status-ready .label { -fx-text-fill: -lh-ready-text; }
+.pipeline-tile.status-out-for-delivery .label { -fx-text-fill: -lh-out-text; }
+.pipeline-tile.status-completed .label { -fx-text-fill: -lh-completed-text; }
+
+/* ===== Tables (GridPane rows) ===== */
+.table-head {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -lh-muted;
+    -fx-padding: 10 8 10 8;
+    -fx-border-color: transparent transparent -lh-divider transparent;
+    -fx-border-width: 0 0 1 0;
+    /* 10 + 12 px text line + 10 + 1 px divider, as in the browser. */
+    -fx-min-height: 36.6; -fx-pref-height: 36.6; -fx-max-height: 36.6;
+}
+.table-head.compact { -fx-padding: 8; -fx-min-height: 32.6; -fx-pref-height: 32.6; -fx-max-height: 32.6; }
+.table-cell {
+    -fx-font-size: 14px;
+    -fx-padding: 12 8 12 8;
+    -fx-border-color: transparent transparent -lh-row-divider transparent;
+    -fx-border-width: 0 0 1 0;
+}
+/* A3 rows are 45 px: the browser's line box around the 20 px checkbox is 24 px. */
+.table-cell.compact { -fx-padding: 10 8 10 8; -fx-min-height: 45; -fx-pref-height: 45; }
+
+/* ===== Buttons ===== */
+.primary-button {
+    -fx-background-color: -lh-accent;
+    -fx-background-radius: 999;
+    -fx-text-fill: -lh-surface;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.primary-button:hover { -fx-background-color: -lh-accent-hover; }
+.primary-button:disabled { -fx-background-color: -lh-disabled; -fx-opacity: 1; }
+.save-button { -fx-min-height: 50; -fx-padding: 0 28 0 28; -fx-font-size: 15px; }
+.add-button { -fx-min-height: 42; -fx-padding: 0 18 0 18; -fx-font-size: 14px; }
+.sign-in-button { -fx-min-height: 54; -fx-font-size: 16px; }
+.outline-button {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 999;
+    -fx-border-color: -lh-input-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 999;
+    -fx-text-fill: -lh-ink;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.outline-button:hover { -fx-border-color: -lh-accent; }
+.row-button { -fx-min-height: 36; -fx-pref-height: 36; -fx-padding: 0 14 0 14; -fx-font-size: 13px; }
+.chip-button { -fx-min-height: 40; -fx-pref-height: 40; -fx-padding: 0 16 0 16; -fx-font-size: 13px; }
+.export-button { -fx-min-height: 46; -fx-padding: 0 20 0 20; -fx-font-size: 14px; }
+.status-button { -fx-min-height: 42; -fx-pref-height: 42; -fx-padding: 0 14 0 14; -fx-font-size: 13px; }
+.outline-button:selected, .chip-button:selected, .status-button:selected {
+    -fx-background-color: -lh-accent;
+    -fx-border-color: -lh-accent;
+    -fx-text-fill: -lh-surface;
+}
+.link-button {
+    -fx-min-height: 38; -fx-pref-height: 38; -fx-max-height: 38;
+    -fx-background-color: transparent;
+    -fx-text-fill: -lh-accent;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 4 10 4;
+    -fx-cursor: hand;
+}
+.link-button:hover { -fx-text-fill: -lh-accent-hover; }
+.maps-link {
+    -fx-text-fill: -lh-accent;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}
+.maps-link:hover { -fx-text-fill: -lh-accent-hover; }
+
+/* ===== Order list (A2) ===== */
+.order-card {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 16;
+    -fx-border-color: -lh-divider;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 14;
+    -fx-spacing: 6;
+    -fx-cursor: hand;
+}
+.order-card:selected { -fx-border-color: -lh-accent; }
+.order-card-id { -fx-font-size: 13.33px; -fx-font-weight: bold; }
+.map-frame {
+    -fx-background-color: -lh-map-bg;
+    -fx-background-radius: 16;
+    -fx-border-color: -lh-icon-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 16;
+    -fx-min-height: 200; -fx-pref-height: 200; -fx-max-height: 200;
+}
+.breakdown {
+    -fx-border-color: -lh-divider transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 14 0 0 0;
+    -fx-spacing: 8;
+}
+
+/* ===== Inputs ===== */
+.text-input-field {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: -lh-input-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 12;
+    -fx-min-height: 49;
+    -fx-pref-height: 49;
+    -fx-padding: 0 12 0 12;
+    -fx-font-size: 15px;
+    -fx-text-fill: -lh-ink;
+    -fx-prompt-text-fill: -lh-subtle;
+}
+.text-input-field:focused { -fx-border-color: -lh-accent; }
+.text-input-field.error { -fx-border-color: -lh-warn-text; }
+.auth-input {
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-min-height: 51;
+    -fx-pref-height: 51;
+    -fx-padding: 0 14 0 14;
+}
+.select {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: -lh-input-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 12;
+    -fx-min-height: 46;
+    -fx-pref-height: 46;
+    -fx-pref-width: 320;
+    -fx-max-width: 320;
+    -fx-font-size: 14px;
+    -fx-padding: 0 4 0 4;
+}
+.select .list-cell { -fx-text-fill: -lh-ink; -fx-font-size: 14px; -fx-background-color: transparent; }
+.select .arrow-button { -fx-background-color: transparent; -fx-padding: 0 8 0 0; }
+.select .arrow { -fx-background-color: -lh-ink; }
+.select .list-view .list-cell { -fx-background-color: -lh-surface; -fx-padding: 8 12 8 12; }
+.select .list-view .list-cell:hover, .select .list-view .list-cell:filled:selected {
+    -fx-background-color: -lh-accent-tint;
+}
+.check-box { -fx-font-size: 14px; -fx-label-padding: 0 0 0 10; -fx-text-fill: -lh-ink; }
+.check-box > .box {
+    -fx-background-color: -lh-surface;
+    -fx-border-color: -lh-muted;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-padding: 3;
+    -fx-min-width: 20; -fx-min-height: 20; -fx-pref-width: 20; -fx-pref-height: 20;
+}
+.check-box:selected > .box { -fx-background-color: -lh-accent; -fx-border-color: -lh-accent; }
+.check-box > .box > .mark { -fx-background-color: transparent; -fx-padding: 6 7 6 7; }
+.check-box:selected > .box > .mark { -fx-background-color: -lh-surface; }
+
+/* ===== Segmented tabs (A4) ===== */
+.segmented {
+    -fx-background-color: -lh-track;
+    -fx-background-radius: 14;
+    -fx-padding: 4;
+    -fx-spacing: 6;
+}
+.segment {
+    -fx-background-color: transparent;
+    -fx-background-radius: 11;
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-padding: 0 16 0 16;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -lh-muted;
+    -fx-cursor: hand;
+}
+.segment:selected { -fx-background-color: -lh-surface; -fx-text-fill: -lh-ink; }
+
+/* ===== Reports (A5) ===== */
+.bar-track {
+    -fx-background-color: -lh-track;
+    -fx-background-radius: 7;
+    -fx-min-height: 14; -fx-pref-height: 14; -fx-max-height: 14;
+}
+.bar-fill {
+    -fx-background-color: -lh-accent;
+    -fx-background-radius: 7;
+    -fx-min-height: 14; -fx-pref-height: 14; -fx-max-height: 14;
+}
+
+/* ===== Sign in (Auth.dc.html, admin mode) ===== */
+.auth-page { -fx-background-color: -lh-bg; }
+.auth-panel { -fx-background-color: -lh-bg; -fx-background-radius: 24; }
+.auth-header-bg {
+    -fx-background-color: -lh-accent;
+    -fx-background-radius: 24 24 0 0;
+}
+.auth-header {
+    -fx-padding: 46 26 34 26;
+    -fx-spacing: 14;
+}
+.auth-logo-tile {
+    -fx-background-color: -lh-surface;
+    -fx-background-radius: 16;
+    -fx-min-width: 52; -fx-min-height: 52; -fx-max-width: 52; -fx-max-height: 52;
+}
+.auth-logo-icon { -fx-stroke: -lh-accent; -fx-stroke-width: 2; -fx-fill: transparent; -fx-stroke-line-cap: round; -fx-stroke-line-join: round; }
+.auth-ring { -fx-stroke: -lh-header-ring; -fx-fill: transparent; }
+.auth-heading {
+    -fx-font-family: "Bricolage Grotesque 96pt ExtraBold ExtraBold";
+    -fx-font-size: 32px;
+    -fx-text-fill: -lh-surface;
+}
+.auth-subheading { -fx-font-size: 15px; -fx-text-fill: -lh-surface; -fx-opacity: 0.92; }
+.auth-body { -fx-padding: 22 26 26 26; -fx-spacing: 16; }
+
+
+/* ===== Line heights =====
+   The browser gives one line of text font-size x 1.302 (DM Sans) or x 1.2 (Bricolage Grotesque).
+   JavaFX rounds a Label's line up to whole device pixels (at 150 % scaling a 14 px line becomes 20 px
+   instead of 18.23), so each single-line text style gets the browser height here. Wrapped labels
+   (banners, notes, toasts) keep their computed height. */
+.label, .page-kicker, .profile-name { -fx-min-height: 18.23; -fx-pref-height: 18.23; }
+.page-title { -fx-min-height: 36; -fx-pref-height: 36; }
+.section-title, .dialog-pane > .header-panel .label { -fx-min-height: 22.13; -fx-pref-height: 22.13; }
+.subsection-title, .auth-subheading { -fx-min-height: 19.53; -fx-pref-height: 19.53; }
+.field-label, .caption, .kpi-label, .pipeline-label { -fx-min-height: 16.93; -fx-pref-height: 16.93; }
+.hint, .small, .brand-sub, .profile-role { -fx-min-height: 15.62; -fx-pref-height: 15.62; }
+.body-16 { -fx-min-height: 20.83; -fx-pref-height: 20.83; }
+.figure { -fx-min-height: 38.4; -fx-pref-height: 38.4; }
+.figure-28 { -fx-min-height: 33.6; -fx-pref-height: 33.6; }
+.figure-24, .total-amount { -fx-min-height: 28.8; -fx-pref-height: 28.8; }
+.brand-name { -fx-min-height: 22.8; -fx-pref-height: 22.8; }
+.order-card-id { -fx-min-height: 17.36; -fx-pref-height: 17.36; }
+/* Auth heading: line-height 1.05 in Auth.dc.html. */
+.auth-heading { -fx-min-height: 33.6; -fx-pref-height: 33.6; }
+/* Badges: text line + vertical padding. */
+.badge { -fx-min-height: 25.62; -fx-pref-height: 25.62; }
+.badge.small { -fx-min-height: 22.32; -fx-pref-height: 22.32; }
+.badge.large { -fx-min-height: 30.93; -fx-pref-height: 30.93; }
+.avatar { -fx-min-height: 36; -fx-pref-height: 36; }
+.error-banner, .toast, .note-box, .empty-box, .bubble-mine, .bubble-theirs { -fx-min-height: -1; -fx-pref-height: -1; }
+.unread-badge { -fx-min-height: 19.62; -fx-pref-height: 19.62; }
+/* Table headers: 10 + 12 px line + 10 + 1 px divider (A3: 8 + line + 8 + 1). */
+.table-head { -fx-min-height: 36.6; -fx-pref-height: 36.6; }
+.table-head.compact { -fx-min-height: 32.6; -fx-pref-height: 32.6; }
+
+/* ===== Feedback page (no design: same tokens) ===== */
+.bubble-mine {
+    -fx-background-color: -lh-accent;
+    -fx-background-radius: 18;
+    -fx-padding: 10 14 10 14;
+    -fx-text-fill: -lh-surface;
+    -fx-max-width: 460;
+}
+.bubble-theirs {
+    -fx-background-color: -lh-bg;
+    -fx-background-radius: 18;
+    -fx-padding: 10 14 10 14;
+    -fx-text-fill: -lh-ink;
+    -fx-max-width: 460;
+}
+.unread-badge {
+    -fx-background-color: -lh-accent;
+    -fx-background-radius: 10;
+    -fx-padding: 2 8 2 8;
+    -fx-text-fill: -lh-surface;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+.stars { -fx-text-fill: -lh-accent; -fx-font-size: 15px; }
+.chat-scroll { -fx-background-color: transparent; }
+
+/* ===== Messages (no design: same tokens) ===== */
+.loading { -fx-progress-color: -lh-accent; -fx-pref-width: 22; -fx-pref-height: 22; -fx-max-width: 22; -fx-max-height: 22; }
+.error-banner {
+    -fx-background-color: -lh-warn-bg;
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-text-fill: -lh-warn-text;
+    -fx-font-size: 13px;
+}
+.toast {
+    -fx-background-color: -lh-ink;
+    -fx-background-radius: 14;
+    -fx-padding: 14 18 14 18;
+    -fx-text-fill: -lh-surface;
+    -fx-font-size: 14px;
+}
+.dialog-pane { -fx-background-color: -lh-surface; -fx-padding: 22; }
+.dialog-pane > .content { -fx-spacing: 16; -fx-padding: 0; }
+.dialog-pane > .header-panel { -fx-background-color: -lh-surface; -fx-padding: 0 0 16 0; }
+.dialog-pane > .header-panel .label { -fx-font-size: 17px; -fx-font-weight: bold; }
+.dialog-pane > .button-bar > .container { -fx-padding: 16 0 0 0; }
+.dialog-pane .button {
+    -fx-background-radius: 999;
+    -fx-min-height: 42;
+    -fx-padding: 0 18 0 18;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.dialog-pane .button:default { -fx-background-color: -lh-accent; -fx-text-fill: -lh-surface; }
+.dialog-pane .button:cancel {
+    -fx-background-color: -lh-surface;
+    -fx-border-color: -lh-input-border;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 999;
+    -fx-text-fill: -lh-ink;
+}

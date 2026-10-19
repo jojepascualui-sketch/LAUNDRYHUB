@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gap for LinearLayout showDividers="middle" (@dimen/booking_text_gap). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <size android:width="@dimen/booking_text_gap" android:height="@dimen/booking_text_gap" />
+    <solid android:color="@android:color/transparent" />
+</shape>

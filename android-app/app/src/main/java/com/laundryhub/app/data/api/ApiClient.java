@@ -50,6 +50,18 @@ public final class ApiClient {
         return retrofit.create(OrderApi.class);
     }
 
+    /** @return feedback chat and order ratings */
+    @NonNull
+    public FeedbackApi feedback() {
+        return retrofit.create(FeedbackApi.class);
+    }
+
+    /** @return rider bookings, jobs and GPS */
+    @NonNull
+    public RiderApi rider() {
+        return retrofit.create(RiderApi.class);
+    }
+
     /** @return the auth endpoints */
     @NonNull
     public AuthApi auth() {

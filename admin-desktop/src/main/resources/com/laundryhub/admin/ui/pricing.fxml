@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A3-admin-pricing. -->
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.laundryhub.admin.ui.PricingController" spacing="16" alignment="TOP_LEFT"
+      fillHeight="false">
+    <VBox styleClass="card, card-22" spacing="16" minWidth="384" prefWidth="384" maxWidth="384">
+        <Label text="Rates" styleClass="section-title"/>
+        <VBox spacing="6">
+            <Label text="Price per kilo (&#x20B1;)" styleClass="field-label" labelFor="$rate"/>
+            <TextField fx:id="rate" styleClass="text-input-field"/>
+        </VBox>
+        <VBox spacing="6">
+            <Label text="Minimum load (kg)" styleClass="field-label" labelFor="$minKg"/>
+            <TextField fx:id="minKg" styleClass="text-input-field"/>
+            <Label text="Orders below this are charged as the minimum." styleClass="hint"/>
+        </VBox>
+        <VBox spacing="6">
+            <Label text="Pickup &amp; delivery fee (&#x20B1;)" styleClass="field-label" labelFor="$fee"/>
+            <TextField fx:id="fee" styleClass="text-input-field"/>
+        </VBox>
+        <VBox spacing="6">
+            <Label text="Delivery radius (km)" styleClass="field-label" labelFor="$radius"/>
+            <TextField fx:id="radius" styleClass="text-input-field"/>
+            <Label text="Pins outside this distance from the shop are rejected." styleClass="hint"/>
+        </VBox>
+    </VBox>
+
+    <VBox spacing="16" HBox.hgrow="ALWAYS">
+        <VBox styleClass="card, card-22" spacing="12">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Fabric soaps" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="+ Add soap" onAction="#addSoap" styleClass="outline-button, chip-button"/>
+            </HBox>
+            <GridPane fx:id="soaps"/>
+        </VBox>
+        <VBox styleClass="card, card-22" spacing="12">
+            <Label text="Payment methods" styleClass="section-title"/>
+            <CheckBox fx:id="cash" text="Cash (pay at counter or to rider)"/>
+            <CheckBox fx:id="gcash" text="GCash"/>
+            <VBox spacing="6">
+                <Label text="Shop GCash number" styleClass="field-label" labelFor="$gcashNumber"/>
+                <TextField fx:id="gcashNumber" promptText="09XX XXX XXXX" styleClass="text-input-field"
+                           maxWidth="307"/>
+            </VBox>
+        </VBox>
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="save" text="Save changes" onAction="#saveChanges" styleClass="primary-button, save-button"/>
+        </HBox>
+    </VBox>
+</HBox>

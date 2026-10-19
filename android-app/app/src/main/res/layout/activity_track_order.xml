@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    07-track-order (source/Tracking.dc.html): header (back, "Order #…", "Track your laundry"), map 214 dp
+    with the live chip, "Your rider" card with Call, and the five-step "Order status" card.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/space_12"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingTop="@dimen/wizard_header_padding_top"
+        android:paddingEnd="@dimen/screen_padding"
+        android:paddingBottom="@dimen/track_header_padding_bottom"
+        android:showDividers="middle">
+
+        <ImageButton
+            android:id="@+id/back"
+            style="@style/Widget.LaundryHub.IconCircleButton"
+            android:layout_width="@dimen/track_back_button"
+            android:layout_height="@dimen/track_back_button"
+            android:contentDescription="@string/back_to_home"
+            android:src="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/order_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/track_title"
+                android:textAppearance="@style/TextAppearance.LaundryHub.TrackTitle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Loading (no design): accent spinner on the background. -->
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/accent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/space_14"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/screen_padding"
+                android:paddingTop="@dimen/wizard_content_padding_top"
+                android:paddingEnd="@dimen/screen_padding"
+                android:paddingBottom="@dimen/wizard_content_padding_bottom"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/banner"
+                    style="@style/Widget.LaundryHub.ErrorBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
+                    android:visibility="gone" />
+
+                <!-- Cancelled orders have no design (CLAUDE.md §7): the server's status text in the warn note. -->
+                <TextView
+                    android:id="@+id/cancelled"
+                    style="@style/Widget.LaundryHub.WarnNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_cancelled"
+                    android:visibility="gone" />
+
+                <com.laundryhub.app.ui.widget.MapFrame
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/track_map_height"
+                    android:background="@color/map_bg"
+                    android:contentDescription="@string/track_map_description">
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/map_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/live_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_margin="@dimen/map_overlay_margin"
+                        android:background="@drawable/bg_map_chip"
+                        android:paddingStart="@dimen/map_chip_padding_h"
+                        android:paddingTop="@dimen/map_chip_padding_v"
+                        android:paddingEnd="@dimen/map_chip_padding_h"
+                        android:paddingBottom="@dimen/map_chip_padding_v"
+                        android:text="@string/live_gps"
+                        android:textAppearance="@style/TextAppearance.LaundryHub.SmallStrong"
+                        android:visibility="gone" />
+                </com.laundryhub.app.ui.widget.MapFrame>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/rider_card"
+                    style="@style/Widget.LaundryHub.Card.Booking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/space_12"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:showDividers="middle">
+
+                        <TextView
+                            android:id="@+id/rider_initials"
+                            android:layout_width="@dimen/track_avatar"
+                            android:layout_height="@dimen/track_avatar"
+                            android:background="@drawable/bg_avatar"
+                            android:gravity="center"
+                            android:importantForAccessibility="no"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.Initials" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:divider="@drawable/space_2"
+                            android:orientation="vertical"
+                            android:showDividers="middle">
+
+                            <TextView
+                                android:id="@+id/rider_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.LaundryHub.StrongLarge" />
+
+                            <TextView
+                                android:id="@+id/rider_sub"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+                        </LinearLayout>
+
+                        <ImageButton
+                            android:id="@+id/call"
+                            style="@style/Widget.LaundryHub.IconCircleButton.Accent"
+                            android:layout_width="@dimen/track_call_button"
+                            android:layout_height="@dimen/track_call_button"
+                            android:contentDescription="@string/call_rider"
+                            android:src="@drawable/ic_phone_large" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.LaundryHub.Card.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/track_title_gap"
+                            android:accessibilityHeading="true"
+                            android:text="@string/order_status"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.Subtitle" />
+
+                        <LinearLayout
+                            android:id="@+id/steps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Rating (no design, CLAUDE.md §7): shown once the order is completed. -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/rating_card"
+                    style="@style/Widget.LaundryHub.Card.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/space_12"
+                        android:orientation="vertical"
+                        android:showDividers="middle">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:accessibilityHeading="true"
+                            android:text="@string/rate_title"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.Subtitle" />
+
+                        <LinearLayout
+                            android:id="@+id/stars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+
+                        <EditText
+                            android:id="@+id/rating_comment"
+                            style="@style/Widget.LaundryHub.TextInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/rate_hint"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences"
+                            android:maxLength="500" />
+
+                        <TextView
+                            android:id="@+id/rating_thanks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall"
+                            android:visibility="gone" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/rating_send"
+                            style="@style/Widget.LaundryHub.Button.PrimaryPill.Compact"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:text="@string/rate_send" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/message_shop"
+                    style="@style/Widget.LaundryHub.Button.TextLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/message_shop" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+</LinearLayout>

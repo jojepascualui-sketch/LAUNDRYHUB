@@ -5,6 +5,8 @@ local.properties
 !.env.example
 *.keystore
 *.jks
+*.p12
+*.pfx
 google-services.json
 application-local.properties
 application-local.yml

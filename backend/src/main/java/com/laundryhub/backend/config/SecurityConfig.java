@@ -70,11 +70,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login", "/api/auth/google")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/ping", "/api/pricing", "/api/shop").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/ping", "/api/pricing", "/api/shop", "/api/maps/**")
+                        .permitAll()
                         .requestMatchers("/swagger-ui", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs",
-                                "/v3/api-docs/**", "/actuator/health", "/error").permitAll()
+                                "/v3/api-docs/**", "/actuator/health", "/actuator/health/**", "/error").permitAll()
                         .requestMatchers("/api/orders/**", "/api/geocode/**").hasRole("CUSTOMER")
                         .requestMatchers("/api/rider/**").hasRole("RIDER")
+                        .requestMatchers("/api/feedback/**").hasAnyRole("CUSTOMER", "RIDER")
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "STAFF")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(rs -> rs

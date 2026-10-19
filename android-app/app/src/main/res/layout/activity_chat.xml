@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Feedback chat (no design, CLAUDE.md §7): the 07 header (back, caption, title), the messages, and a white
+    bottom bar with the message input and an accent send button. Existing tokens only.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/space_12"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingTop="@dimen/wizard_header_padding_top"
+        android:paddingEnd="@dimen/screen_padding"
+        android:paddingBottom="@dimen/track_header_padding_bottom"
+        android:showDividers="middle">
+
+        <ImageButton
+            android:id="@+id/back"
+            style="@style/Widget.LaundryHub.IconCircleButton"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chat_subtitle"
+                android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/chat_title"
+                android:textAppearance="@style/TextAppearance.LaundryHub.TrackTitle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/banner"
+        style="@style/Widget.LaundryHub.ErrorBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_padding"
+        android:layout_marginEnd="@dimen/screen_padding"
+        android:accessibilityLiveRegion="polite"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/screen_padding"
+            android:paddingTop="@dimen/wizard_content_padding_top"
+            android:paddingEnd="@dimen/screen_padding"
+            android:paddingBottom="@dimen/chat_gap" />
+
+        <!-- Empty state: the State card style of R5. -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/empty"
+            style="@style/Widget.LaundryHub.Card.State"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_padding"
+            android:layout_marginTop="@dimen/wizard_content_padding_top"
+            android:layout_marginEnd="@dimen/screen_padding"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/chat_empty"
+                android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/accent" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bar_top_border"
+        android:divider="@drawable/space_10"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingTop="@dimen/footer_padding_top"
+        android:paddingEnd="@dimen/screen_padding"
+        android:paddingBottom="@dimen/footer_padding_top"
+        android:showDividers="middle">
+
+        <EditText
+            android:id="@+id/input"
+            style="@style/Widget.LaundryHub.TextInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/chat_hint"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="1000"
+            android:maxLines="4" />
+
+        <ImageButton
+            android:id="@+id/send"
+            style="@style/Widget.LaundryHub.IconCircleButton.Accent"
+            android:contentDescription="@string/send"
+            android:src="@drawable/ic_send" />
+    </LinearLayout>
+</LinearLayout>

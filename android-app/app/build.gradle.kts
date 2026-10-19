@@ -14,6 +14,9 @@ plugins {
 secrets {
     propertiesFileName = "local.properties"
     defaultPropertiesFileName = "local.defaults.properties"
+    // Not a secret: declared below as BuildConfig.API_BASE_URL with a default.
+    ignoreList.add("API_BASE_URL")
+    ignoreList.add("RELEASE_API_BASE_URL")
 }
 
 // Secrets plugin 2.0.1 (latest) writes BuildConfig String values without quotes under AGP 9, which
@@ -25,6 +28,19 @@ val secretValues = Properties().apply {
         if (file.exists()) file.inputStream().use { load(it) }
     }
 }
+
+// ---------- Release (docs/DEPLOYMENT.md, step 5) ----------
+// The deployed API: LAUNDRYHUB_API_URL (environment) or RELEASE_API_BASE_URL (local.properties). HTTPS only.
+val releaseApiUrl: String = (System.getenv("LAUNDRYHUB_API_URL")
+    ?: secretValues.getProperty("RELEASE_API_BASE_URL", "")).trim().let { if (it.isEmpty() || it.endsWith("/")) it else "$it/" }
+// Upload/signing key from environment variables only (never in Git or local.properties).
+// (Names differ from SigningConfig's own properties so they are not shadowed inside signingConfigs { }.)
+val releaseStoreFile: String? = System.getenv("LAUNDRYHUB_KEYSTORE_FILE")
+val releaseStorePassword: String? = System.getenv("LAUNDRYHUB_KEYSTORE_PASSWORD")
+val releaseKeyAlias: String? = System.getenv("LAUNDRYHUB_KEY_ALIAS")
+val releaseKeyPassword: String? = System.getenv("LAUNDRYHUB_KEY_PASSWORD")
+val hasReleaseSigning = listOf(releaseStoreFile, releaseStorePassword, releaseKeyAlias, releaseKeyPassword)
+    .all { !it.isNullOrBlank() }
 
 androidComponents {
     onVariants { variant ->
@@ -44,16 +60,21 @@ android {
         applicationId = "com.laundryhub.app"
         minSdk = 24
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        // Bump per release: ./gradlew assembleRelease -PversionCode=2 -PversionName=1.0.1
+        versionCode = (findProperty("versionCode") as String?)?.toInt() ?: 1
+        versionName = (findProperty("versionName") as String?) ?: "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // 10.0.2.2 is the host machine as seen from the Android emulator.
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/api/\"")
+        // Backend URL: API_BASE_URL in local.properties, else 10.0.2.2 (the host machine as seen from the
+        // emulator). A USB phone can use http://localhost:8080/api/ with `adb reverse tcp:8080 tcp:8080`.
+        val apiBaseUrl = secretValues.getProperty("API_BASE_URL", "http://10.0.2.2:8080/api/")
+        buildConfigField("String", "API_BASE_URL", "\"" + apiBaseUrl + "\"")
 
         // The Secrets plugin fills ${MAPS_API_KEY} for the app only; unit tests merge the manifest too.
         manifestPlaceholders["MAPS_API_KEY"] = secretValues.getProperty("MAPS_API_KEY", "")
+        // Plain HTTP only for the local backend (debug); release talks HTTPS only.
+        manifestPlaceholders["usesCleartextTraffic"] = "true"
 
     }
 
@@ -73,8 +94,25 @@ android {
         }
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
+            buildConfigField("String", "API_BASE_URL", "\"" + releaseApiUrl + "\"")
+            manifestPlaceholders["usesCleartextTraffic"] = "false"
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+            // Retrofit/Gson read DTO fields by reflection; shrinking would need keep rules, so it stays off.
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -94,6 +132,10 @@ dependencies {
     implementation("com.google.android.material:material:1.14.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.2")
     implementation("androidx.activity:activity:1.9.3")
+
+    // R1 bookings list with pull-to-refresh
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // MVVM
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.7")
@@ -123,4 +165,23 @@ dependencies {
     testImplementation("androidx.test:core:1.6.1")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
+}
+
+// Stops a release build early when the deployed URL or the signing key is missing.
+val checkReleaseConfig by tasks.registering {
+    doLast {
+        if (!releaseApiUrl.startsWith("https://")) {
+            throw GradleException("Set LAUNDRYHUB_API_URL (or RELEASE_API_BASE_URL in local.properties) to the " +
+                "deployed HTTPS API, e.g. https://laundryhub-api.onrender.com/api/")
+        }
+        if (!hasReleaseSigning) {
+            throw GradleException("Set LAUNDRYHUB_KEYSTORE_FILE, LAUNDRYHUB_KEYSTORE_PASSWORD, LAUNDRYHUB_KEY_ALIAS " +
+                "and LAUNDRYHUB_KEY_PASSWORD to sign the release (docs/DEPLOYMENT.md).")
+        }
+    }
+}
+tasks.configureEach {
+    if (name == "assembleRelease" || name == "bundleRelease") {
+        dependsOn(checkReleaseConfig)
+    }
 }

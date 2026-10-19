@@ -61,7 +61,22 @@ public class HomeActivity extends AppCompatActivity {
 
         binding.startOrder.setOnClickListener(v -> startActivity(new Intent(this, OrderWizardActivity.class)));
         binding.bell.setOnClickListener(v -> message(R.string.notifications_unavailable));
-        binding.nav.navOrders.setOnClickListener(v -> message(R.string.orders_unavailable));
+        binding.nav.navOrders.setOnClickListener(v -> viewModel.openLatestOrder());
+        viewModel.getOpenTracking().observe(this, event -> {
+            Long orderId = event == null ? null : event.take();
+            if (orderId != null) {
+                startActivity(com.laundryhub.app.ui.track.TrackOrderActivity.intent(this, orderId));
+            }
+        });
+        viewModel.getNotice().observe(this, event -> {
+            UiText text = event == null ? null : event.take();
+            if (text != null) {
+                Snackbar.make(binding.getRoot(), text.resolve(this), Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(ContextCompat.getColor(this, R.color.ink))
+                        .setTextColor(ContextCompat.getColor(this, R.color.surface))
+                        .show();
+            }
+        });
         binding.nav.navProfile.setOnClickListener(v -> showProfile(app));
 
         viewModel.getPricing().observe(this, this::renderPricing);
@@ -127,6 +142,9 @@ public class HomeActivity extends AppCompatActivity {
                     backToSignIn();
                 })
                 .setNegativeButton(R.string.ok, null)
+                // Feedback chat has no design (CLAUDE.md §7): reached from Profile.
+                .setNeutralButton(R.string.chat_title,
+                        (d, w) -> startActivity(com.laundryhub.app.ui.feedback.ChatActivity.intent(this)))
                 .show();
     }
 

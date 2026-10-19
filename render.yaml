@@ -1,0 +1,53 @@
+# Render Blueprint for the Laundry HUB backend (docs/DEPLOYMENT.md, step 3).
+# Render → New → Blueprint → pick this repository. Values marked "sync: false" are secrets: Render asks for
+# them when the Blueprint is created and they are never stored in this file or in Git.
+# The MySQL database is hosted on Railway or Aiven (Render offers PostgreSQL only).
+services:
+  - type: web
+    name: laundryhub-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    region: singapore
+    plan: free
+    branch: main
+    autoDeploy: true
+    # Spring Boot Actuator: UP only when the app and the database answer.
+    healthCheckPath: /actuator/health
+    envVars:
+      # --- Database (hosted MySQL; Flyway migrates it on every start) ---
+      - key: DB_URL
+        sync: false   # jdbc:mysql://HOST:PORT/laundryhub?sslMode=REQUIRED&serverTimezone=Asia/Manila
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # Production schema only (no A1–A5 sample orders).
+      - key: FLYWAY_LOCATIONS
+        value: classpath:db/migration
+      # --- Sign-in ---
+      - key: JWT_SECRET
+        generateValue: true   # random 256-bit value, kept by Render across deploys
+      - key: GOOGLE_WEB_CLIENT_ID
+        sync: false   # OAuth "Web application" client id; same value as the Android app's
+      - key: ADMIN_DEFAULT_PASSWORD
+        sync: false   # first admin (admin@laundryhub.ph) on the first start only; change it afterwards
+      # --- Google Maps Platform ---
+      - key: GOOGLE_SERVER_KEY
+        sync: false   # Geocoding API, restricted by API (server key)
+      - key: MAPS_JS_KEY
+        sync: false   # Maps JavaScript API, restricted to this service's URL (admin A2 map page)
+      # --- Shop ---
+      - key: SHOP_LAT
+        sync: false
+      - key: SHOP_LNG
+        sync: false
+      - key: SHOP_TIME_ZONE
+        value: Asia/Manila
+      # --- PayMongo (reserved: online GCash checkout is not implemented yet; the app records GCash
+      #     references manually). Set them now so the integration can be added without redeploy changes. ---
+      - key: PAYMONGO_SECRET_KEY
+        sync: false
+      - key: PAYMONGO_WEBHOOK_SECRET
+        sync: false

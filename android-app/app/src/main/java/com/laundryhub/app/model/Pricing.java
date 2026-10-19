@@ -71,7 +71,7 @@ public final class Pricing {
     }
 
     private static BigDecimal money(BigDecimal value) {
-        return value.setScale(2, RoundingMode.HALF_UP);
+        return value.setScale(PesoFormat.CENTS, RoundingMode.HALF_UP);
     }
 
     /** @return the minimum load in whole kilos (the − button stops here) */

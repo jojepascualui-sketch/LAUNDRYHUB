@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shop on the 07 map: ink circle (34 px + 3 px white border) with the white house. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size android:width="@dimen/track_shop_marker" android:height="@dimen/track_shop_marker" />
+            <solid android:color="@color/ink" />
+            <stroke android:width="@dimen/truck_marker_border" android:color="@color/surface" />
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/track_shop_icon"
+        android:height="@dimen/track_shop_icon"
+        android:drawable="@drawable/ic_shop_white"
+        android:gravity="center" />
+</layer-list>

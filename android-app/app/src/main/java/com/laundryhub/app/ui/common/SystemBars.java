@@ -41,6 +41,18 @@ public final class SystemBars {
     }
 
     /**
+     * For screens that start with a full-bleed map (R2/R3): the map shows through a transparent
+     * status bar with dark icons; white navigation bar under the white footer.
+     *
+     * @param activity the screen
+     */
+    public static void enableForMapScreen(@NonNull ComponentActivity activity) {
+        int surface = ContextCompat.getColor(activity, R.color.surface);
+        EdgeToEdge.enable(activity, SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+                SystemBarStyle.light(surface, surface));
+    }
+
+    /**
      * Keeps the header's design top padding (46 dp) unless the status bar is taller, and pads
      * the bottom of the scrolling content above the navigation bar / keyboard.
      *

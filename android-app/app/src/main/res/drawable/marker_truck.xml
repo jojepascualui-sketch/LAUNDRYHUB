@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rider position on the job map: accent circle with a 3 px white border and the white truck. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size android:width="@dimen/truck_marker" android:height="@dimen/truck_marker" />
+            <solid android:color="@color/accent" />
+            <stroke android:width="@dimen/truck_marker_border" android:color="@color/surface" />
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/truck_marker_icon"
+        android:height="@dimen/truck_marker_icon"
+        android:drawable="@drawable/ic_truck_white"
+        android:gravity="center" />
+</layer-list>

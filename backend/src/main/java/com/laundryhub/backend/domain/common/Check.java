@@ -12,7 +12,10 @@ public final class Check {
     /** Philippine mobile number as typed on sign-up and GCash: 09XXXXXXXXX. */
     public static final Pattern MOBILE_NUMBER = Pattern.compile("^09\\d{9}$");
 
-    private static final Pattern EMAIL = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+    /** Digits in a mobile number (column length of mobile and GCash numbers). */
+    public static final int MOBILE_LENGTH = 11;
+
+    private static final Pattern EMAIL =Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
     private Check() {
     }

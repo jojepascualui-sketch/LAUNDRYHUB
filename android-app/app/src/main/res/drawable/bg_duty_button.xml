@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Duty switch pill: #1D7A4A on duty (activated), #4A5863 off duty; 22 px radius. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_activated="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/on_duty" />
+            <corners android:radius="@dimen/duty_radius" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/muted" />
+            <corners android:radius="@dimen/duty_radius" />
+        </shape>
+    </item>
+</selector>

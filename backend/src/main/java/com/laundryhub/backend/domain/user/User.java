@@ -44,7 +44,7 @@ public abstract class User extends AuditedEntity {
     @Column(name = "email", nullable = false, length = MAX_EMAIL_LENGTH, unique = true)
     private String email;
 
-    @Column(name = "mobile_number", length = 11)
+    @Column(name = "mobile_number", length = Check.MOBILE_LENGTH)
     private String mobileNumber;
 
     @Column(name = "password_hash", length = 100)
@@ -78,6 +78,15 @@ public abstract class User extends AuditedEntity {
     public abstract Role getRole();
 
     /** @return whether this account may sign in to the JavaFX admin console */
+    /**
+     * @return the side this account writes on in the feedback chat: customers and riders own a conversation
+     *         (USER); console users answer for the shop (SHOP)
+     */
+    // OOP: Polymorphism — ConsoleUser overrides this to SHOP.
+    public com.laundryhub.backend.domain.feedback.MessageSide chatSide() {
+        return com.laundryhub.backend.domain.feedback.MessageSide.USER;
+    }
+
     // OOP: Polymorphism — only console users override this to {@code true}.
     public boolean canUseAdminConsole() {
         return false;

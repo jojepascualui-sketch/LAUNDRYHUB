@@ -189,4 +189,98 @@
     <dimen name="line_card_title">26.4sp</dimen>
     <dimen name="line_card_description">18.2sp</dimen>
     <dimen name="line_small_note">16.2sp</dimen>
+
+    <!-- Rider app (source/Rider.dc.html) -->
+    <dimen name="rider_header_padding_top">26dp</dimen>
+    <dimen name="rider_header_padding_bottom">20dp</dimen>
+    <dimen name="text_greeting">24sp</dimen>
+    <!-- 16 / 10 px in the design, 1 dp less here: Android's line boxes for the 24 sp greeting and the
+         22 sp counter number are 1 dp taller than CSS "normal" (measured against R1). -->
+    <dimen name="rider_counters_gap">15dp</dimen>
+    <dimen name="counter_padding_bottom">9dp</dimen>
+    <dimen name="text_counter_label">11sp</dimen>
+    <dimen name="text_pay_amount">20sp</dimen>
+    <dimen name="duty_radius">22dp</dimen>
+    <dimen name="duty_padding_start">14dp</dimen>
+    <dimen name="duty_padding_end">8dp</dimen>
+    <dimen name="duty_track_width">40dp</dimen>
+    <dimen name="duty_track_height">24dp</dimen>
+    <dimen name="duty_track_radius">12dp</dimen>
+    <dimen name="duty_knob">18dp</dimen>
+    <dimen name="duty_knob_inset">3dp</dimen>
+    <dimen name="counter_gap">8dp</dimen>
+    <dimen name="counter_radius">14dp</dimen>
+    <dimen name="counter_padding_v">10dp</dimen>
+    <dimen name="counter_padding_h">12dp</dimen>
+    <dimen name="rider_tabs_padding_top">14dp</dimen>
+    <dimen name="rider_list_padding_top">14dp</dimen>
+    <dimen name="state_card_padding_v">26dp</dimen>
+    <dimen name="state_card_padding_h">20dp</dimen>
+    <dimen name="state_icon">40dp</dimen>
+    <dimen name="booking_padding">16dp</dimen>
+    <dimen name="booking_tile_icon">20dp</dimen>
+    <dimen name="booking_text_gap">3dp</dimen>
+    <dimen name="pay_strip_radius">12dp</dimen>
+    <dimen name="pay_strip_padding_v">10dp</dimen>
+    <dimen name="pay_strip_padding_h">12dp</dimen>
+    <dimen name="button_height_small">48dp</dimen>
+    <dimen name="job_map_height">330dp</dimen>
+    <dimen name="map_button_margin">18dp</dimen>
+    <dimen name="map_back_top">22dp</dimen>
+    <!-- 38 px circle + 3 px white border on both sides (CSS content-box). -->
+    <dimen name="truck_marker">44dp</dimen>
+    <dimen name="truck_marker_border">3dp</dimen>
+    <dimen name="truck_marker_icon">18dp</dimen>
+    <dimen name="route_width">5dp</dimen>
+    <!-- Space around the route when the camera fits truck and pin. -->
+    <dimen name="route_camera_padding">64dp</dimen>
+    <dimen name="navigate_padding_h">16dp</dimen>
+    <dimen name="navigate_icon">16dp</dimen>
+    <dimen name="navigate_gap">8dp</dimen>
+    <!-- The sheet starts 20 dp above the map's bottom edge (330 - 20). -->
+    <dimen name="sheet_top">310dp</dimen>
+    <dimen name="sheet_radius">24dp</dimen>
+    <dimen name="sheet_padding_v">20dp</dimen>
+    <dimen name="avatar">44dp</dimen>
+    <dimen name="call_icon">18dp</dimen>
+    <dimen name="step_dot">22dp</dimen>
+    <dimen name="step_ring">2dp</dimen>
+    <dimen name="step_line_width">2dp</dimen>
+    <dimen name="step_line_min">18dp</dimen>
+    <dimen name="step_check">11dp</dimen>
+    <dimen name="step_label_padding_bottom">12dp</dimen>
+    <dimen name="pay_box_radius">14dp</dimen>
+    <dimen name="pay_box_padding_v">12dp</dimen>
+    <dimen name="pay_box_padding_h">14dp</dimen>
+    <dimen name="job_done_padding_top">80dp</dimen>
+
+
+    <!-- 07 Track order (source/Tracking.dc.html) -->
+    <dimen name="track_header_padding_bottom">12dp</dimen>
+    <!-- 210 px map inside a 2 px border on both sides (CSS content-box). -->
+    <dimen name="track_map_height">214dp</dimen>
+    <!-- 44 px back button + 1 px border on both sides. -->
+    <dimen name="track_back_button">46dp</dimen>
+    <dimen name="track_avatar">48dp</dimen>
+    <dimen name="track_call_button">46dp</dimen>
+    <dimen name="track_title_gap">14dp</dimen>
+    <dimen name="track_dot">24dp</dimen>
+    <dimen name="track_check">12dp</dimen>
+    <dimen name="track_line_min">26dp</dimen>
+    <dimen name="track_step_padding_bottom">16dp</dimen>
+    <!-- 34 px circle + 3 px border on both sides. -->
+    <dimen name="track_shop_marker">40dp</dimen>
+    <dimen name="track_shop_icon">16dp</dimen>
+    <dimen name="track_route_width">4dp</dimen>
+    <dimen name="track_route_dash">8dp</dimen>
+    <dimen name="track_route_gap">6dp</dimen>
+
+    <!-- Feedback chat and ratings (no design) -->
+    <dimen name="chat_gap">8dp</dimen>
+    <dimen name="chat_bubble_max">280dp</dimen>
+    <dimen name="chat_bubble_padding_h">14dp</dimen>
+    <dimen name="chat_bubble_padding_v">10dp</dimen>
+    <dimen name="star_touch">44dp</dimen>
+    <!-- List bottom padding so the last card scrolls clear of the chat button: 22 + 44 + 22. -->
+    <dimen name="chat_button_clearance">88dp</dimen>
 </resources>

@@ -42,6 +42,12 @@ public abstract class ConsoleUser extends User {
     }
 
     /** @return whether this account may edit prices, soaps and payment methods (A3) */
+    /** @return SHOP: admin and staff answer feedback for the shop */
+    @Override
+    public com.laundryhub.backend.domain.feedback.MessageSide chatSide() {
+        return com.laundryhub.backend.domain.feedback.MessageSide.SHOP;
+    }
+
     // OOP: Polymorphism — Admin and Staff answer differently.
     public abstract boolean canManagePricing();
 

@@ -9,6 +9,10 @@ import com.laundryhub.app.data.auth.AuthRepository;
 import com.laundryhub.app.data.auth.RemoteAuthRepository;
 import com.laundryhub.app.data.order.OrderRepository;
 import com.laundryhub.app.data.order.RemoteOrderRepository;
+import com.laundryhub.app.data.feedback.FeedbackRepository;
+import com.laundryhub.app.data.feedback.RemoteFeedbackRepository;
+import com.laundryhub.app.data.rider.RemoteRiderRepository;
+import com.laundryhub.app.data.rider.RiderRepository;
 import com.laundryhub.app.data.session.SessionStore;
 import com.laundryhub.app.data.session.SessionManager;
 import com.laundryhub.app.ui.auth.CredentialManagerGoogleSignIn;
@@ -22,6 +26,8 @@ public final class AppContainer {
     private final AuthRepository authRepository;
     private final GoogleSignInClient googleSignIn;
     private final OrderRepository orderRepository;
+    private final RiderRepository riderRepository;
+    private final FeedbackRepository feedbackRepository;
 
     /**
      * The real app: everything talks to {@code BuildConfig.API_BASE_URL}.
@@ -35,6 +41,8 @@ public final class AppContainer {
         authRepository = new RemoteAuthRepository(api.auth(), sessions);
         googleSignIn = new CredentialManagerGoogleSignIn(BuildConfig.GOOGLE_WEB_CLIENT_ID);
         orderRepository = new RemoteOrderRepository(api.catalog(), api.orders());
+        riderRepository = new RemoteRiderRepository(api.rider());
+        feedbackRepository = new RemoteFeedbackRepository(api.feedback());
     }
 
     /**
@@ -44,13 +52,31 @@ public final class AppContainer {
      * @param authRepository  sign-in
      * @param googleSignIn    Google sign-in
      * @param orderRepository customer orders
+     * @param riderRepository    rider bookings and jobs
+     * @param feedbackRepository feedback chat and ratings
      */
     public AppContainer(@NonNull SessionManager sessions, @NonNull AuthRepository authRepository,
-                        @NonNull GoogleSignInClient googleSignIn, @NonNull OrderRepository orderRepository) {
+                        @NonNull GoogleSignInClient googleSignIn, @NonNull OrderRepository orderRepository,
+                        @NonNull RiderRepository riderRepository,
+                        @NonNull FeedbackRepository feedbackRepository) {
         this.sessions = sessions;
         this.authRepository = authRepository;
         this.googleSignIn = googleSignIn;
         this.orderRepository = orderRepository;
+        this.riderRepository = riderRepository;
+        this.feedbackRepository = feedbackRepository;
+    }
+
+    /** @return feedback chat and order ratings */
+    @NonNull
+    public FeedbackRepository feedbackRepository() {
+        return feedbackRepository;
+    }
+
+    /** @return rider bookings, jobs and GPS (R1–R5) */
+    @NonNull
+    public RiderRepository riderRepository() {
+        return riderRepository;
     }
 
     /** @return customer order flow (01–06) */

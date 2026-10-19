@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Truck in the rider map marker and the on-duty notification (stroke 2, white, from source/Rider.dc.html). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp"
+    android:height="18dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M1,6h13v10H1zM14,10h4l3,3v3h-7"
+        android:strokeWidth="2"
+        android:strokeColor="@color/surface"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M3.5,18a2,2 0,1 0,4 0a2,2 0,1 0,-4 0"
+        android:strokeWidth="2"
+        android:strokeColor="@color/surface"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M15.5,18a2,2 0,1 0,4 0a2,2 0,1 0,-4 0"
+        android:strokeWidth="2"
+        android:strokeColor="@color/surface"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

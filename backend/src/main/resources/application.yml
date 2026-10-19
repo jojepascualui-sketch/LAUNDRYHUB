@@ -22,12 +22,21 @@ spring:
 
 server:
   port: ${PORT:8080}
+  # Behind Render / Railway's HTTPS proxy: trust X-Forwarded-* so redirects and links use https.
+  forward-headers-strategy: framework
+  shutdown: graceful
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+  endpoint:
+    health:
+      # /actuator/health (database included), /actuator/health/liveness and /readiness for the host.
+      probes:
+        enabled: true
+      show-details: never
 
 springdoc:
   swagger-ui:
@@ -38,13 +47,18 @@ springdoc:
 laundryhub:
   security:
     # HS256 key, at least 32 characters. Blank = a random key per start (tokens die on restart).
-    jwt-secret: ${LAUNDRYHUB_JWT_SECRET:}
+    # Hosting dashboards use JWT_SECRET; LAUNDRYHUB_JWT_SECRET still works locally.
+    jwt-secret: ${JWT_SECRET:${LAUNDRYHUB_JWT_SECRET:}}
     token-hours: ${LAUNDRYHUB_TOKEN_HOURS:12}
     # OAuth client id the Android app uses for "Continue with Google". Blank = Google sign-in off.
-    google-client-id: ${GOOGLE_OAUTH_CLIENT_ID:}
+    # Same value as the Android app's GOOGLE_WEB_CLIENT_ID (either name works here).
+    google-client-id: ${GOOGLE_WEB_CLIENT_ID:${GOOGLE_OAUTH_CLIENT_ID:}}
   geocoding:
     # Server-side Google key (Geocoding API). Blank = addresses are not filled in from the pin.
     api-key: ${GOOGLE_SERVER_KEY:}
+  maps:
+    # Maps JavaScript API key for the admin console's A2 map page (/api/maps/order-pin). Blank = plain frame.
+    js-key: ${MAPS_JS_KEY:}
   shop:
     # Shop position for the delivery radius. Blank = use the position saved in shop_settings.
     lat: ${SHOP_LAT:}

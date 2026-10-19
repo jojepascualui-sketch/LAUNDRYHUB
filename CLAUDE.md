@@ -11,6 +11,11 @@ Spring Boot REST backend, and a JavaFX admin console.
 /docs/design     UI design package — SOURCE OF TRUTH, READ-ONLY
 ```
 
+Project docs (keep them current when code changes): `docs/API.md` (REST reference), `docs/ERD.md` (schema),
+`docs/OOP.md` (four pillars → classes and lines, UML), `docs/DESIGN_REVIEW.md` (every screen vs its PNG),
+`docs/SCREEN_API_MAP.md` (screen → endpoints), `docs/DEPLOYMENT.md` (Render + hosted MySQL, Android release,
+admin installer, Google key restrictions).
+
 ---
 
 ## 1. DESIGN RULE — most important
@@ -41,12 +46,16 @@ screenshot with `adb exec-out screencap -p > shot.png`, or a JavaFX window scree
 Without an emulator (this machine is short on disk space), render Android screens at the design size
 (390×844 @2×) with `.\gradlew.bat testDebugUnitTest -Pscreenshots` (Robolectric, e.g.
 `AuthScreenshotTest`); PNGs land in `%USERPROFILE%\.laundryhub-build\android-app\app\screenshots`.
+Admin console: set `LAUNDRYHUB_TOUR_DIR=<folder>` plus `LAUNDRYHUB_TOUR_EMAIL` / `LAUNDRYHUB_TOUR_PASSWORD` and run
+`.\mvnw.cmd javafx:run`; `ScreenshotTour` signs in, saves sign-in and A1–A5 at the design PNG sizes, and exits.
 
-Android UI uses the design system in `res/values/styles.xml` (PrimaryPillButton (+ Compact),
-OutlinePillButton, DarkPillButton, WhitePillButton, TextLink, IconCircleButton, StepperButton, Chip,
-Card (+ Hero, Large, Tile, Row), SelectableCard (+ Service, Soap, Payment) with RadioDot,
+Android UI uses the design system in `res/values/styles.xml` (PrimaryPillButton (+ Compact, Small),
+OutlinePillButton (+ Small), DarkPillButton (+ Small, Large), WhitePillButton, MapAction, TextLink,
+IconCircleButton (+ OnMap, Accent), StepperButton, Chip, Card (+ Hero, Large, Tile, Row, Booking, State,
+Job, Checklist), SelectableCard (+ Service, Soap, Payment) with RadioDot,
 TextInput / `ui.widget.FormField` (`app:compact`), StatusBadge, `ui.widget.SegmentedControl`, CheckBox,
-ErrorBanner, WarnNote, BottomNavItem) and the `TextAppearance.LaundryHub.*` type scale. Never add
+ErrorBanner, WarnNote, BottomNavItem, PayStrip, PayBox, CounterTile, `ui.widget.DutySwitch`,
+`ui.widget.StepChecklist`) and the `TextAppearance.LaundryHub.*` type scale. Never add
 one-off styles. Never set `android:textColor` / `android:fontFamily` in the theme (theme-level values
 override every `textAppearance`), never base text styles on the Material 3 type scale (it forces a
 `lineHeight`), and set CSS `line-height` with `lineHeight`. `includeFontPadding=false` comes from the
@@ -109,7 +118,12 @@ put them in **one** CSS file as looked-up colors (`-lh-accent: #1E63A8;` …). N
     `res/font/bricolage_grotesque.xml` (`bricolage_grotesque_medium|bold|extrabold.ttf`).
     The theme defaults to `@font/dm_sans`.
   - JavaFX: `admin-desktop/src/main/resources/fonts/*.ttf`, registered by `AdminApp.loadFonts()`
-    (`Font.loadFont`). CSS families are `"DM Sans"` and `"Bricolage Grotesque"`.
+    (`Font.loadFont`). The files are variable-font instances, so JavaFX registers them as
+    `"DM Sans 9pt"` (regular + bold), `"DM Sans 9pt Medium"` and `"Bricolage Grotesque 96pt ExtraBold ExtraBold"`
+    (800); use exactly these names in `laundryhub.css`.
+  - JavaFX rounds a Label's line up to whole device pixels (at 150 % scaling a 14 px line is 20 px, not 18.23),
+    so `laundryhub.css` pins every single-line text style to the browser's line height (size × 1.302 DM Sans,
+    × 1.2 Bricolage) and turns pixel snapping off.
   - DM Sans has **no ₱ glyph** (upstream limitation), so the platform falls back to a system font for ₱
     in body text, exactly as the browser does in the prototype. Bricolage Grotesque does have ₱.
 
@@ -289,6 +303,8 @@ adb logcat --pid=$(adb shell pidof com.laundryhub.app)
 - **`CANCELLED`** has no badge color, filter chip or timeline state in the design.
 - Rider **"My jobs"** tab content, the customer **Orders** and **Profile** tabs, the **bell/notifications**,
   and the **Forgot password** flow have no screens.
+- **Feedback chat** (customer/rider ↔ shop, admin "Feedback" page) and the 07 **rating** card were added without a
+  design, using existing tokens only (docs/DESIGN_REVIEW.md). Replace them when a design is provided.
 - The customer tracking timeline (07) has no "Ready" step. Map statuses onto the five
   design steps instead of adding one.
 
@@ -298,9 +314,16 @@ adb logcat --pid=$(adb shell pidof com.laundryhub.app)
 
 Secrets come from **environment variables** (backend, admin) or **`android-app/local.properties`**
 (Android). They are **never committed**, and `.gitignore` covers both.
-- Backend: `application.yml` reads `${LAUNDRYHUB_JWT_SECRET:}`, `${GOOGLE_OAUTH_CLIENT_ID:}`,
-  `${GOOGLE_SERVER_KEY:}` (Geocoding API), `${SHOP_LAT:}`/`${SHOP_LNG:}` and the `DB_*` credentials the
-  same way (template: `backend/.env.example`). Never put a real value in a properties file.
+- Backend: `application.yml` reads `JWT_SECRET` (or `LAUNDRYHUB_JWT_SECRET`), `GOOGLE_WEB_CLIENT_ID`
+  (or `GOOGLE_OAUTH_CLIENT_ID`), `GOOGLE_SERVER_KEY` (Geocoding API), `MAPS_JS_KEY` (Maps JavaScript API for
+  the admin A2 map page `/api/maps/order-pin`), `SHOP_LAT`/`SHOP_LNG`, `ADMIN_DEFAULT_PASSWORD` and the `DB_*`
+  credentials (template: `backend/.env.example`). Hosting: `render.yaml` (secrets `sync: false`) and
+  `backend/Dockerfile`; see `docs/DEPLOYMENT.md`. Never put a real value in a properties file.
+- Admin console: no secrets. `LAUNDRYHUB_API_URL` or the installer's `-Dlaundryhub.apiUrl`
+  (`admin-desktop/package-windows.ps1`), default `http://localhost:8080/api/`.
+- Android release: `LAUNDRYHUB_API_URL` (or `RELEASE_API_BASE_URL` in `local.properties`, HTTPS only) and the
+  signing key from `LAUNDRYHUB_KEYSTORE_FILE`, `LAUNDRYHUB_KEYSTORE_PASSWORD`, `LAUNDRYHUB_KEY_ALIAS`,
+  `LAUNDRYHUB_KEY_PASSWORD`. Never commit a keystore.
 - Android: the **Secrets Gradle Plugin** reads `android-app/local.properties` (git-ignored):
   `MAPS_API_KEY=...` → manifest placeholder `${MAPS_API_KEY}` → `com.google.android.geo.API_KEY`
   (Maps SDK, 04a), and `GOOGLE_WEB_CLIENT_ID=...` (the OAuth web client id, same value as the backend's

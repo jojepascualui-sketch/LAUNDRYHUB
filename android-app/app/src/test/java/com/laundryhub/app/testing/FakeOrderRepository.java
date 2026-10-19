@@ -133,4 +133,24 @@ public class FakeOrderRepository implements OrderRepository {
                 BigDecimal.valueOf(draft.getKg()), lines.soapName(), draft.getSlot().text(),
                 draft.getPayment().name().equals("GCASH") ? "GCash" : "Cash", lines.total()));
     }
+
+    /** Orders returned by the Orders tab, newest first. */
+    public final java.util.List<com.laundryhub.app.model.tracking.OrderSummary> myOrders = new ArrayList<>();
+
+    /** Tracking returned for every order (07); {@code null} answers with an error. */
+    public com.laundryhub.app.model.tracking.Tracking tracking;
+
+    @Override
+    public void myOrders(@NonNull ApiCallback<java.util.List<com.laundryhub.app.model.tracking.OrderSummary>> callback) {
+        callback.onSuccess(java.util.List.copyOf(myOrders));
+    }
+
+    @Override
+    public void tracking(long orderId, @NonNull ApiCallback<com.laundryhub.app.model.tracking.Tracking> callback) {
+        if (tracking == null) {
+            callback.onError(new ApiException(404, "Order not found", null));
+        } else {
+            callback.onSuccess(tracking);
+        }
+    }
 }

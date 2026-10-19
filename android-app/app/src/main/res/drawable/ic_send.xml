@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Send (outline, stroke 2, white). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="20dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M22,2L11,13M22,2l-7,20 -4,-9 -9,-4 20,-7z"
+        android:strokeWidth="2"
+        android:strokeColor="@color/surface"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

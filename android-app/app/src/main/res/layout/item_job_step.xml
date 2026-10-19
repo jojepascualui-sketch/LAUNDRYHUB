@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One checklist row: 22 dp dot with the 2 dp line under it, then the step label (12 dp apart). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/space_12"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <LinearLayout
+        android:layout_width="@dimen/step_dot"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:importantForAccessibility="no"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/dot"
+            android:layout_width="@dimen/step_dot"
+            android:layout_height="@dimen/step_dot">
+
+            <ImageView
+                android:id="@+id/check"
+                android:layout_width="@dimen/step_check"
+                android:layout_height="@dimen/step_check"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_step_check" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="@dimen/step_line_width"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="@dimen/step_line_min" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/step_label_padding_bottom"
+        android:textAppearance="@style/TextAppearance.LaundryHub.StepLabel" />
+</LinearLayout>

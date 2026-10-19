@@ -1,5 +1,10 @@
 package com.laundryhub.app.data.order;
 
+import com.laundryhub.app.model.tracking.Tracking;
+import com.laundryhub.app.model.tracking.TrackStep;
+import com.laundryhub.app.model.tracking.OrderSummary;
+import com.laundryhub.app.data.api.dto.TrackingDto;
+import com.laundryhub.app.data.api.dto.OrderSummaryDto;
 import androidx.annotation.NonNull;
 
 import com.laundryhub.app.data.ApiCallback;
@@ -148,5 +153,76 @@ public class RemoteOrderRepository implements OrderRepository {
                 callback.onError(error);
             }
         };
+    }
+
+    @Override
+    public void myOrders(@NonNull ApiCallback<List<OrderSummary>> callback) {
+        ApiCalls.enqueue(orders.mine(), new ApiCallback<>() {
+            @Override
+            public void onSuccess(@NonNull List<OrderSummaryDto> value) {
+                List<OrderSummary> list = new ArrayList<>();
+                for (OrderSummaryDto dto : value) {
+                    if (dto.getId() != null && dto.getOrderNo() != null) {
+                        list.add(new OrderSummary(dto.getId(), dto.getOrderNo(), dto.getStatusLabel()));
+                    }
+                }
+                callback.onSuccess(list);
+            }
+
+            @Override
+            public void onError(@NonNull ApiException error) {
+                callback.onError(error);
+            }
+        });
+    }
+
+    @Override
+    public void tracking(long orderId, @NonNull ApiCallback<Tracking> callback) {
+        ApiCalls.enqueue(orders.tracking(orderId), new ApiCallback<>() {
+            @Override
+            public void onSuccess(@NonNull TrackingDto value) {
+                Tracking tracking;
+                try {
+                    tracking = toTracking(value);
+                } catch (RuntimeException e) {
+                    callback.onError(new ApiException(ApiException.NO_RESPONSE, null, null));
+                    return;
+                }
+                callback.onSuccess(tracking);
+            }
+
+            @Override
+            public void onError(@NonNull ApiException error) {
+                callback.onError(error);
+            }
+        });
+    }
+
+    /**
+     * @param dto server tracking
+     * @return the 07 model
+     */
+    static Tracking toTracking(TrackingDto dto) {
+        List<Tracking.Row> rows = new ArrayList<>();
+        for (TrackingDto.Step step : dto.getTimeline()) {
+            TrackStep key = TrackStep.fromApi(step.getKey());
+            if (key != null) {
+                Tracking.State state = step.isDone() ? Tracking.State.DONE
+                        : step.isCurrent() ? Tracking.State.CURRENT : Tracking.State.UPCOMING;
+                rows.add(new Tracking.Row(key, state));
+            }
+        }
+        TrackingDto.Rider r = dto.getRider();
+        Tracking.Rider rider = r == null || r.getName() == null ? null : new Tracking.Rider(r.getName(),
+                r.getInitials() == null ? "" : r.getInitials(), r.getPlateNumber() == null ? "" : r.getPlateNumber(),
+                r.getMobileNumber());
+        return new Tracking(dto.getOrderId() == null ? 0 : dto.getOrderId(), dto.getOrderNo(), dto.getStatusLabel(),
+                dto.isCancelled(), rows, rider, dto.isLiveTracking(), point(dto.getRiderLocation()),
+                point(dto.getShop()), point(dto.getPin()));
+    }
+
+    private static Location point(TrackingDto.Point point) {
+        return point == null || point.getLatitude() == null || point.getLongitude() == null
+                ? null : new Location(point.getLatitude(), point.getLongitude());
     }
 }

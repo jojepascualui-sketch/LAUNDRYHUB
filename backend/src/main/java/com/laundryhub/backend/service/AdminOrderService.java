@@ -9,7 +9,6 @@ import java.util.Map;
 import com.laundryhub.backend.domain.order.Order;
 import com.laundryhub.backend.domain.order.OrderStatus;
 import com.laundryhub.backend.domain.payment.CashPayment;
-import com.laundryhub.backend.domain.payment.GCashPayment;
 import com.laundryhub.backend.domain.payment.PaymentMethod;
 import com.laundryhub.backend.domain.rider.JobStatus;
 import com.laundryhub.backend.domain.rider.JobType;
@@ -182,12 +181,8 @@ public class AdminOrderService {
         if (payment == null) {
             throw new ConflictException("This order has no payment.");
         }
-        // OOP: Polymorphism — each payment subclass records "paid" its own way.
-        if (payment instanceof GCashPayment gcash) {
-            gcash.confirm(referenceNo);
-        } else if (payment instanceof CashPayment cash) {
-            cash.recordPaidAtCounter(referenceNo);
-        }
+        // OOP: Polymorphism — called through PaymentMethod; each subclass records "paid" its own way.
+        payment.confirmFromConsole(referenceNo);
         return toDetail(order);
     }
 

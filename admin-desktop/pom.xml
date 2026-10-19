@@ -15,6 +15,7 @@
         <!-- JavaFX 21 is the LTS line that still runs on JDK 17 (25+ needs JDK 23). -->
         <javafx.version>21.0.12</javafx.version>
         <junit.version>5.13.4</junit.version>
+        <jackson.version>2.18.2</jackson.version>
         <main.class>com.laundryhub.admin.AdminApp</main.class>
     </properties>
 
@@ -28,6 +29,18 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <!-- A2 "Pinned location": Google Maps JavaScript API in a WebView. -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <!-- JSON for the REST API (records supported). -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -43,6 +56,20 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.0</version>
+                <executions>
+                    <!-- HttpAdminApiTest serves fake API responses with the JDK's built-in HTTP server. -->
+                    <execution>
+                        <id>default-testCompile</id>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>--add-modules</arg>
+                                <arg>jdk.httpserver</arg>
+                                <arg>--add-reads</arg>
+                                <arg>com.laundryhub.admin=jdk.httpserver</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

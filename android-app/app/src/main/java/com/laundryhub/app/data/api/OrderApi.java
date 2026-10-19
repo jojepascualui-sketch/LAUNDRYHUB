@@ -1,5 +1,7 @@
 package com.laundryhub.app.data.api;
 
+import com.laundryhub.app.data.api.dto.OrderSummaryDto;
+import com.laundryhub.app.data.api.dto.TrackingDto;
 import com.laundryhub.app.data.api.dto.CreateOrderRequestDto;
 import com.laundryhub.app.data.api.dto.GeocodeDto;
 import com.laundryhub.app.data.api.dto.OrderDto;
@@ -11,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Path;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -48,6 +51,17 @@ public interface OrderApi {
      * @param body the order
      * @return the placed order
      */
+    /** @return the customer's orders, newest first (Orders tab) */
+    @GET("orders/mine")
+    Call<List<OrderSummaryDto>> mine();
+
+    /**
+     * @param id order id
+     * @return 07 Track order
+     */
+    @GET("orders/{id}/tracking")
+    Call<TrackingDto> tracking(@Path("id") long id);
+
     @POST("orders")
     Call<OrderDto> place(@Body CreateOrderRequestDto body);
 }

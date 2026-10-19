@@ -5,6 +5,10 @@
     <!-- 04a "Use my current location" (asked at runtime). -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Rider on duty: GPS every 10 s from a foreground service (R1). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".LaundryHubApp"
@@ -13,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.LaundryHub"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="${usesCleartextTraffic}">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -45,8 +49,23 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".ui.feedback.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.track.TrackOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.rider.RiderHomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.rider.ActiveJobActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".ui.rider.RiderLocationService"
+            android:exported="false"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>

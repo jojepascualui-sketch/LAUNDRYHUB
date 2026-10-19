@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Checklist dot, upcoming: white with a 2 px #C8D0CA ring. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="@color/surface" />
+    <stroke android:width="@dimen/step_ring" android:color="@color/input_border" />
+</shape>

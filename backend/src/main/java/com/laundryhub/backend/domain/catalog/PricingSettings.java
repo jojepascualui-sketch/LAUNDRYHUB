@@ -116,13 +116,19 @@ public class PricingSettings {
         if (!cashEnabled && !gcashEnabled) {
             throw new IllegalArgumentException("At least one payment method must be enabled");
         }
-        this.ratePerKg = Money.of(Check.positive(ratePerKg, "Price per kilo"));
-        this.minKg = Check.positive(minKg, "Minimum load");
-        this.deliveryFee = Money.of(Check.nonNegative(deliveryFee, "Pickup & delivery fee"));
-        this.deliveryRadiusKm = Check.positive(deliveryRadiusKm, "Delivery radius");
+        // Validate everything first, so an invalid value never leaves the settings half changed.
+        BigDecimal rate = Money.of(Check.positive(ratePerKg, "Price per kilo"));
+        BigDecimal minimum = Check.positive(minKg, "Minimum load");
+        BigDecimal fee = Money.of(Check.nonNegative(deliveryFee, "Pickup & delivery fee"));
+        BigDecimal radius = Check.positive(deliveryRadiusKm, "Delivery radius");
+        String gcash = shopGcashNumber == null ? null : Check.mobileNumber(shopGcashNumber, "Shop GCash number");
+        this.ratePerKg = rate;
+        this.minKg = minimum;
+        this.deliveryFee = fee;
+        this.deliveryRadiusKm = radius;
         this.cashEnabled = cashEnabled;
         this.gcashEnabled = gcashEnabled;
-        this.shopGcashNumber = shopGcashNumber == null ? null : Check.mobileNumber(shopGcashNumber, "Shop GCash number");
+        this.shopGcashNumber = gcash;
     }
 
     @PrePersist

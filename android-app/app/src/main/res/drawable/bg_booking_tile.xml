@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Booking card pin tile: accent tint, 12 px radius. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/accent_tint" />
+    <corners android:radius="@dimen/brand_tile_radius" />
+</shape>

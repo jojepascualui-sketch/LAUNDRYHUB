@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    R2-rider-pickup-job / R3-rider-delivery-cash: map (330 dp) with Back and "Navigate in Google Maps",
+    a sheet that overlaps it by 20 dp (badge row, customer card with Call, step checklist, payment box)
+    and the footer button whose label follows the step.
+    R4-rider-job-done: check circle, "Job completed", order line, summary row, "Back to bookings".
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <!-- Loading (no design): accent spinner until the job arrives. -->
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/accent" />
+
+    <LinearLayout
+        android:id="@+id/job"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <!-- Map and sheet share a frame so the sheet can overlap the map by 20 dp
+             (LinearLayout ignores negative margins when it shares out weighted space). -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/job_map_height">
+
+                <FrameLayout
+                    android:id="@+id/map_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/map_bg" />
+
+                <ImageButton
+                    android:id="@+id/back"
+                    style="@style/Widget.LaundryHub.IconCircleButton.OnMap"
+                    android:layout_marginStart="@dimen/map_button_margin"
+                    android:layout_marginTop="@dimen/map_back_top"
+                    android:contentDescription="@string/back_to_bookings"
+                    android:src="@drawable/ic_back" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/navigate"
+                    style="@style/Widget.LaundryHub.Button.MapAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="@dimen/map_button_margin"
+                    android:layout_marginBottom="@dimen/map_button_margin"
+                    android:text="@string/navigate_in_maps" />
+            </FrameLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/sheet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/sheet_top"
+                android:background="@drawable/bg_sheet">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/space_14"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/screen_padding"
+                    android:paddingTop="@dimen/sheet_padding_v"
+                    android:paddingEnd="@dimen/screen_padding"
+                    android:paddingBottom="@dimen/sheet_padding_v"
+                    android:showDividers="middle">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/badge"
+                            style="@style/Widget.LaundryHub.StatusBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/meta"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/checkbox_gap"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.LaundryHub.Card.Job"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@drawable/space_12"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:showDividers="middle">
+
+                            <TextView
+                                android:id="@+id/initials"
+                                android:layout_width="@dimen/avatar"
+                                android:layout_height="@dimen/avatar"
+                                android:background="@drawable/bg_avatar"
+                                android:gravity="center"
+                                android:importantForAccessibility="no"
+                                android:textAppearance="@style/TextAppearance.LaundryHub.Initials" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:divider="@drawable/space_2"
+                                android:orientation="vertical"
+                                android:showDividers="middle">
+
+                                <TextView
+                                    android:id="@+id/customer"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.LaundryHub.StrongLarge" />
+
+                                <TextView
+                                    android:id="@+id/address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+                            </LinearLayout>
+
+                            <ImageButton
+                                android:id="@+id/call"
+                                style="@style/Widget.LaundryHub.IconCircleButton.Accent"
+                                android:contentDescription="@string/call_customer"
+                                android:src="@drawable/ic_phone" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.LaundryHub.Card.Checklist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.laundryhub.app.ui.widget.StepChecklist
+                            android:id="@+id/steps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:id="@+id/pay_box"
+                        style="@style/Widget.LaundryHub.PayBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/pay_note"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.Strong" />
+
+                        <TextView
+                            android:id="@+id/pay_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.LaundryHub.PayAmount" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/banner"
+                        style="@style/Widget.LaundryHub.ErrorBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:accessibilityLiveRegion="polite"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bar_top_border"
+            android:paddingStart="@dimen/screen_padding"
+            android:paddingTop="@dimen/footer_padding_top"
+            android:paddingEnd="@dimen/screen_padding"
+            android:paddingBottom="@dimen/footer_padding_bottom">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:divider="@drawable/space_20"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/auth_side_padding"
+        android:paddingTop="@dimen/job_done_padding_top"
+        android:paddingEnd="@dimen/auth_side_padding"
+        android:paddingBottom="@dimen/done_padding_bottom"
+        android:showDividers="middle"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="@dimen/done_circle"
+            android:layout_height="@dimen/done_circle"
+            android:background="@drawable/bg_done_circle">
+
+            <ImageView
+                android:layout_width="@dimen/done_icon"
+                android:layout_height="@dimen/done_icon"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/job_completed"
+                android:textAppearance="@style/TextAppearance.LaundryHub.DoneTitle" />
+
+            <TextView
+                android:id="@+id/done_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/done_sub_gap"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.LaundryHub.Card.Checklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/done_note"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+
+                <TextView
+                    android:id="@+id/done_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.Strong" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/back_to_bookings"
+            style="@style/Widget.LaundryHub.Button.DarkPill.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back_to_bookings" />
+    </LinearLayout>
+</FrameLayout>

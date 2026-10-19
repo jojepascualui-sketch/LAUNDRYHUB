@@ -21,7 +21,10 @@ public class HomeViewModel extends ViewModel {
     private final OrderRepository repository;
     private final MutableLiveData<Pricing> pricing = new MutableLiveData<>();
     private final MutableLiveData<Event<UiText>> error = new MutableLiveData<>();
+    private final MutableLiveData<Event<Long>> openTracking = new MutableLiveData<>();
+    private final MutableLiveData<Event<UiText>> notice = new MutableLiveData<>();
     private boolean loading;
+    private boolean findingOrder;
 
     /**
      * @param repository server calls
@@ -40,6 +43,43 @@ public class HomeViewModel extends ViewModel {
     @NonNull
     public LiveData<Event<UiText>> getError() {
         return error;
+    }
+
+    /** @return order to open in 07 Track order */
+    @NonNull
+    public LiveData<Event<Long>> getOpenTracking() {
+        return openTracking;
+    }
+
+    /** @return one-time messages (no orders yet, load failed) */
+    @NonNull
+    public LiveData<Event<UiText>> getNotice() {
+        return notice;
+    }
+
+    /** Orders tab: the Orders list has no design (CLAUDE.md §7), so it opens Track order for the newest order. */
+    public void openLatestOrder() {
+        if (findingOrder) {
+            return;
+        }
+        findingOrder = true;
+        repository.myOrders(new ApiCallback<>() {
+            @Override
+            public void onSuccess(@NonNull java.util.List<com.laundryhub.app.model.tracking.OrderSummary> orders) {
+                findingOrder = false;
+                if (orders.isEmpty()) {
+                    notice.setValue(new Event<>(UiText.of(com.laundryhub.app.R.string.no_orders_yet)));
+                } else {
+                    openTracking.setValue(new Event<>(orders.get(0).id()));
+                }
+            }
+
+            @Override
+            public void onError(@NonNull ApiException e) {
+                findingOrder = false;
+                notice.setValue(new Event<>(ErrorMapper.bannerFor(e)));
+            }
+        });
     }
 
     /** Loads prices (again on each return to Home, so admin changes show up). */

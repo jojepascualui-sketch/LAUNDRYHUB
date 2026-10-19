@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    R1 booking card: type badge + "LH-0003 · 1.2 km", pin tile with customer / address / slot,
+    payment strip, then Decline + Accept booking (available) or Start / Continue job (accepted).
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.LaundryHub.Card.Booking"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/space_12"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/badge"
+                style="@style/Widget.LaundryHub.StatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/meta"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/checkbox_gap"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/space_12"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <FrameLayout
+                android:layout_width="@dimen/brand_tile"
+                android:layout_height="@dimen/brand_tile"
+                android:background="@drawable/bg_booking_tile">
+
+                <ImageView
+                    android:layout_width="@dimen/booking_tile_icon"
+                    android:layout_height="@dimen/booking_tile_icon"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_location_pin" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/space_3"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <TextView
+                    android:id="@+id/customer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.StrongLarge" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+
+                <TextView
+                    android:id="@+id/slot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Widget.LaundryHub.PayStrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/pay_note"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.LaundryHub.Caption" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.LaundryHub.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/space_10"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/decline"
+                style="@style/Widget.LaundryHub.Button.OutlinePill.Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/decline" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/accept"
+                style="@style/Widget.LaundryHub.Button.PrimaryPill.Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/accept_booking" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/open"
+            style="@style/Widget.LaundryHub.Button.DarkPill.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

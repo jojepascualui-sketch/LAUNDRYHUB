@@ -1,0 +1,9 @@
+# Keep the build context small and free of secrets.
+target/
+Users/
+.env
+.env.*
+!.env.example
+*.log
+.idea/
+.vscode/

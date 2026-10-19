@@ -56,4 +56,15 @@ public interface OrderRepository {
      * @param callback the placed order (06)
      */
     void placeOrder(@NonNull OrderDraft draft, @NonNull ApiCallback<PlacedOrder> callback);
+
+    /**
+     * @param callback the customer's orders, newest first (Orders tab)
+     */
+    void myOrders(@NonNull ApiCallback<java.util.List<com.laundryhub.app.model.tracking.OrderSummary>> callback);
+
+    /**
+     * @param orderId  the order
+     * @param callback 07 Track order data
+     */
+    void tracking(long orderId, @NonNull ApiCallback<com.laundryhub.app.model.tracking.Tracking> callback);
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Booking card payment strip: app background, 12 px radius. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/bg" />
+    <corners android:radius="@dimen/pay_strip_radius" />
+</shape>

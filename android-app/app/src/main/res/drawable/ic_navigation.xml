@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Navigate in Google Maps" arrow (stroke 2.2, from source/Rider.dc.html). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M3,11l18,-8 -8,18 -2,-8z"
+        android:strokeWidth="2.2"
+        android:strokeColor="@color/surface"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

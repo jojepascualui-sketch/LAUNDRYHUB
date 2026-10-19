@@ -113,6 +113,17 @@ public abstract class PaymentMethod extends AuditedEntity implements Payable {
         this.amount = Money.of(Check.nonNegative(newAmount, "Amount"));
     }
 
+    /**
+     * Marks the payment as received from the admin console (A2): cash at the counter, or a confirmed
+     * GCash transfer.
+     *
+     * @param referenceNo receipt number (optional for cash) or GCash reference (required)
+     * @throws IllegalArgumentException if a required reference is missing
+     * @throws IllegalStateException    if the payment is not unpaid
+     */
+    // OOP: Polymorphism — CashPayment and GCashPayment each record "paid" their own way.
+    public abstract void confirmFromConsole(String referenceNo);
+
     /** @return which method this is (Cash or GCash) */
     // OOP: Polymorphism — CashPayment and GCashPayment answer with their own constant.
     public abstract PaymentChoice getMethod();

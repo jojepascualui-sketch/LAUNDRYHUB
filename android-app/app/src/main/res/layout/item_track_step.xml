@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One 07 timeline row: 24 dp dot over a 2 dp line, 14 dp gap, title (14 bold) over note (12 muted). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/space_14"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <LinearLayout
+        android:layout_width="@dimen/track_dot"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:importantForAccessibility="no"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/dot"
+            android:layout_width="@dimen/track_dot"
+            android:layout_height="@dimen/track_dot">
+
+            <ImageView
+                android:id="@+id/check"
+                android:layout_width="@dimen/track_check"
+                android:layout_height="@dimen/track_check"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_track_check" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="@dimen/step_line_width"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:divider="@drawable/space_2"
+        android:importantForAccessibility="no"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/track_step_padding_bottom"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.LaundryHub.Strong" />
+
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.LaundryHub.Small" />
+    </LinearLayout>
+</LinearLayout>

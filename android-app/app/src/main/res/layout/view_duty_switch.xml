@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inside ui.widget.DutySwitch: "On duty" label and the 40 x 24 track with an 18 dp knob. -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/duty_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:textAppearance="@style/TextAppearance.LaundryHub.DutyLabel" />
+
+    <FrameLayout
+        android:layout_width="@dimen/duty_track_width"
+        android:layout_height="@dimen/duty_track_height"
+        android:layout_marginStart="@dimen/inline_gap"
+        android:background="@drawable/bg_duty_track"
+        android:importantForAccessibility="no">
+
+        <View
+            android:id="@+id/duty_knob"
+            android:layout_width="@dimen/duty_knob"
+            android:layout_height="@dimen/duty_knob"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/duty_knob_inset"
+            android:layout_marginEnd="@dimen/duty_knob_inset"
+            android:background="@drawable/bg_duty_knob" />
+    </FrameLayout>
+</merge>

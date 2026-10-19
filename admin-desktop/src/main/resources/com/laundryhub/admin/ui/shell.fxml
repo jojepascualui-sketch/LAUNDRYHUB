@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Console frame of docs/design/screens/A1–A5 (source/AdminDashboard.dc.html). -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.laundryhub.admin.ui.ShellController">
+    <HBox>
+        <VBox styleClass="sidebar" minWidth="231" prefWidth="231" maxWidth="231">
+            <HBox styleClass="brand-row" alignment="CENTER_LEFT">
+                <StackPane fx:id="brandTile" styleClass="brand-tile"/>
+                <VBox>
+                    <Label text="Laundry HUB" styleClass="brand-name"/>
+                    <Label text="Admin console" styleClass="brand-sub"/>
+                </VBox>
+            </HBox>
+            <VBox fx:id="nav" spacing="6"/>
+            <Region VBox.vgrow="ALWAYS" minHeight="20"/>
+            <HBox styleClass="profile-row" alignment="CENTER_LEFT">
+                <Label fx:id="avatar" styleClass="avatar" text="AD"/>
+                <VBox HBox.hgrow="ALWAYS">
+                    <Label fx:id="profileName" text="Admin" styleClass="profile-name"/>
+                    <Label fx:id="profileRole" text="Owner" styleClass="profile-role"/>
+                </VBox>
+                <Hyperlink fx:id="logout" text="Log out" styleClass="logout-link"/>
+            </HBox>
+        </VBox>
+        <ScrollPane fx:id="scroll" styleClass="page-scroll" fitToWidth="true" HBox.hgrow="ALWAYS" hbarPolicy="NEVER">
+            <VBox styleClass="main">
+                <HBox alignment="CENTER_LEFT" spacing="14">
+                    <VBox>
+                        <Label fx:id="kicker" styleClass="page-kicker"/>
+                        <Label fx:id="title" styleClass="page-title"/>
+                    </VBox>
+                    <!-- Loading (no design): small accent spinner while data loads. -->
+                    <ProgressIndicator fx:id="loading" styleClass="loading" accessibleText="Loading"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <HBox spacing="10" alignment="CENTER">
+                        <TextField fx:id="search" promptText="Search order no. or customer" styleClass="search-field"
+                                   accessibleText="Search orders"/>
+                        <Button fx:id="bell" styleClass="icon-button" accessibleText="Notifications"/>
+                    </HBox>
+                </HBox>
+                <StackPane fx:id="pageHolder" alignment="TOP_LEFT"/>
+            </VBox>
+        </ScrollPane>
+    </HBox>
+    <Label fx:id="toast" styleClass="toast" StackPane.alignment="BOTTOM_RIGHT" maxWidth="420" wrapText="true">
+        <StackPane.margin>
+            <Insets right="32" bottom="32"/>
+        </StackPane.margin>
+    </Label>
+</StackPane>

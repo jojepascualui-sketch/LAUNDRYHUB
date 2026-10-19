@@ -1,23 +1,19 @@
 package com.laundryhub.app.ui.order.location;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.laundryhub.app.R;
 import com.laundryhub.app.model.Location;
+import com.laundryhub.app.ui.common.MarkerIcons;
 
 import java.util.function.Consumer;
 
@@ -55,7 +51,7 @@ public final class PinMap {
     public PinMap(@NonNull Context context, @NonNull GoogleMap map, @NonNull Consumer<Location> onPinMoved) {
         this.map = map;
         this.onPinMoved = onPinMoved;
-        this.pinIcon = icon(context);
+        this.pinIcon = MarkerIcons.fromDrawable(context, R.drawable.ic_map_pin);
         map.getUiSettings().setMapToolbarEnabled(false);
         map.getUiSettings().setZoomControlsEnabled(false);
         map.getUiSettings().setMyLocationButtonEnabled(false);
@@ -125,18 +121,5 @@ public final class PinMap {
 
     private static LatLng toLatLng(Location location) {
         return new LatLng(location.getLatitude().doubleValue(), location.getLongitude().doubleValue());
-    }
-
-    /** The design's pin (vector) as a marker bitmap. */
-    private static BitmapDescriptor icon(Context context) {
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_map_pin);
-        if (drawable == null) {
-            return BitmapDescriptorFactory.defaultMarker();
-        }
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
-                Bitmap.Config.ARGB_8888);
-        drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        drawable.draw(new Canvas(bitmap));
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }

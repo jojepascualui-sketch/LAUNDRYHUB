@@ -53,4 +53,13 @@
     <color name="map_bg">#E3EAE2</color>
 
     <color name="ic_launcher_background">#1E63A8</color>
+
+    <!-- Used inside docs/design/source/Rider.dc.html (rider app). -->
+    <!-- Counter tiles in the dark rider header (also the admin active nav item). -->
+    <color name="rider_tile">#24333F</color>
+    <!-- Secondary text on the dark header ("Laundry HUB Rider", counter labels). -->
+    <color name="on_dark_muted">#B8C3CC</color>
+    <!-- Duty switch track: white at 30 % opacity. -->
+    <color name="duty_track">#4DFFFFFF</color>
+
 </resources>

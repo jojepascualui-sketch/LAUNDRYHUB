@@ -14,6 +14,9 @@ public final class PesoFormat {
     /** The peso sign. */
     public static final String SYMBOL = "₱";
 
+    /** Money is shown and rounded to two decimals (HALF_UP), like the server. */
+    public static final int CENTS = 2;
+
     private static final DecimalFormatSymbols SYMBOLS = DecimalFormatSymbols.getInstance(Locale.US);
 
     private PesoFormat() {
@@ -25,7 +28,7 @@ public final class PesoFormat {
      */
     @NonNull
     public static String amount(@NonNull BigDecimal amount) {
-        return SYMBOL + pattern("#,##0.00").format(amount.setScale(2, RoundingMode.HALF_UP));
+        return SYMBOL + pattern("#,##0.00").format(amount.setScale(CENTS, RoundingMode.HALF_UP));
     }
 
     /**

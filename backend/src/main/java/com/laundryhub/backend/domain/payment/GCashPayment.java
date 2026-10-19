@@ -16,7 +16,7 @@ public class GCashPayment extends PaymentMethod {
     /** Method name on screen 05. */
     public static final String DISPLAY_NAME = "GCash";
 
-    @Column(name = "gcash_number", length = 11)
+    @Column(name = "gcash_number", length = Check.MOBILE_LENGTH)
     private String gcashNumber;
 
     /** For JPA only. */
@@ -30,8 +30,14 @@ public class GCashPayment extends PaymentMethod {
      * @param gcashNumber customer's GCash number, 09XXXXXXXXX
      */
     public GCashPayment(Order order, String gcashNumber) {
-        super(order);
+        // The number is checked before super() links this payment to the order.
+        super(withValidNumber(order, gcashNumber));
         this.gcashNumber = Check.mobileNumber(gcashNumber, "GCash mobile number");
+    }
+
+    private static Order withValidNumber(Order order, String gcashNumber) {
+        Check.mobileNumber(gcashNumber, "GCash mobile number");
+        return order;
     }
 
     /**
@@ -41,6 +47,12 @@ public class GCashPayment extends PaymentMethod {
      */
     public void confirm(String referenceNo) {
         markPaid(Check.text(referenceNo, "GCash reference number", MAX_REFERENCE_LENGTH));
+    }
+
+    /** GCash: the console confirms the transfer; the GCash reference is required. */
+    @Override
+    public void confirmFromConsole(String referenceNo) {
+        confirm(referenceNo);
     }
 
     @Override
