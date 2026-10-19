@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- − button: #EEF1EE when disabled at the minimum, white otherwise. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/stepper_disabled_bg" android:state_enabled="false" />
+    <item android:color="@color/surface" />
+</selector>

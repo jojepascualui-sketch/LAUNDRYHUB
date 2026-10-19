@@ -6,23 +6,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Text for the UI that is either a string resource (our own messages) or a literal
- * (a message from the server). Lets ViewModels stay free of Context.
+ * Text for the UI that is either a string resource (our own messages, optionally with format
+ * arguments) or a literal (a message from the server). Lets ViewModels stay free of Context.
  */
 public final class UiText {
 
-    // OOP: Encapsulation — exactly one of the two is set.
+    private static final Object[] NO_ARGS = new Object[0];
+
+    // OOP: Encapsulation — either a resource (with arguments) or a literal; immutable.
     @StringRes
     private final int resId;
     @Nullable
     private final String literal;
+    private final Object[] args;
 
-    private UiText(@StringRes int resId, @Nullable String literal) {
+    private UiText(@StringRes int resId, @Nullable String literal, Object[] args) {
         this.resId = resId;
         this.literal = literal;
+        this.args = args;
     }
 
     /**
@@ -31,7 +36,17 @@ public final class UiText {
      */
     @NonNull
     public static UiText of(@StringRes int resId) {
-        return new UiText(resId, null);
+        return new UiText(resId, null, NO_ARGS);
+    }
+
+    /**
+     * @param resId string resource with format arguments, e.g. "+ %1$s delivery fee"
+     * @param args  the arguments
+     * @return the text
+     */
+    @NonNull
+    public static UiText format(@StringRes int resId, @NonNull Object... args) {
+        return new UiText(resId, null, args.clone());
     }
 
     /**
@@ -44,7 +59,7 @@ public final class UiText {
         if (text == null) {
             throw new IllegalArgumentException("Text is required");
         }
-        return new UiText(0, text);
+        return new UiText(0, text, NO_ARGS);
     }
 
     /**
@@ -53,7 +68,7 @@ public final class UiText {
      */
     @NonNull
     public String resolve(@NonNull Context context) {
-        return literal != null ? literal : context.getString(resId);
+        return literal != null ? literal : context.getString(resId, args);
     }
 
     /** @return the resource id, or 0 for a literal */
@@ -70,17 +85,18 @@ public final class UiText {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof UiText other && resId == other.resId && Objects.equals(literal, other.literal);
+        return o instanceof UiText other && resId == other.resId && Objects.equals(literal, other.literal)
+                && Arrays.equals(args, other.args);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(resId, literal);
+        return Objects.hash(resId, literal, Arrays.hashCode(args));
     }
 
     @NonNull
     @Override
     public String toString() {
-        return literal != null ? literal : "@string/" + resId;
+        return literal != null ? literal : "@string/" + resId + Arrays.toString(args);
     }
 }

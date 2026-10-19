@@ -10,6 +10,9 @@ public final class AuthValidator {
     /** Shortest password accepted ("At least 8 characters"). */
     public static final int MIN_PASSWORD_LENGTH = 8;
 
+    /** Digits in a mobile number 09XXXXXXXXX. */
+    public static final int MOBILE_LENGTH = 11;
+
     private static final Pattern EMAIL = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
     private static final Pattern MOBILE = Pattern.compile("^09\\d{9}$");
     private static final Pattern MOBILE_SEPARATORS = Pattern.compile("[\\s-]");

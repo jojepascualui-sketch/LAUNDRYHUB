@@ -13,7 +13,7 @@
         style="@style/Widget.LaundryHub.TextInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/label_gap" />
+        android:layout_marginTop="@dimen/field_label_gap" />
 
     <TextView
         android:id="@+id/form_field_error"

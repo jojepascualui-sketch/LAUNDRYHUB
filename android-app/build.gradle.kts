@@ -1,5 +1,7 @@
 plugins {
     id("com.android.application") version "9.4.1" apply false
+    // Reads secrets from local.properties (git-ignored) into the manifest and BuildConfig.
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1" apply false
 }
 
 // The repo lives under a non-ASCII path (OneDrive\<Korean folder>). On Windows, java.exe reads

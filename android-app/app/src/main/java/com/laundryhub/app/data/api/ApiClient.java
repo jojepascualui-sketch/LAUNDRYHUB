@@ -38,6 +38,18 @@ public final class ApiClient {
                 .build();
     }
 
+    /** @return pricing and shop endpoints */
+    @NonNull
+    public CatalogApi catalog() {
+        return retrofit.create(CatalogApi.class);
+    }
+
+    /** @return customer order endpoints */
+    @NonNull
+    public OrderApi orders() {
+        return retrofit.create(OrderApi.class);
+    }
+
     /** @return the auth endpoints */
     @NonNull
     public AuthApi auth() {

@@ -40,5 +40,17 @@
     <!-- Decorative rings in the blue header: white at 16 % opacity. -->
     <color name="header_ring">#29FFFFFF</color>
 
+    <!-- Used inside docs/design/source/Main.dc.html (customer app). -->
+    <!-- Rings on the blue "New order" card: white at 18 % opacity. -->
+    <color name="card_ring">#2EFFFFFF</color>
+    <!-- Outline of round icon buttons (back, bell) and the − stepper button. -->
+    <color name="icon_button_border">#D5DBD6</color>
+    <!-- − stepper button background while disabled at the minimum. -->
+    <color name="stepper_disabled_bg">#EEF1EE</color>
+    <!-- "G" on the GCash payment tile. -->
+    <color name="gcash_badge_text">#1E4FA8</color>
+    <!-- Map placeholder on 04a (the Google map replaces it in Phase 5). -->
+    <color name="map_bg">#E3EAE2</color>
+
     <color name="ic_launcher_background">#1E63A8</color>
 </resources>

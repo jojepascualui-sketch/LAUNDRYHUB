@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Soap card (03): SelectableCard.Soap, 34 dp tinted drop tile, name, note, "+ ₱X /kg" / "Included". -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.LaundryHub.SelectableCard.Soap"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/space_6"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <FrameLayout
+            android:id="@+id/tile"
+            android:layout_width="@dimen/soap_tile"
+            android:layout_height="@dimen/soap_tile"
+            android:background="@drawable/bg_soap_tile">
+
+            <ImageView
+                android:layout_width="@dimen/soap_icon"
+                android:layout_height="@dimen/soap_icon"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_soap_drop" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.LaundryHub.Strong" />
+
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.LaundryHub.SmallNote" />
+
+        <TextView
+            android:id="@+id/add_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.LaundryHub.AccentNote.Small" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

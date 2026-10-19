@@ -2,12 +2,38 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
-// Secrets live in android-app/local.properties (git-ignored), never in source.
-val localProps = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) file.inputStream().use { load(it) }
+// Secrets live in android-app/local.properties (git-ignored), never in source. The Secrets Gradle
+// Plugin turns each key into a manifest placeholder ${KEY} and a BuildConfig.KEY field:
+//   MAPS_API_KEY         -> AndroidManifest com.google.android.geo.API_KEY
+//   GOOGLE_WEB_CLIENT_ID -> BuildConfig.GOOGLE_WEB_CLIENT_ID ("Continue with Google"; the OAuth web
+//                           client id, same value as the backend's GOOGLE_OAUTH_CLIENT_ID)
+// local.defaults.properties (committed, no real values) keeps the build working without them.
+secrets {
+    propertiesFileName = "local.properties"
+    defaultPropertiesFileName = "local.defaults.properties"
+}
+
+// Secrets plugin 2.0.1 (latest) writes BuildConfig String values without quotes under AGP 9, which
+// does not compile. Re-declare those fields quoted, reading the same files with the same precedence
+// (local.properties over local.defaults.properties). The manifest placeholders stay the plugin's.
+val secretValues = Properties().apply {
+    for (name in listOf("local.defaults.properties", "local.properties")) {
+        val file = rootProject.file(name)
+        if (file.exists()) file.inputStream().use { load(it) }
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        for (key in listOf("MAPS_API_KEY", "GOOGLE_WEB_CLIENT_ID")) {
+            val value = secretValues.getProperty(key, "")
+            variant.buildConfigFields?.put(key, com.android.build.api.variant.BuildConfigField(
+                "String", "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\"", "from local.properties"))
+        }
+    }
 }
 
 android {
@@ -26,13 +52,9 @@ android {
         // 10.0.2.2 is the host machine as seen from the Android emulator.
         buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8080/api/\"")
 
-        // "Continue with Google": the OAuth *web* client id, the same value as the backend's
-        // GOOGLE_OAUTH_CLIENT_ID. Add GOOGLE_WEB_CLIENT_ID=... to local.properties (blank = disabled).
-        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID",
-            "\"" + localProps.getProperty("GOOGLE_WEB_CLIENT_ID", "") + "\"")
+        // The Secrets plugin fills ${MAPS_API_KEY} for the app only; unit tests merge the manifest too.
+        manifestPlaceholders["MAPS_API_KEY"] = secretValues.getProperty("MAPS_API_KEY", "")
 
-        // Google Maps key: add MAPS_API_KEY=... to local.properties.
-        manifestPlaceholders["mapsApiKey"] = localProps.getProperty("MAPS_API_KEY", "")
     }
 
     buildFeatures {
@@ -76,6 +98,10 @@ dependencies {
     // MVVM
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.7")
     implementation("androidx.lifecycle:lifecycle-livedata:2.8.7")
+
+    // 04a: Google map with draggable pin, "Use my current location"
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
     // REST client
     implementation("com.squareup.retrofit2:retrofit:2.11.0")

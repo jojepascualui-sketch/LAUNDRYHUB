@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Order placed check (stroke 2.6, from source/Main.dc.html). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M5,12.5l4.5,4.5L19,7.5"
+        android:strokeWidth="2.6"
+        android:strokeColor="@color/surface"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

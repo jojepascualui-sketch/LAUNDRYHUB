@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Small radio dot (payment cards): 26 dp with an 11 dp radius.
+     2 dp ring in the card border color, filled accent when the card is checked (duplicateParentState). -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/radio_dot_small_radius" />
+            <solid android:color="@color/accent" />
+            <stroke android:width="@dimen/stroke_selected" android:color="@color/accent" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/radio_dot_small_radius" />
+            <solid android:color="@color/surface" />
+            <stroke android:width="@dimen/stroke_selected" android:color="@color/border" />
+        </shape>
+    </item>
+</selector>

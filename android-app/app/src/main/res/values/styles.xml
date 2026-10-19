@@ -3,9 +3,11 @@
     Laundry HUB design system (docs/design/DESIGN_SPEC.md section 1).
     Every screen uses these styles; do not add one-off styles in layouts.
 
-    Components: PrimaryPillButton, OutlinePillButton, DarkPillButton, TextLink, Card,
-    SelectableCard, TextInput, StatusBadge, SegmentedControl (view: ui.widget.SegmentedControl),
-    CheckBox, ErrorBanner.
+    Components: PrimaryPillButton (+ Compact), OutlinePillButton, DarkPillButton, WhitePillButton,
+    TextLink, IconCircleButton, StepperButton (Minus / Plus), Chip, Card (+ Large, Tile, Row),
+    SelectableCard (+ Service, Soap, Payment) with RadioDot, TextInput, StatusBadge,
+    SegmentedControl (view: ui.widget.SegmentedControl), CheckBox, ErrorBanner, WarnNote,
+    BottomNavItem.
 -->
 <resources>
 
@@ -17,19 +19,21 @@
 
     <!-- ===== Type scale ===== -->
     <!-- Hero heading: Bricolage Grotesque 800, 32 sp, -0.8 px tracking, 1.05 line height. -->
-    <style name="TextAppearance.LaundryHub.Hero" parent="TextAppearance.Material3.HeadlineLarge">
+    <!-- Base text styles extend AppCompat, not Material 3: the M3 type scale sets lineHeight
+         (BodyLarge 24 sp, HeadlineLarge 40 sp), which spread multi-line text far beyond the design.
+         Line heights are set only where the design sets them (CSS line-height). -->
+    <style name="TextAppearance.LaundryHub.Hero" parent="TextAppearance.AppCompat">
         <!-- The 800 file directly: font weights in XML need API 28, minSdk is 24. -->
         <item name="android:fontFamily">@font/bricolage_grotesque_extrabold</item>
         <item name="fontFamily">@font/bricolage_grotesque_extrabold</item>
         <item name="android:textSize">@dimen/text_hero</item>
         <item name="android:letterSpacing">-0.025</item>
         <item name="android:lineSpacingMultiplier">1.05</item>
-        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/ink</item>
     </style>
 
     <!-- Screen title: Bricolage Grotesque 800, 21 sp. -->
-    <style name="TextAppearance.LaundryHub.ScreenTitle" parent="TextAppearance.Material3.TitleLarge">
+    <style name="TextAppearance.LaundryHub.ScreenTitle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/bricolage_grotesque_extrabold</item>
         <item name="fontFamily">@font/bricolage_grotesque_extrabold</item>
         <item name="android:textSize">@dimen/text_screen_title</item>
@@ -37,7 +41,7 @@
     </style>
 
     <!-- Section title: DM Sans 700, 17 sp. -->
-    <style name="TextAppearance.LaundryHub.SectionTitle" parent="TextAppearance.Material3.TitleMedium">
+    <style name="TextAppearance.LaundryHub.SectionTitle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/dm_sans</item>
         <item name="fontFamily">@font/dm_sans</item>
         <item name="android:textStyle">bold</item>
@@ -46,7 +50,7 @@
     </style>
 
     <!-- Body: DM Sans 400, 15 sp. -->
-    <style name="TextAppearance.LaundryHub.Body" parent="TextAppearance.Material3.BodyLarge">
+    <style name="TextAppearance.LaundryHub.Body" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/dm_sans</item>
         <item name="fontFamily">@font/dm_sans</item>
         <item name="android:textSize">@dimen/text_body</item>
@@ -75,6 +79,158 @@
     <!-- Field error under an input (no design): warn text color, caption size. -->
     <style name="TextAppearance.LaundryHub.FieldError" parent="TextAppearance.LaundryHub.Caption">
         <item name="android:textColor">@color/warn_text</item>
+    </style>
+
+    <!-- Display heading on Home: Bricolage Grotesque 700, 30 sp, -0.8 px, line height 1.1. -->
+    <style name="TextAppearance.LaundryHub.Display" parent="TextAppearance.LaundryHub.Hero">
+        <item name="android:fontFamily">@font/bricolage_grotesque_bold</item>
+        <item name="fontFamily">@font/bricolage_grotesque_bold</item>
+        <item name="android:textSize">@dimen/text_display</item>
+        <item name="android:letterSpacing">-0.027</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+        <item name="lineHeight">@dimen/line_display</item>
+    </style>
+
+    <!-- Brand name "Laundry HUB": Bricolage Grotesque 800, 22 sp, -0.5 px. -->
+    <style name="TextAppearance.LaundryHub.Brand" parent="TextAppearance.LaundryHub.Hero">
+        <item name="android:textSize">@dimen/text_brand</item>
+        <item name="android:letterSpacing">-0.023</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+    </style>
+
+    <!-- Wizard step title: Bricolage Grotesque 700, 21 sp, -0.4 px. -->
+    <style name="TextAppearance.LaundryHub.StepTitle" parent="TextAppearance.LaundryHub.Display">
+        <item name="android:textSize">@dimen/text_screen_title</item>
+        <item name="android:letterSpacing">-0.019</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+    </style>
+
+    <!-- Card title on the blue "New order" card: Bricolage Grotesque 700, 22 sp, line height 1.2. -->
+    <style name="TextAppearance.LaundryHub.CardTitle" parent="TextAppearance.LaundryHub.Display">
+        <item name="android:textSize">@dimen/text_card_title</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">@dimen/line_card_title</item>
+    </style>
+
+    <!-- Big figure in a tile ("30", "8 kg"): Bricolage Grotesque 700, 24 sp. -->
+    <style name="TextAppearance.LaundryHub.Figure" parent="TextAppearance.LaundryHub.CardTitle">
+        <item name="android:textSize">@dimen/text_figure</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+    </style>
+
+    <!-- Kilo number on the stepper: Bricolage Grotesque 800, 48 sp, line height 1
+         (give the TextView @dimen/kilo_line_height and center gravity). -->
+    <style name="TextAppearance.LaundryHub.KiloNumber" parent="TextAppearance.LaundryHub.Hero">
+        <item name="android:textSize">@dimen/text_kilo</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+    </style>
+
+    <!-- Totals: Bricolage Grotesque 800, 22 sp (footer "Estimated total"). -->
+    <style name="TextAppearance.LaundryHub.Total" parent="TextAppearance.LaundryHub.KiloNumber">
+        <item name="android:textSize">@dimen/text_brand</item>
+    </style>
+
+    <!-- Order summary total: 28 sp, accent. -->
+    <style name="TextAppearance.LaundryHub.Total.Large">
+        <item name="android:textSize">@dimen/text_total_large</item>
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <!-- Order placed total: 24 sp, accent. -->
+    <style name="TextAppearance.LaundryHub.Total.Medium">
+        <item name="android:textSize">@dimen/text_figure</item>
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <!-- "Order placed!": Bricolage Grotesque 800, 28 sp, -0.6 px. -->
+    <style name="TextAppearance.LaundryHub.DoneTitle" parent="TextAppearance.LaundryHub.Hero">
+        <item name="android:textSize">@dimen/text_total_large</item>
+        <item name="android:letterSpacing">-0.021</item>
+        <item name="android:lineSpacingMultiplier">1</item>
+    </style>
+
+    <!-- Subtitle in cards ("Laundry weight", "Walk-in", "Fabric soap"): DM Sans 700, 16 sp. -->
+    <style name="TextAppearance.LaundryHub.Subtitle" parent="TextAppearance.LaundryHub.SectionTitle">
+        <item name="android:textSize">@dimen/text_subtitle</item>
+    </style>
+
+    <!-- Overline ("NEW ORDER"): 13 sp bold, 1 px tracking, upper case. -->
+    <style name="TextAppearance.LaundryHub.Overline" parent="TextAppearance.LaundryHub.Label">
+        <item name="android:letterSpacing">0.077</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Small text: DM Sans 12 sp, muted. -->
+    <style name="TextAppearance.LaundryHub.Small" parent="TextAppearance.LaundryHub.Caption">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <!-- Accent bold line under a card title ("No extra fee", "+ 5 /kg"). -->
+    <style name="TextAppearance.LaundryHub.AccentNote" parent="TextAppearance.LaundryHub.Label">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <!-- Body, muted: 15 sp ("Magandang araw!"). -->
+    <style name="TextAppearance.LaundryHub.BodyMuted" parent="TextAppearance.LaundryHub.Body">
+        <item name="android:textColor">@color/muted</item>
+    </style>
+
+    <!-- Body, compact: 14 sp ink ("How it works" rows, summary values). -->
+    <style name="TextAppearance.LaundryHub.BodyCompact" parent="TextAppearance.LaundryHub.Body">
+        <item name="android:textSize">@dimen/text_body_small</item>
+    </style>
+
+    <!-- Strong: 14 sp bold ink (soap name, chips). -->
+    <style name="TextAppearance.LaundryHub.Strong" parent="TextAppearance.LaundryHub.BodyCompact">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Strong, large: 15 sp bold ink (payment method name, "Total"). -->
+    <style name="TextAppearance.LaundryHub.StrongLarge" parent="TextAppearance.LaundryHub.Body">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Small strong: 12 sp bold ink (map status chip). -->
+    <style name="TextAppearance.LaundryHub.SmallStrong" parent="TextAppearance.LaundryHub.Small">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+
+    <!-- Step number in "How it works": 15 sp bold accent. -->
+    <style name="TextAppearance.LaundryHub.StepNumber" parent="TextAppearance.LaundryHub.StrongLarge">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <!-- Suffix after a figure (" /kg"): DM Sans 500, 14 sp, muted. -->
+    <style name="TextAppearance.LaundryHub.FigureSuffix" parent="TextAppearance.LaundryHub.BodyCompact">
+        <item name="android:fontFamily">@font/dm_sans_medium</item>
+        <item name="fontFamily">@font/dm_sans_medium</item>
+        <item name="android:textColor">@color/muted</item>
+    </style>
+
+    <!-- Card description: 13 sp muted with the design's 1.4 line height (DM Sans default is ~1.3). -->
+    <style name="TextAppearance.LaundryHub.CardDescription" parent="TextAppearance.LaundryHub.Caption">
+        <item name="lineHeight">@dimen/line_card_description</item>
+    </style>
+
+    <!-- Soap note: 12 sp muted, line height 1.35. -->
+    <style name="TextAppearance.LaundryHub.SmallNote" parent="TextAppearance.LaundryHub.Small">
+        <item name="lineHeight">@dimen/line_small_note</item>
+    </style>
+
+    <!-- Accent bold, small: 12 sp ("+ 5 /kg", "Included"). -->
+    <style name="TextAppearance.LaundryHub.AccentNote.Small">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <!-- Payment tile letter: 15 sp bold. -->
+    <style name="TextAppearance.LaundryHub.Badge" parent="TextAppearance.LaundryHub.StrongLarge" />
+
+    <!-- Default TextView: no extra font padding, so a line is as tall as CSS "normal" line height
+         (includeFontPadding is ignored inside a textAppearance, so it lives here). -->
+    <style name="Widget.LaundryHub.TextView" parent="android:Widget.TextView">
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <!-- ===== Buttons ===== -->
@@ -116,9 +272,91 @@
         <item name="android:letterSpacing">0</item>
     </style>
 
-    <!-- DarkPillButton: ink, 54 dp, white bold (e.g. Back to home, Back to bookings). -->
-    <style name="Widget.LaundryHub.Button.DarkPill" parent="Widget.LaundryHub.Button.PrimaryPill">
+    <!-- PrimaryPillButton, compact: 52 dp, 15 sp, 26 dp side padding (wizard footer Continue / Place order). -->
+    <style name="Widget.LaundryHub.Button.PrimaryPill.Compact">
+        <item name="android:minHeight">@dimen/button_height_secondary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:paddingStart">@dimen/footer_button_padding</item>
+        <item name="android:paddingEnd">@dimen/footer_button_padding</item>
+    </style>
+
+    <!-- DarkPillButton: ink, 52 dp, white 15 sp bold (Back to home, Back to bookings). -->
+    <style name="Widget.LaundryHub.Button.DarkPill" parent="Widget.LaundryHub.Button.PrimaryPill.Compact">
         <item name="backgroundTint">@color/dark_button_bg</item>
+    </style>
+
+    <!-- WhitePillButton: white, 46 dp, ink 15 sp bold, icon after the text ("Start laundry order"). -->
+    <style name="Widget.LaundryHub.Button.WhitePill" parent="Widget.LaundryHub.Button.PrimaryPill">
+        <item name="android:minHeight">@dimen/white_pill_height</item>
+        <item name="android:paddingStart">@dimen/white_pill_padding</item>
+        <item name="android:paddingEnd">@dimen/white_pill_padding</item>
+        <item name="backgroundTint">@color/surface</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="iconTint">@color/ink</item>
+        <item name="iconGravity">end</item>
+        <item name="iconSize">@dimen/white_pill_icon</item>
+        <item name="iconPadding">@dimen/checkbox_gap</item>
+        <item name="rippleColor">@color/accent_tint</item>
+    </style>
+
+    <!-- IconCircleButton: 44 dp white circle, 1 dp #D5DBD6 border, 20 dp ink icon (Back, bell). -->
+    <style name="Widget.LaundryHub.IconCircleButton" parent="">
+        <item name="android:layout_width">@dimen/icon_button</item>
+        <item name="android:layout_height">@dimen/icon_button</item>
+        <item name="android:background">@drawable/bg_icon_button</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">center</item>
+        <item name="tint">@color/ink</item>
+    </style>
+
+    <!-- StepperButton: 52 dp circle with a 26 sp bold sign. -->
+    <style name="Widget.LaundryHub.Button.Stepper" parent="Widget.LaundryHub.Button.PrimaryPill">
+        <item name="android:layout_width">@dimen/stepper_button</item>
+        <item name="android:layout_height">@dimen/stepper_button</item>
+        <item name="android:minWidth">@dimen/stepper_button</item>
+        <item name="android:minHeight">@dimen/stepper_button</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textSize">@dimen/text_stepper</item>
+    </style>
+
+    <!-- Minus: white with a 2 dp #D5DBD6 ring; #EEF1EE / #9AA5AD when disabled at the minimum. -->
+    <style name="Widget.LaundryHub.Button.Stepper.Minus">
+        <item name="backgroundTint">@color/stepper_minus_bg</item>
+        <item name="android:textColor">@color/stepper_minus_text</item>
+        <item name="strokeColor">@color/icon_button_border</item>
+        <item name="strokeWidth">@dimen/stroke_selected</item>
+        <item name="rippleColor">@color/accent_tint</item>
+    </style>
+
+    <!-- Plus: accent fill, white sign. -->
+    <style name="Widget.LaundryHub.Button.Stepper.Plus" />
+
+    <!-- Chip (time slots): 48 dp, 14 dp radius, 2 dp border, 14 sp bold; accent fill + white text when checked. -->
+    <style name="Widget.LaundryHub.Button.Chip" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:checkable">true</item>
+        <item name="android:minHeight">@dimen/chip_height</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">@dimen/inline_gap</item>
+        <item name="android:paddingEnd">@dimen/inline_gap</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.LaundryHub.Chip</item>
+        <item name="backgroundTint">@color/chip_bg</item>
+        <item name="strokeColor">@color/chip_stroke</item>
+        <item name="strokeWidth">@dimen/stroke_selected</item>
+        <item name="android:textColor">@color/chip_text</item>
+        <item name="android:textSize">@dimen/text_body_small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/dm_sans</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:maxLines">1</item>
+        <item name="rippleColor">@color/accent_tint</item>
+    </style>
+
+    <style name="ShapeAppearance.LaundryHub.Chip" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_chip</item>
     </style>
 
     <!-- TextLink: borderless accent bold text with a 44 dp touch target (Forgot password?, Sign up). -->
@@ -162,7 +400,70 @@
         <item name="strokeColor">@color/selectable_card_stroke</item>
         <item name="strokeWidth">@dimen/stroke_selected</item>
         <item name="checkedIcon">@null</item>
+        <!-- No Material checked overlay: the design only changes border and fill. -->
+        <item name="cardForegroundColor">@android:color/transparent</item>
         <item name="rippleColor">@color/accent_tint</item>
+        <!-- CSS padding is inside the 2 px border; MaterialCardView draws the stroke over the padding. -->
+        <item name="contentPadding">@dimen/selectable_card_padding</item>
+    </style>
+
+    <!-- Card.Hero: accent, 24 dp radius, no padding (Home "New order" card; content pads itself). -->
+    <style name="Widget.LaundryHub.Card.Hero">
+        <item name="cardCornerRadius">@dimen/radius_hero</item>
+        <item name="cardBackgroundColor">@color/accent</item>
+        <item name="contentPadding">0dp</item>
+    </style>
+
+    <!-- Card.Large: 20 dp radius, 18 dp padding (weight card, order summary, shop card). -->
+    <style name="Widget.LaundryHub.Card.Large">
+        <item name="cardCornerRadius">@dimen/radius_card_large</item>
+    </style>
+
+    <!-- Card.Tile: 18 dp radius, 16 dp padding (Home price tile). -->
+    <style name="Widget.LaundryHub.Card.Tile">
+        <item name="contentPadding">@dimen/tile_padding</item>
+    </style>
+
+    <!-- Card.Row: 16 dp radius, 14 dp padding ("How it works" rows). -->
+    <style name="Widget.LaundryHub.Card.Row">
+        <item name="cardCornerRadius">@dimen/row_card_radius</item>
+        <item name="contentPadding">@dimen/row_card_padding</item>
+    </style>
+
+    <!-- SelectableCard.Service: 20 dp radius, 18 dp padding (02 service cards). -->
+    <style name="Widget.LaundryHub.SelectableCard.Service">
+        <item name="cardCornerRadius">@dimen/radius_card_large</item>
+    </style>
+
+    <!-- SelectableCard.Soap: 18 dp radius, 14 dp padding, at least 120 dp tall (03 soap grid). -->
+    <style name="Widget.LaundryHub.SelectableCard.Soap">
+        <item name="contentPadding">@dimen/soap_card_padding_inner</item>
+        <item name="android:minHeight">@dimen/soap_card_min_height</item>
+    </style>
+
+    <!-- SelectableCard.Payment: 18 dp radius, 14 / 16 dp padding, at least 64 dp tall (05). -->
+    <style name="Widget.LaundryHub.SelectableCard.Payment">
+        <item name="contentPaddingTop">@dimen/payment_card_padding_v_inner</item>
+        <item name="contentPaddingBottom">@dimen/payment_card_padding_v_inner</item>
+        <item name="contentPaddingLeft">@dimen/payment_card_padding_h_inner</item>
+        <item name="contentPaddingRight">@dimen/payment_card_padding_h_inner</item>
+        <item name="android:minHeight">@dimen/payment_card_min_height</item>
+    </style>
+
+    <!-- RadioDot inside a SelectableCard (24 dp; follows the card checked state). -->
+    <style name="Widget.LaundryHub.RadioDot" parent="">
+        <item name="android:layout_width">@dimen/radio_dot</item>
+        <item name="android:layout_height">@dimen/radio_dot</item>
+        <item name="android:background">@drawable/bg_radio_dot</item>
+        <item name="android:duplicateParentState">true</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <!-- RadioDot on payment cards: 22 dp. -->
+    <style name="Widget.LaundryHub.RadioDot.Small">
+        <item name="android:layout_width">@dimen/radio_dot_small</item>
+        <item name="android:layout_height">@dimen/radio_dot_small</item>
+        <item name="android:background">@drawable/bg_radio_dot_small</item>
     </style>
 
     <!-- ===== Inputs ===== -->
@@ -223,6 +524,35 @@
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/dm_sans</item>
         <item name="android:maxLines">1</item>
+    </style>
+
+    <!-- WarnNote: warn colors, 12 dp radius, 10 / 12 dp padding, 13 sp ("Minimum of 8 kg per order..."). -->
+    <style name="Widget.LaundryHub.WarnNote" parent="">
+        <item name="android:background">@drawable/bg_warn_note</item>
+        <item name="android:paddingStart">@dimen/warn_note_padding_h</item>
+        <item name="android:paddingEnd">@dimen/warn_note_padding_h</item>
+        <item name="android:paddingTop">@dimen/warn_note_padding_v</item>
+        <item name="android:paddingBottom">@dimen/warn_note_padding_v</item>
+        <item name="android:drawablePadding">@dimen/checkbox_gap</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/warn_text</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:fontFamily">@font/dm_sans</item>
+    </style>
+
+    <!-- BottomNavItem: at least 64 x 48 dp, 22 dp icon over a 12 sp label; accent when selected. -->
+    <style name="Widget.LaundryHub.BottomNavItem" parent="">
+        <item name="android:minWidth">@dimen/nav_item_min_width</item>
+        <item name="android:minHeight">@dimen/nav_item_min_height</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:drawablePadding">@dimen/nav_gap</item>
+        <item name="android:textColor">@color/nav_item</item>
+        <item name="drawableTint">@color/nav_item</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:fontFamily">@font/dm_sans</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
     <!-- ErrorBanner (no design for errors): warn colors, 14 dp radius. -->

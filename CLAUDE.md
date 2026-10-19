@@ -42,11 +42,15 @@ Without an emulator (this machine is short on disk space), render Android screen
 (390×844 @2×) with `.\gradlew.bat testDebugUnitTest -Pscreenshots` (Robolectric, e.g.
 `AuthScreenshotTest`); PNGs land in `%USERPROFILE%\.laundryhub-build\android-app\app\screenshots`.
 
-Android UI uses the design system in `res/values/styles.xml` (PrimaryPillButton, OutlinePillButton,
-DarkPillButton, TextLink, Card, SelectableCard, TextInput / `ui.widget.FormField`, StatusBadge,
-`ui.widget.SegmentedControl`, CheckBox, ErrorBanner). Never add one-off styles, and never set
-`android:textColor` / `android:fontFamily` in the theme: theme-level values override every
-`textAppearance`.
+Android UI uses the design system in `res/values/styles.xml` (PrimaryPillButton (+ Compact),
+OutlinePillButton, DarkPillButton, WhitePillButton, TextLink, IconCircleButton, StepperButton, Chip,
+Card (+ Hero, Large, Tile, Row), SelectableCard (+ Service, Soap, Payment) with RadioDot,
+TextInput / `ui.widget.FormField` (`app:compact`), StatusBadge, `ui.widget.SegmentedControl`, CheckBox,
+ErrorBanner, WarnNote, BottomNavItem) and the `TextAppearance.LaundryHub.*` type scale. Never add
+one-off styles. Never set `android:textColor` / `android:fontFamily` in the theme (theme-level values
+override every `textAppearance`), never base text styles on the Material 3 type scale (it forces a
+`lineHeight`), and set CSS `line-height` with `lineHeight`. `includeFontPadding=false` comes from the
+theme's default TextView style; it has no effect inside a `textAppearance`.
 
 Loading, empty and error states are not in the mockups. Add them in the same style, using
 only existing tokens. If something has **no design at all**, see §7 and ask the user
@@ -297,8 +301,10 @@ Secrets come from **environment variables** (backend, admin) or **`android-app/l
 - Backend: `application.yml` reads `${LAUNDRYHUB_JWT_SECRET:}`, `${GOOGLE_OAUTH_CLIENT_ID:}`,
   `${GOOGLE_SERVER_KEY:}` (Geocoding API), `${SHOP_LAT:}`/`${SHOP_LNG:}` and the `DB_*` credentials the
   same way (template: `backend/.env.example`). Never put a real value in a properties file.
-- Android: `MAPS_API_KEY=...` in `android-app/local.properties` → `manifestPlaceholders["mapsApiKey"]`
-  → `com.google.android.geo.API_KEY` meta-data in the manifest. `GOOGLE_WEB_CLIENT_ID=...` (the OAuth
-  web client id, same value as the backend's `GOOGLE_OAUTH_CLIENT_ID`) → `BuildConfig.GOOGLE_WEB_CLIENT_ID`
-  for "Continue with Google".
+- Android: the **Secrets Gradle Plugin** reads `android-app/local.properties` (git-ignored):
+  `MAPS_API_KEY=...` → manifest placeholder `${MAPS_API_KEY}` → `com.google.android.geo.API_KEY`
+  (Maps SDK, 04a), and `GOOGLE_WEB_CLIENT_ID=...` (the OAuth web client id, same value as the backend's
+  `GOOGLE_OAUTH_CLIENT_ID`) → `BuildConfig.GOOGLE_WEB_CLIENT_ID` ("Continue with Google").
+  `android-app/local.defaults.properties` is committed with placeholder values only. Plugin 2.0.1 writes
+  unquoted BuildConfig strings under AGP 9; `app/build.gradle.kts` re-declares those fields quoted.
 - Never print or log secrets, and never paste them into source, tests or docs.

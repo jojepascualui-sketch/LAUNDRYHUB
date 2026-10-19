@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vertical gap for LinearLayout showDividers="middle" (@dimen/card_gap). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <size android:width="@dimen/card_gap" android:height="@dimen/card_gap" />
+    <solid android:color="@android:color/transparent" />
+</shape>

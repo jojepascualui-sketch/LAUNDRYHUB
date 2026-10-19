@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bottom nav (01): white, 1 dp top divider, padding 8 / 0 / 18; Home, Orders, Profile. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bar_top_border"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/nav_padding_top"
+    android:paddingBottom="@dimen/nav_padding_bottom">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/nav_home"
+            style="@style/Widget.LaundryHub.BottomNavItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/nav_home"
+            app:drawableTopCompat="@drawable/ic_nav_home" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/nav_orders"
+            style="@style/Widget.LaundryHub.BottomNavItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/nav_orders"
+            app:drawableTopCompat="@drawable/ic_nav_orders" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/nav_profile"
+            style="@style/Widget.LaundryHub.BottomNavItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/nav_profile"
+            app:drawableTopCompat="@drawable/ic_nav_profile" />
+    </FrameLayout>
+</LinearLayout>

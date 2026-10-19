@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 04a "Use my current location" (asked at runtime). -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".LaundryHubApp"
@@ -14,7 +17,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${mapsApiKey}" />
+            android:value="${MAPS_API_KEY}" />
 
         <!-- Launcher: routes to Sign in or the signed-in role's home. -->
         <activity
@@ -35,8 +38,12 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.home.CustomerHomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.order.OrderWizardActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.rider.RiderHomeActivity"
             android:exported="false" />

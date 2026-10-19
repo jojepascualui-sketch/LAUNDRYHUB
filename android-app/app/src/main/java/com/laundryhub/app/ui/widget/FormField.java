@@ -40,7 +40,7 @@ public class FormField extends LinearLayout {
     /**
      * @param context context
      * @param attrs   {@code app:label}, {@code android:hint}, {@code android:inputType},
-     *                {@code android:imeOptions}, {@code android:autofillHints}
+     *                {@code android:imeOptions}, {@code android:autofillHints}, {@code app:compact}
      */
     public FormField(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -58,6 +58,12 @@ public class FormField extends LinearLayout {
             input.setHint(a.getText(R.styleable.FormField_android_hint));
             input.setInputType(a.getInt(R.styleable.FormField_android_inputType, InputType.TYPE_CLASS_TEXT));
             input.setImeOptions(a.getInt(R.styleable.FormField_android_imeOptions, EditorInfo.IME_ACTION_NEXT));
+            if (a.getBoolean(R.styleable.FormField_compact, false)) {
+                // 48 dp / 14 sp, as the inputs on 04a and 05.
+                input.setMinHeight(getResources().getDimensionPixelSize(R.dimen.input_height_compact));
+                input.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimension(R.dimen.text_body_small));
+            }
             String autofill = a.getString(R.styleable.FormField_android_autofillHints);
             if (autofill != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 input.setAutofillHints(autofill);

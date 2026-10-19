@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Step 3 · 04a (delivery: Google map pin + address details) / 04b (walk-in: shop card) + time chips. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/step_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/space_14"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingTop="@dimen/wizard_content_padding_top"
+        android:paddingEnd="@dimen/screen_padding"
+        android:paddingBottom="@dimen/wizard_content_padding_bottom"
+        android:showDividers="middle">
+
+        <LinearLayout
+            android:id="@+id/delivery_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/space_14"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pin_hint"
+                android:textAppearance="@style/TextAppearance.LaundryHub.BodySmall" />
+
+            <!-- 250 dp map frame: Google map (tap or drag the orange pin), status chip bottom-left,
+                 "Use my current location" top-right. MapFrame draws the rounded corners and border. -->
+            <com.laundryhub.app.ui.widget.MapFrame
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_height"
+                android:background="@color/map_bg"
+                android:contentDescription="@string/pin_map_description">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/map_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageButton
+                    android:id="@+id/current_location"
+                    style="@style/Widget.LaundryHub.IconCircleButton"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="@dimen/map_overlay_margin"
+                    android:contentDescription="@string/use_current_location"
+                    android:src="@drawable/ic_my_location"
+                    android:tooltipText="@string/use_current_location" />
+
+                <TextView
+                    android:id="@+id/pin_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:layout_margin="@dimen/map_overlay_margin"
+                    android:background="@drawable/bg_map_chip"
+                    android:paddingStart="@dimen/map_chip_padding_h"
+                    android:paddingTop="@dimen/map_chip_padding_v"
+                    android:paddingEnd="@dimen/map_chip_padding_h"
+                    android:paddingBottom="@dimen/map_chip_padding_v"
+                    android:textAppearance="@style/TextAppearance.LaundryHub.SmallStrong" />
+            </com.laundryhub.app.ui.widget.MapFrame>
+
+            <!-- Pin outside the delivery radius (no design for errors: ErrorBanner). -->
+            <TextView
+                android:id="@+id/pin_error"
+                style="@style/Widget.LaundryHub.ErrorBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityLiveRegion="polite"
+                android:visibility="gone" />
+
+            <com.laundryhub.app.ui.widget.FormField
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="postalAddress"
+                android:hint="@string/hint_address_details"
+                android:imeOptions="actionDone"
+                android:inputType="textPostalAddress|textCapWords"
+                app:compact="true"
+                app:label="@string/label_address_details" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/shop_card"
+            style="@style/Widget.LaundryHub.Card.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="@dimen/icon_tile"
+                    android:layout_height="@dimen/icon_tile"
+                    android:background="@drawable/bg_icon_tile">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_tile_icon"
+                        android:layout_height="@dimen/icon_tile_icon"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_location_pin" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/new_order_gap"
+                    android:layout_weight="1"
+                    android:divider="@drawable/space_4"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
+
+                    <TextView
+                        android:id="@+id/shop_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.LaundryHub.Subtitle" />
+
+                    <TextView
+                        android:id="@+id/shop_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.LaundryHub.CardDescription" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/space_10"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/slot_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:textAppearance="@style/TextAppearance.LaundryHub.Subtitle" />
+
+            <LinearLayout
+                android:id="@+id/slot_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/space_10"
+                android:orientation="vertical"
+                android:showDividers="middle" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.laundryhub.app.data.api.ApiClient;
 import com.laundryhub.app.data.auth.AuthRepository;
 import com.laundryhub.app.data.auth.RemoteAuthRepository;
+import com.laundryhub.app.data.order.OrderRepository;
+import com.laundryhub.app.data.order.RemoteOrderRepository;
 import com.laundryhub.app.data.session.SessionStore;
 import com.laundryhub.app.data.session.SessionManager;
 import com.laundryhub.app.ui.auth.CredentialManagerGoogleSignIn;
@@ -19,8 +21,11 @@ public final class AppContainer {
     private final SessionManager sessions;
     private final AuthRepository authRepository;
     private final GoogleSignInClient googleSignIn;
+    private final OrderRepository orderRepository;
 
     /**
+     * The real app: everything talks to {@code BuildConfig.API_BASE_URL}.
+     *
      * @param context      application context
      * @param sessionStore where a remembered session is kept
      */
@@ -29,6 +34,29 @@ public final class AppContainer {
         ApiClient api = new ApiClient(BuildConfig.API_BASE_URL, sessions);
         authRepository = new RemoteAuthRepository(api.auth(), sessions);
         googleSignIn = new CredentialManagerGoogleSignIn(BuildConfig.GOOGLE_WEB_CLIENT_ID);
+        orderRepository = new RemoteOrderRepository(api.catalog(), api.orders());
+    }
+
+    /**
+     * Explicit parts (tests and screenshot renders use fakes).
+     *
+     * @param sessions        session holder
+     * @param authRepository  sign-in
+     * @param googleSignIn    Google sign-in
+     * @param orderRepository customer orders
+     */
+    public AppContainer(@NonNull SessionManager sessions, @NonNull AuthRepository authRepository,
+                        @NonNull GoogleSignInClient googleSignIn, @NonNull OrderRepository orderRepository) {
+        this.sessions = sessions;
+        this.authRepository = authRepository;
+        this.googleSignIn = googleSignIn;
+        this.orderRepository = orderRepository;
+    }
+
+    /** @return customer order flow (01–06) */
+    @NonNull
+    public OrderRepository orderRepository() {
+        return orderRepository;
     }
 
     /** @return the session holder */

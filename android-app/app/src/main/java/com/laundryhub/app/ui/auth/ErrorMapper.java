@@ -7,7 +7,7 @@ import com.laundryhub.app.data.ApiException;
 import com.laundryhub.app.ui.common.UiText;
 
 /** Turns an {@link ApiException} into the text shown in the error banner. */
-final class ErrorMapper {
+public final class ErrorMapper {
 
     private ErrorMapper() {
     }
@@ -17,7 +17,7 @@ final class ErrorMapper {
      * @return the server's message, a network message, or a generic one
      */
     @NonNull
-    static UiText bannerFor(@NonNull ApiException error) {
+    public static UiText bannerFor(@NonNull ApiException error) {
         if (error.isNetworkError()) {
             return UiText.of(R.string.error_network);
         }

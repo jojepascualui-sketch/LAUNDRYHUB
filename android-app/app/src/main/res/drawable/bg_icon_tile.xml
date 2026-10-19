@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icon tile: accent tint, radius 14 (service cards, shop card). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/accent_tint" />
+    <corners android:radius="@dimen/radius_chip" />
+</shape>

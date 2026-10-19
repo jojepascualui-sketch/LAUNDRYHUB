@@ -16,11 +16,11 @@ import com.laundryhub.app.ui.auth.SignInActivity;
 import com.laundryhub.app.ui.common.SystemBars;
 
 /**
- * Temporary landing screen after sign-in, until 01 Home and R1 Rider bookings are built:
+ * Temporary landing screen after sign-in, until R1 Rider bookings is built:
  * shows who is signed in and a Sign out button.
  */
 // OOP: Abstraction — subclasses only say which message to show.
-// OOP: Inheritance — CustomerHomeActivity and RiderHomeActivity extend this class.
+// OOP: Inheritance — RiderHomeActivity extends this class (customers now have HomeActivity).
 public abstract class PlaceholderHomeActivity extends AppCompatActivity {
 
     /** @return the explanation shown under the title */

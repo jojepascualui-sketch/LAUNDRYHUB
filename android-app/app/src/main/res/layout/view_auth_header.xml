@@ -45,7 +45,7 @@
             android:id="@+id/auth_subheading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/auth_heading_gap"
+            android:layout_marginTop="@dimen/auth_subheading_gap"
             android:alpha="0.92"
             android:textAppearance="@style/TextAppearance.LaundryHub.Body"
             android:textColor="@color/surface" />

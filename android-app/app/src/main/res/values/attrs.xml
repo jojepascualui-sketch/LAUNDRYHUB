@@ -14,5 +14,7 @@
         <attr name="android:inputType" />
         <attr name="android:imeOptions" />
         <attr name="android:autofillHints" />
+        <!-- 48 dp / 14 sp input, as on 04a and 05 (sign-in inputs are 51 dp / 15 sp). -->
+        <attr name="compact" format="boolean" />
     </declare-styleable>
 </resources>

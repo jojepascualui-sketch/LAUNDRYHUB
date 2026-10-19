@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Round icon button (back, bell): white, 1 dp #D5DBD6. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="@color/surface" />
+    <stroke android:width="@dimen/hairline" android:color="@color/icon_button_border" />
+</shape>

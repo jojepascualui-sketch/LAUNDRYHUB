@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- White bar with a 1 dp divider on top (bottom nav, sticky wizard footer). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/divider" />
+    <item android:top="@dimen/hairline" android:drawable="@color/surface" />
+</layer-list>

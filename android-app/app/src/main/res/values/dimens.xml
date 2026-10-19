@@ -10,11 +10,16 @@
     <dimen name="auth_body_padding_top">22dp</dimen>
     <dimen name="auth_body_padding_bottom">26dp</dimen>
     <dimen name="auth_header_gap">14dp</dimen>
-    <!-- 14 dp gap minus 5.2 dp: CSS draws the 32 px heading in a 33.6 px line box (line-height 1.05),
-         Android in a ~44 dp box (Bricolage ascent + descent). This keeps glyphs where the design has them. -->
-    <dimen name="auth_heading_gap">9dp</dimen>
+    <!-- Design gap is 14 px, but CSS draws the 32 px heading in a 33.6 px line box (line-height 1.05)
+         while Android uses the font's ascent + descent. Measured against 00a: these put the heading and
+         subheading glyphs on the design's rows and end the header at 428 px. -->
+    <dimen name="auth_heading_gap">11dp</dimen>
+    <dimen name="auth_subheading_gap">12.5dp</dimen>
     <dimen name="form_gap">16dp</dimen>
     <dimen name="label_gap">6dp</dimen>
+    <!-- Label to input: 6 px in the design + 1 dp, because Android rounds the 13 sp label line down;
+         measured against 00b, where five fields otherwise drift 5 dp. -->
+    <dimen name="field_label_gap">7dp</dimen>
     <dimen name="card_gap">12dp</dimen>
     <dimen name="section_gap">20dp</dimen>
     <dimen name="inline_gap">10dp</dimen>
@@ -41,6 +46,8 @@
     <dimen name="button_height_secondary">52dp</dimen>
     <!-- CSS min-height 50 px; the design PNGs render inputs 51 px tall with the border. -->
     <dimen name="input_height">51dp</dimen>
+    <!-- Compact input (04a address details, 05 GCash number): CSS min-height 48 px, 14 px text. -->
+    <dimen name="input_height_compact">48dp</dimen>
     <dimen name="segment_height">44dp</dimen>
 
     <!-- Strokes -->
@@ -63,14 +70,101 @@
     <dimen name="checkbox_inset_correction">-7dp</dimen>
     <!-- Rows whose content is shorter than the 44 dp touch target overlap the gaps around them
          by this much, so the visible spacing matches the design. -->
-    <dimen name="checkbox_row_overlap_top">-12dp</dimen>
-    <dimen name="checkbox_row_overlap_bottom">-13dp</dimen>
+    <dimen name="checkbox_row_overlap_top">-10dp</dimen>
+    <dimen name="checkbox_row_overlap_bottom">-15.5dp</dimen>
     <dimen name="link_row_overlap">-5dp</dimen>
     <dimen name="terms_text_gap">5dp</dimen>
 
     <!-- Status badge -->
     <dimen name="badge_padding_horizontal">10dp</dimen>
     <dimen name="badge_padding_vertical">5dp</dimen>
+
+    <!-- Customer app (source/Main.dc.html) -->
+    <dimen name="home_padding_top">28dp</dimen>
+    <dimen name="home_padding_bottom">16dp</dimen>
+    <dimen name="home_section_gap">22dp</dimen>
+    <dimen name="brand_tile">40dp</dimen>
+    <dimen name="brand_tile_radius">12dp</dimen>
+    <dimen name="brand_icon">22dp</dimen>
+    <dimen name="icon_button">44dp</dimen>
+    <dimen name="icon_button_icon">20dp</dimen>
+    <dimen name="hero_gap">4dp</dimen>
+    <!-- 4 px in the design; 2 dp on Android, where the first Bricolage line box is taller than CSS 1.1. -->
+    <dimen name="display_gap">2dp</dimen>
+    <dimen name="new_order_padding">22dp</dimen>
+    <dimen name="new_order_gap">14dp</dimen>
+    <dimen name="card_ring_size">160dp</dimen>
+    <dimen name="card_ring_offset">-40dp</dimen>
+    <dimen name="white_pill_height">46dp</dimen>
+    <dimen name="white_pill_padding">22dp</dimen>
+    <dimen name="white_pill_icon">18dp</dimen>
+    <dimen name="tile_padding">16dp</dimen>
+    <dimen name="tile_gap">6dp</dimen>
+    <dimen name="row_card_radius">16dp</dimen>
+    <dimen name="row_card_padding">14dp</dimen>
+    <dimen name="step_number">36dp</dimen>
+    <dimen name="nav_padding_top">8dp</dimen>
+    <dimen name="nav_padding_bottom">18dp</dimen>
+    <dimen name="nav_item_min_width">64dp</dimen>
+    <dimen name="nav_item_min_height">48dp</dimen>
+    <dimen name="nav_icon">22dp</dimen>
+    <dimen name="nav_gap">3dp</dimen>
+    <dimen name="wizard_header_padding_top">22dp</dimen>
+    <dimen name="wizard_header_padding_bottom">14dp</dimen>
+    <dimen name="wizard_content_padding_top">6dp</dimen>
+    <dimen name="wizard_content_padding_bottom">20dp</dimen>
+    <dimen name="progress_height">6dp</dimen>
+    <dimen name="progress_radius">3dp</dimen>
+    <dimen name="footer_padding_top">14dp</dimen>
+    <dimen name="footer_padding_bottom">22dp</dimen>
+    <dimen name="footer_button_padding">26dp</dimen>
+    <dimen name="icon_tile">48dp</dimen>
+    <dimen name="icon_tile_icon">24dp</dimen>
+    <dimen name="soap_tile">34dp</dimen>
+    <dimen name="soap_tile_radius">10dp</dimen>
+    <dimen name="soap_icon">18dp</dimen>
+    <dimen name="soap_card_min_height">120dp</dimen>
+    <dimen name="soap_card_padding">14dp</dimen>
+    <dimen name="payment_tile">40dp</dimen>
+    <dimen name="payment_card_min_height">64dp</dimen>
+    <dimen name="payment_card_padding_h">16dp</dimen>
+    <dimen name="payment_card_padding_v">14dp</dimen>
+    <!-- 24 / 22 px span + 2 px border on both sides (CSS content-box). -->
+    <dimen name="radio_dot">28dp</dimen>
+    <dimen name="radio_dot_small">26dp</dimen>
+    <!-- border-radius 12 / 11 px on 28 / 26 px: rounded squares, not circles. -->
+    <dimen name="radio_dot_radius">12dp</dimen>
+    <dimen name="radio_dot_small_radius">11dp</dimen>
+    <!-- Selectable card padding = CSS padding + the 2 px border. -->
+    <dimen name="selectable_card_padding">20dp</dimen>
+    <dimen name="soap_card_padding_inner">16dp</dimen>
+    <dimen name="payment_card_padding_v_inner">16dp</dimen>
+    <dimen name="payment_card_padding_h_inner">18dp</dimen>
+    <dimen name="kilo_line_height">48dp</dimen>
+    <dimen name="stepper_button">52dp</dimen>
+    <dimen name="warn_note_radius">12dp</dimen>
+    <dimen name="warn_note_padding_h">12dp</dimen>
+    <dimen name="warn_note_padding_v">10dp</dimen>
+    <dimen name="warn_icon">18dp</dimen>
+    <dimen name="chip_height">48dp</dimen>
+    <dimen name="grid_gap">10dp</dimen>
+    <dimen name="step_gap">18dp</dimen>
+    <dimen name="map_height">250dp</dimen>
+    <dimen name="map_radius">22dp</dimen>
+    <!-- Map frame border (2 px #D5DBD6 in the design). -->
+    <dimen name="map_border">2dp</dimen>
+    <!-- Chip / button inset: 12 px inside the 2 px border (the design positions them inside the border). -->
+    <dimen name="map_overlay_margin">14dp</dimen>
+    <dimen name="map_chip_padding_h">11dp</dimen>
+    <dimen name="map_chip_padding_v">7dp</dimen>
+    <dimen name="done_padding_top">60dp</dimen>
+    <dimen name="done_padding_bottom">30dp</dimen>
+    <dimen name="done_circle">96dp</dimen>
+    <dimen name="done_icon">48dp</dimen>
+    <dimen name="summary_gap">12dp</dimen>
+    <dimen name="summary_gap_small">10dp</dimen>
+    <dimen name="done_sub_gap">6dp</dimen>
+    <dimen name="payment_text_gap">2dp</dimen>
 
     <!-- Type scale (sp) -->
     <dimen name="text_hero">32sp</dimen>
@@ -81,4 +175,18 @@
     <dimen name="text_body_small">14sp</dimen>
     <dimen name="text_caption">13sp</dimen>
     <dimen name="text_badge">12sp</dimen>
+    <dimen name="text_display">30sp</dimen>
+    <dimen name="text_brand">22sp</dimen>
+    <dimen name="text_card_title">22sp</dimen>
+    <dimen name="text_figure">24sp</dimen>
+    <dimen name="text_total_large">28sp</dimen>
+    <dimen name="text_kilo">48sp</dimen>
+    <dimen name="text_stepper">26sp</dimen>
+    <dimen name="text_subtitle">16sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <!-- CSS line heights: 30 x 1.1, 22 x 1.2, 13 x 1.4, 12 x 1.35. -->
+    <dimen name="line_display">33sp</dimen>
+    <dimen name="line_card_title">26.4sp</dimen>
+    <dimen name="line_card_description">18.2sp</dimen>
+    <dimen name="line_small_note">16.2sp</dimen>
 </resources>

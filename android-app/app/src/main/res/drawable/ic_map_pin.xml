@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Map pin from source/Main.dc.html (40 x 48, #E0662A fill, white 2.5 stroke, white dot). Used as the
+     Google Maps marker icon; its tip is the bottom centre (anchor 0.5, 1). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="48dp"
+    android:viewportWidth="40"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="@color/pin"
+        android:pathData="M20,47s16,-15.6 16,-27A16,16 0,0 0,4 20c0,11.4 16,27 16,27z"
+        android:strokeWidth="2.5"
+        android:strokeColor="@color/surface" />
+    <path
+        android:fillColor="@color/surface"
+        android:pathData="M14,20a6,6 0,1 0,12 0a6,6 0,1 0,-12 0" />
+</vector>

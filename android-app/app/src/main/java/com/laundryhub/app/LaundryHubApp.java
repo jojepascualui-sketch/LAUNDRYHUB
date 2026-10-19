@@ -17,7 +17,14 @@ public class LaundryHubApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        container = new AppContainer(this, createSessionStore());
+        container = createContainer();
+    }
+
+    /** @return the app's shared objects; tests override this to plug in fakes */
+    // OOP: Polymorphism — subclasses may build another container.
+    @NonNull
+    protected AppContainer createContainer() {
+        return new AppContainer(this, createSessionStore());
     }
 
     /** @return the session storage: encrypted on devices; tests override it (no Keystore there) */
