@@ -254,4 +254,4 @@ Sales are the totals of orders placed in the range that are **not cancelled**, p
 | `GOOGLE_SERVER_KEY` | Google Geocoding API (reverse geocoding of pins). If blank, no address is filled in; orders still work. |
 | `SHOP_LAT`, `SHOP_LNG` | Shop position for the delivery radius. If blank, the position in `shop_settings` is used; if neither is set, delivery orders return 503. |
 | `SHOP_TIME_ZONE` | Time zone used for "today" (default `Asia/Manila`) |
-| `DB_URL`, `DB_USER`, `DB_PASSWORD` | MySQL |
+| `DB_URL`, `DB_USER`, `DB_PASSWORD` | Supabase Postgres |

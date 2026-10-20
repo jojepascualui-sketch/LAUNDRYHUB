@@ -725,7 +725,7 @@ Read by `backend/src/main/resources/application.yml` (via `LaundryHubProperties`
 
 | Variable | Meaning | Default |
 |---|---|---|
-| `DB_URL` | JDBC URL of the MySQL 8 database | none (required) |
+| `DB_URL` | JDBC URL of the Supabase Postgres database (Session pooler) | none (required) |
 | `DB_USER` | database user | none (required) |
 | `DB_PASSWORD` | database password | none (required) |
 | `FLYWAY_LOCATIONS` | migration folders; set to `classpath:db/migration` to skip the sample data | `classpath:db/migration,classpath:db/sample-data` |

@@ -5,17 +5,29 @@ spring:
     name: laundryhub-backend
   config:
     import: optional:file:.env[.properties]
+  # Supabase Postgres (docs/DEPLOYMENT.md): use the Session pooler connection string, e.g.
+  # jdbc:postgresql://aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=require
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+    hikari:
+      # Supabase's free pooler allows few connections; keep the pool small.
+      maximum-pool-size: ${DB_POOL_SIZE:5}
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        # Tables live in their own schema, not "public", so Supabase's Data API never exposes them.
+        default_schema: ${DB_SCHEMA:laundryhub}
     hibernate:
       # Flyway owns the schema; Hibernate only checks that the entities match it.
       ddl-auto: validate
   flyway:
     enabled: true
+    # Creates the schema on the first start and migrates inside it.
+    default-schema: ${DB_SCHEMA:laundryhub}
+    schemas: ${DB_SCHEMA:laundryhub}
     # db/sample-data loads the orders and customers shown in the admin design (A1/A2).
     # Set FLYWAY_LOCATIONS=classpath:db/migration to start with an empty shop.
     locations: ${FLYWAY_LOCATIONS:classpath:db/migration,classpath:db/sample-data}
@@ -63,6 +75,9 @@ laundryhub:
     # Shop position for the delivery radius. Blank = use the position saved in shop_settings.
     lat: ${SHOP_LAT:}
     lng: ${SHOP_LNG:}
+  web:
+    # Website origins allowed to call the API from the browser (comma-separated). Vercel previews: https://*.vercel.app
+    allowed-origins: ${WEB_ORIGINS:http://localhost:5173}
   admin:
     # First admin account, created on startup when no admin exists yet.
     email: ${ADMIN_DEFAULT_EMAIL:admin@laundryhub.ph}

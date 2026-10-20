@@ -13,7 +13,7 @@ Spring Boot REST backend, and a JavaFX admin console.
 
 Project docs (keep them current when code changes): `docs/API.md` (REST reference), `docs/ERD.md` (schema),
 `docs/OOP.md` (four pillars → classes and lines, UML), `docs/DESIGN_REVIEW.md` (every screen vs its PNG),
-`docs/SCREEN_API_MAP.md` (screen → endpoints), `docs/DEPLOYMENT.md` (Render + hosted MySQL, Android release,
+`docs/SCREEN_API_MAP.md` (screen → endpoints), `docs/DEPLOYMENT.md` (Render + Supabase Postgres, Vercel website, Android release,
 admin installer, Google key restrictions).
 
 ---

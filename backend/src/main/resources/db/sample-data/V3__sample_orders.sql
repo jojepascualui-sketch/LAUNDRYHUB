@@ -3,19 +3,20 @@
 -- Sample accounts have no password (password_hash NULL), so nobody can sign in with them.
 -- Phone numbers replace the design's "XXX" with 000; e-mails use the reserved example.com domain.
 -- Pins are sample coordinates; the owner sets the real shop location in shop_settings.
+-- Times use the shop time zone (Asia/Manila), as the backend does, because Supabase runs in UTC.
 
 INSERT INTO users (role, full_name, email, mobile_number, password_hash, status, position, created_at, updated_at) VALUES
-    ('CUSTOMER', 'Maria Santos',    'maria.santos@example.com',    '09170001021', NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
-    ('CUSTOMER', 'Juan Dela Cruz',  'juan.delacruz@example.com',   '09180003340', NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
-    ('CUSTOMER', 'Ana Reyes',       'ana.reyes@example.com',       '09270005582', NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
-    ('CUSTOMER', 'Mark Villanueva', 'mark.villanueva@example.com', '09950007713', NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
-    ('CUSTOMER', 'Liza Gonzaga',    'liza.gonzaga@example.com',    '09060002209', NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
-    ('CUSTOMER', 'Paolo Tan',       'paolo.tan@example.com',       '09190006650', NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
+    ('CUSTOMER', 'Maria Santos',    'maria.santos@example.com',    '09170001021', NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
+    ('CUSTOMER', 'Juan Dela Cruz',  'juan.delacruz@example.com',   '09180003340', NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
+    ('CUSTOMER', 'Ana Reyes',       'ana.reyes@example.com',       '09270005582', NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
+    ('CUSTOMER', 'Mark Villanueva', 'mark.villanueva@example.com', '09950007713', NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
+    ('CUSTOMER', 'Liza Gonzaga',    'liza.gonzaga@example.com',    '09060002209', NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
+    ('CUSTOMER', 'Paolo Tan',       'paolo.tan@example.com',       '09190006650', NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
     -- A4 Riders tab shows "[RIDER 1]" / "[RIDER 2]" with "[PLATE NO.]", both On duty.
-    ('RIDER',    'Rider 1',         'rider1@example.com',          NULL,          NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
-    ('RIDER',    'Rider 2',         'rider2@example.com',          NULL,          NULL, 'ACTIVE', NULL, NOW(6), NOW(6)),
+    ('RIDER',    'Rider 1',         'rider1@example.com',          NULL,          NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
+    ('RIDER',    'Rider 2',         'rider2@example.com',          NULL,          NULL, 'ACTIVE', NULL, (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila')),
     -- A4 Staff tab: "[STAFF NAME]", staff@laundryhub.ph, Counter staff.
-    ('STAFF',    'Staff 1',         'staff@laundryhub.ph',         NULL,          NULL, 'ACTIVE', 'Counter staff', NOW(6), NOW(6));
+    ('STAFF',    'Staff 1',         'staff@laundryhub.ph',         NULL,          NULL, 'ACTIVE', 'Counter staff', (now() AT TIME ZONE 'Asia/Manila'), (now() AT TIME ZONE 'Asia/Manila'));
 
 INSERT INTO riders (user_id, plate_number, on_duty)
 SELECT id, CASE email WHEN 'rider1@example.com' THEN 'SMP 0001' ELSE 'SMP 0002' END, TRUE
@@ -30,8 +31,8 @@ INSERT INTO orders (order_no, customer_id, service_type, status, weight_kg, bill
                     pickup_latitude, pickup_longitude, pickup_address, cancelled_reason, created_at, updated_at)
 SELECT o.order_no, u.id, o.service_type, o.status, o.kg, o.kg, s.id, s.name,
        30.00, s.add_on_per_kg, o.kg * 30.00, o.kg * s.add_on_per_kg, o.fee, o.kg * 30.00 + o.kg * s.add_on_per_kg + o.fee,
-       CURDATE() + INTERVAL o.day_offset DAY, o.slot_label, o.slot_start, o.slot_end,
-       o.lat, o.lng, o.address, NULL, NOW(6) - INTERVAL o.minutes_ago MINUTE, NOW(6)
+       CAST(now() AT TIME ZONE 'Asia/Manila' AS DATE) + o.day_offset, o.slot_label, o.slot_start, o.slot_end,
+       o.lat, o.lng, o.address, NULL, (now() AT TIME ZONE 'Asia/Manila') - make_interval(mins => o.minutes_ago), (now() AT TIME ZONE 'Asia/Manila')
 FROM (
     SELECT 'LH-0001' AS order_no, 'maria.santos@example.com' AS email, 'PICKUP_DELIVERY' AS service_type,
            'OUT_FOR_DELIVERY' AS status, 10.00 AS kg, 'Hypoallergenic' AS soap, 60.00 AS fee,
@@ -55,7 +56,7 @@ JOIN soaps s ON s.name = o.soap;
 INSERT INTO payments (order_id, method, amount, status, gcash_number, reference_no, collected_by_rider_id,
                       paid_at, created_at, updated_at)
 SELECT o.id, p.method, o.total, p.status, p.gcash_number, p.reference_no, NULL,
-       CASE p.status WHEN 'PAID' THEN o.created_at END, o.created_at, NOW(6)
+       CASE p.status WHEN 'PAID' THEN o.created_at END, o.created_at, (now() AT TIME ZONE 'Asia/Manila')
 FROM (
     SELECT 'LH-0001' AS order_no, 'GCASH' AS method, 'PAID' AS status, '09170001021' AS gcash_number, 'SAMPLE-0001' AS reference_no
     UNION ALL SELECT 'LH-0002', 'CASH',  'UNPAID', NULL,          NULL
@@ -68,7 +69,7 @@ JOIN orders o ON o.order_no = p.order_no;
 
 -- Status history up to each order's current status (timeline on 07).
 INSERT INTO order_status_history (order_id, status, changed_by, note, changed_at)
-SELECT o.id, h.status, NULL, NULL, o.created_at + INTERVAL h.step * 20 MINUTE
+SELECT o.id, h.status, NULL, NULL, o.created_at + make_interval(mins => h.step * 20)
 FROM (
     SELECT 'LH-0001' AS order_no, 'PENDING' AS status, 0 AS step
     UNION ALL SELECT 'LH-0001', 'WASHING', 1
@@ -95,9 +96,9 @@ INSERT INTO rider_jobs (order_id, job_type, status, rider_id, steps_completed, a
                         completed_at, version, created_at, updated_at)
 SELECT o.id, j.job_type, j.status, r.id, j.steps_completed,
        CASE WHEN j.status <> 'WAITING' THEN o.created_at END,
-       CASE WHEN r.id IS NOT NULL THEN o.created_at + INTERVAL 5 MINUTE END,
-       CASE WHEN j.status = 'COMPLETED' THEN o.created_at + INTERVAL 40 MINUTE END,
-       0, o.created_at, NOW(6)
+       CASE WHEN r.id IS NOT NULL THEN o.created_at + INTERVAL '5 minutes' END,
+       CASE WHEN j.status = 'COMPLETED' THEN o.created_at + INTERVAL '40 minutes' END,
+       0, o.created_at, (now() AT TIME ZONE 'Asia/Manila')
 FROM (
     SELECT 'LH-0001' AS order_no, 'PICKUP' AS job_type, 'COMPLETED' AS status, 'rider1@example.com' AS rider_email, 4 AS steps_completed
     UNION ALL SELECT 'LH-0001', 'RETURN_DELIVERY', 'IN_PROGRESS', 'rider1@example.com', 2
@@ -113,4 +114,4 @@ LEFT JOIN users r ON r.email = j.rider_email;
 
 -- Last GPS point of the rider delivering LH-0001 ("Rider is on the way · live GPS").
 INSERT INTO rider_locations (rider_id, latitude, longitude, accuracy_meters, recorded_at)
-SELECT id, 14.606500, 121.019800, 8.00, NOW(6) FROM users WHERE email = 'rider1@example.com';
+SELECT id, 14.606500, 121.019800, 8.00, (now() AT TIME ZONE 'Asia/Manila') FROM users WHERE email = 'rider1@example.com';

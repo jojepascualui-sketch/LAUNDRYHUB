@@ -1,7 +1,7 @@
 # Deploying Laundry HUB
 
 This guide puts the system online:
-- the **backend** on Render (Docker), with a hosted **MySQL** database on Railway or Aiven;
+- the **backend** on Render (Docker), with a **Supabase** Postgres database;
 - the **Android app** as a signed APK, shared through GitHub Releases or Firebase App Distribution;
 - the **admin console** as a Windows installer.
 
@@ -13,14 +13,14 @@ Android app (APK) ─┐                       ┌─ Google Geocoding API   (GO
                    ├─ HTTPS ─▶ Render: Spring Boot API ─┤
 Admin console    ──┘   /api/...          │  └─ Maps JavaScript API  (MAPS_JS_KEY, admin map page)
                                          ▼
-                              Railway / Aiven: MySQL 8  (Flyway migrates on every start)
+                              Supabase: Postgres, schema laundryhub  (Flyway migrates on every start)
 Phones: Maps SDK for Android (MAPS_API_KEY in the APK, restricted to the app's signature)
 ```
 
 | Step | What | Result |
 |---|---|---|
 | 1 | Google Cloud: API keys and OAuth client | 3 restricted keys + client id |
-| 2 | Hosted MySQL | `DB_URL`, `DB_USER`, `DB_PASSWORD` |
+| 2 | Supabase Postgres | `DB_URL`, `DB_USER`, `DB_PASSWORD` |
 | 3 | Backend on Render | `https://<name>.onrender.com/api/` |
 | 4 | First sign-in | admin password changed |
 | 5 | Android release | signed `app-release.apk` |
@@ -29,7 +29,7 @@ Phones: Maps SDK for Android (MAPS_API_KEY in the APK, restricted to the app's s
 
 **Before you start**
 - The repository is pushed to GitHub (`git push`).
-- You have accounts on GitHub, Render, Google Cloud (with billing turned on), and Railway or Aiven.
+- You have accounts on GitHub, Render, Google Cloud (with billing turned on), and Supabase.
 - These tools are installed and work in the VS Code terminal:
   - **GitHub CLI:** `winget install GitHub.cli`, then `gh auth login`.
   - **JDK 17:** already installed (CLAUDE.md §6).
@@ -82,41 +82,34 @@ Without the matching SHA-1 the map stays grey and Logcat shows "Authorization fa
 
 ---
 
-## 2. Hosted MySQL (Railway or Aiven)
+## 2. Supabase Postgres
 
-Render only offers PostgreSQL, and the backend uses MySQL 8 (Flyway scripts in
-`backend/src/main/resources/db/migration`). Pick **one** of these hosts.
+The backend stores everything in a **Supabase** PostgreSQL database (Flyway scripts in
+`backend/src/main/resources/db/migration`). The tables live in their own schema, **`laundryhub`** (`DB_SCHEMA`),
+not in `public`. Supabase's auto-generated Data API only serves `public`, so the anon key on the internet can never
+read or change the shop's data: every request goes through the Spring Boot API and its rules.
 
-### Option A — Railway
-1. <https://railway.com> → **New Project → Deploy MySQL**.
-2. Open the MySQL service → **Settings → Networking → Public Networking**: enable the **TCP Proxy**. Render
-   connects from outside Railway, so the private `*.railway.internal` address does not work.
-3. **Variables** tab: note `MYSQLUSER`, `MYSQLPASSWORD` and `MYSQLDATABASE` (usually `railway`), plus the public host
-   and port from the TCP proxy (e.g. `xxxx.proxy.rlwy.net:12345`).
-4. Your three values:
+1. <https://supabase.com/dashboard> → **New project**: name `laundryhub`, a strong **database password** (save it in
+   your password manager), region **Southeast Asia (Singapore)**.
+2. When the project is ready, press **Connect** (top bar) → **Session pooler**. Render has no IPv6, so use the
+   *Session pooler* (IPv4), not the *Direct connection*. You see a URI like
+   `postgresql://postgres.abcdefghijkl:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres`.
+3. Turn it into the three backend values (user and password move out of the URL):
    ```
-   DB_URL      = jdbc:mysql://xxxx.proxy.rlwy.net:12345/railway?sslMode=REQUIRED&serverTimezone=Asia/Manila
-   DB_USER     = <MYSQLUSER>
-   DB_PASSWORD = <MYSQLPASSWORD>
+   DB_URL      = jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require
+   DB_USER     = postgres.abcdefghijkl
+   DB_PASSWORD = <the database password from step 1>
    ```
+4. Leave **Table Editor → schema `public`** empty. After the first backend start, pick the schema **`laundryhub`**
+   in the Table Editor to browse the data.
 
-### Option B — Aiven
-1. <https://console.aiven.io> → **Create service → MySQL** → *Free* plan, a region near the Philippines
-   (e.g. Singapore).
-2. When it is running, the **Overview** shows host, port, user `avnadmin`, password and database `defaultdb`.
-   Aiven only accepts TLS connections.
-3. Optional, for a clean database name: **Databases → Create database** `laundryhub`.
-4. Your three values:
-   ```
-   DB_URL      = jdbc:mysql://<host>:<port>/laundryhub?sslMode=REQUIRED&serverTimezone=Asia/Manila
-   DB_USER     = avnadmin
-   DB_PASSWORD = <password>
-   ```
-   (Use `/defaultdb` instead of `/laundryhub` if you skipped step 3.)
+The free plan pauses a project after a week without traffic; press **Restore** in the dashboard if that happens.
+The pool is kept at 5 connections (`DB_POOL_SIZE`), well under the free plan's limit.
 
 ### Running the Flyway migrations
 Flyway runs **automatically every time the backend starts**:
-- **First start:** it creates every table (V1, V2, V4, V5) and records them in `flyway_schema_history`.
+- **First start:** it creates the `laundryhub` schema and every table (V1, V2, V4, V5), and records them in
+  `laundryhub.flyway_schema_history`.
 - **Later starts:** it applies only the new scripts.
 
 On Render, `FLYWAY_LOCATIONS=classpath:db/migration` keeps out the design's sample orders
@@ -125,7 +118,7 @@ On Render, `FLYWAY_LOCATIONS=classpath:db/migration` keeps out the design's samp
 To migrate (and check the connection) from your PC **before** deploying:
 ```powershell
 cd backend
-$env:DB_URL = "jdbc:mysql://<host>:<port>/<db>?sslMode=REQUIRED&serverTimezone=Asia/Manila"
+$env:DB_URL = "jdbc:postgresql://aws-0-<region>.pooler.supabase.com:5432/postgres?sslmode=require"
 $env:DB_USER = "<user>"
 $env:DB_PASSWORD = Read-Host "DB password"          # typed, not saved in history
 $env:FLYWAY_LOCATIONS = "classpath:db/migration"
@@ -137,8 +130,11 @@ Remove-Item Env:DB_PASSWORD, Env:ADMIN_DEFAULT_PASSWORD
 The log lists each `Migrating schema ... to version ...` line. A migrated version is never re-run. **Never edit a
 script that has already run.** Add a new `V5__...sql` instead.
 
-**Backups.** Railway: **Backups** tab (paid plans), or `mysqldump` over the TCP proxy. Aiven takes daily backups,
-including on the free plan.
+The scripts were rewritten for PostgreSQL when the project moved off MySQL, so start with an **empty** Supabase
+database. An old MySQL database cannot be migrated in place.
+
+**Backups.** Supabase takes daily backups (Pro plan and up). On the free plan, export with
+`pg_dump --schema=laundryhub` over the Session pooler URI.
 
 ---
 
@@ -336,7 +332,7 @@ cd admin-desktop
 
 | Symptom | Cause / fix |
 |---|---|
-| Render health check fails, log says `Communications link failure` | Wrong `DB_URL` host/port or the database refuses outside connections: Railway needs the **public TCP proxy** address; Aiven needs `sslMode=REQUIRED`. |
+| Render health check fails, log says `Connection to ... refused`, `Network is unreachable` or `The connection attempt failed` | Wrong `DB_URL`: use the Supabase **Session pooler** host (IPv4, port 5432) with `?sslmode=require`, not the direct `db.<ref>.supabase.co` host (IPv6 only). `DB_USER` is `postgres.<project-ref>`. If the project was paused, press **Restore** in Supabase. |
 | `Access denied for user` | `DB_USER` / `DB_PASSWORD` mismatch (copy them again; no quotes in the Render field). |
 | Log: `Validate failed: Migrations have failed validation` | A migration file changed after it ran. Restore it and add a new `V…` script. |
 | Everyone is signed out after a deploy | `JWT_SECRET` changed or is empty (empty = random key per start). |

@@ -1,7 +1,9 @@
 package com.laundryhub.backend.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 /** Role-based access per area (401 / 403 as ProblemDetail), sign-in per tab and 400 field errors. */
@@ -29,6 +32,23 @@ class SecurityAndValidationApiTest extends ApiTestBase {
             body.put("role", role);
         }
         return body;
+    }
+
+    // ---- CORS (website) -----------------------------------------------------------------------
+
+    @Test
+    void theWebsiteOriginMayCallTheApiAndOtherOriginsMayNot() throws Exception {
+        String website = "http://localhost:5173";
+        mvc.perform(options("/api/auth/login")
+                        .header(HttpHeaders.ORIGIN, website)
+                        .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST")
+                        .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, HttpHeaders.CONTENT_TYPE))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, website));
+        mvc.perform(options("/api/auth/login")
+                        .header(HttpHeaders.ORIGIN, "https://evil.example.com")
+                        .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST"))
+                .andExpect(status().isForbidden());
     }
 
     // ---- 401 / 403 ----------------------------------------------------------------------------

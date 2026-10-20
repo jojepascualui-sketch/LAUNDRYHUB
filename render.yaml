@@ -1,7 +1,7 @@
 # Render Blueprint for the Laundry HUB backend (docs/DEPLOYMENT.md, step 3).
 # Render → New → Blueprint → pick this repository. Values marked "sync: false" are secrets: Render asks for
 # them when the Blueprint is created and they are never stored in this file or in Git.
-# The MySQL database is hosted on Railway or Aiven (Render offers PostgreSQL only).
+# The database is Supabase Postgres; the website (web/) is deployed separately on Vercel.
 services:
   - type: web
     name: laundryhub-api
@@ -16,16 +16,19 @@ services:
     # Spring Boot Actuator: UP only when the app and the database answer.
     healthCheckPath: /actuator/health
     envVars:
-      # --- Database (hosted MySQL; Flyway migrates it on every start) ---
+      # --- Database (Supabase Postgres, Session pooler; Flyway migrates it on every start) ---
       - key: DB_URL
-        sync: false   # jdbc:mysql://HOST:PORT/laundryhub?sslMode=REQUIRED&serverTimezone=Asia/Manila
+        sync: false   # jdbc:postgresql://aws-0-REGION.pooler.supabase.com:5432/postgres?sslmode=require
       - key: DB_USER
-        sync: false
+        sync: false   # postgres.YOUR_PROJECT_REF
       - key: DB_PASSWORD
         sync: false
       # Production schema only (no A1–A5 sample orders).
       - key: FLYWAY_LOCATIONS
         value: classpath:db/migration
+      # --- Website (Vercel) ---
+      - key: WEB_ORIGINS
+        sync: false   # https://YOUR-SITE.vercel.app (comma-separated; https://*.vercel.app allows previews)
       # --- Sign-in ---
       - key: JWT_SECRET
         generateValue: true   # random 256-bit value, kept by Render across deploys

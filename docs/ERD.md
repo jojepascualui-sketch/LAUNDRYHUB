@@ -1,6 +1,6 @@
 # Laundry HUB database (ERD)
 
-MySQL 8 schema, owned by **Flyway**. Hibernate only validates it (`spring.jpa.hibernate.ddl-auto: validate`).
+PostgreSQL schema `laundryhub` on Supabase, owned by **Flyway**. Hibernate only validates it (`spring.jpa.hibernate.ddl-auto: validate`).
 The diagram is built from the migrations in `backend/src/main/resources/db/migration/`:
 
 | Migration | Content |

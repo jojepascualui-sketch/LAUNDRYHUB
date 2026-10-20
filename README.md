@@ -43,7 +43,7 @@ Secrets are **never committed**.
 
 ```powershell
 cd backend
-.\mvnw.cmd test               # unit + MockMvc integration tests (in-memory H2, no MySQL needed)
+.\mvnw.cmd test               # unit + MockMvc integration tests (in-memory H2, no database needed)
 .\mvnw.cmd spring-boot:run    # http://localhost:8080/api/ping · API docs: http://localhost:8080/swagger-ui
 .\mvnw.cmd package            # %USERPROFILE%\.laundryhub-build\laundryhub-backend\laundryhub-backend-0.1.0.jar
 ```

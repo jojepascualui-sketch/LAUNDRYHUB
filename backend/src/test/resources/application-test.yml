@@ -1,8 +1,8 @@
-# Integration tests: in-memory H2 in MySQL mode, schema from the real Flyway migrations
+# Integration tests: in-memory H2 in PostgreSQL mode, schema from the real Flyway migrations
 # (sample data is skipped). No secrets: the JWT key below is a test-only value.
 spring:
   datasource:
-    url: jdbc:h2:mem:laundryhub;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;LOCK_TIMEOUT=10000
+    url: jdbc:h2:mem:laundryhub;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;LOCK_TIMEOUT=10000;INIT=CREATE SCHEMA IF NOT EXISTS laundryhub\;SET SCHEMA laundryhub
     username: sa
     password: ""
   flyway:
