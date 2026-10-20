@@ -116,7 +116,7 @@ Render only offers PostgreSQL, and the backend uses MySQL 8 (Flyway scripts in
 
 ### Running the Flyway migrations
 Flyway runs **automatically every time the backend starts**:
-- **First start:** it creates every table (V1, V2, V4) and records them in `flyway_schema_history`.
+- **First start:** it creates every table (V1, V2, V4, V5) and records them in `flyway_schema_history`.
 - **Later starts:** it applies only the new scripts.
 
 On Render, `FLYWAY_LOCATIONS=classpath:db/migration` keeps out the design's sample orders

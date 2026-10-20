@@ -14,6 +14,8 @@ laundryhub:
     google-client-id: test-google-client-id
   geocoding:
     api-key: ""
+  maps:
+    js-key: ""
   shop:
     lat: 14.600000
     lng: 121.000000
